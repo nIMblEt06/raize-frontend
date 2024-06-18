@@ -1,0 +1,35 @@
+.WalletButtons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .AddressBtn {
+        border-radius: 8px;
+        padding: 8px 30px;
+        cursor: pointer;
+        font-family: "GilmerMedium";
+        color: white;
+        font-size: 14px;
+        background-color: #202020;
+        border: 1px solid #3D3D3D;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+
+        &:hover {
+            opacity: 0.8;
+        }
+
+        span {
+            margin-top: 3px;
+        }
+
+        .AddressBtn-Logo {
+            width: 15px;
+            height: 15px;
+        }
+    }
+
+}

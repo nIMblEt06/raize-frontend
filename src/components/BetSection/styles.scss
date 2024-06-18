@@ -1,0 +1,74 @@
+.BetSection {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+
+    .BetSection-Hero {
+        width: 100%;
+        display: flex;
+        gap: 20px;
+
+        .BetSection-HeroCard {
+            width: 50%;
+            height: 250px;
+        }
+    }
+
+    .BetSection-CardWrapper {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        .Tabs-Section {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+
+            .Tab {
+                font-family: 'GilmerMedium';
+                font-style: normal;
+                font-weight: 700;
+                font-size: 14px;
+                line-height: 24px;
+                background: linear-gradient(270deg, #FAF9F9 0%, #D7D7D7 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                text-fill-color: transparent;
+                cursor: pointer;
+
+                &:hover {
+                    opacity: 0.8;
+                }
+            }
+
+            .Tab-Active {
+                padding: 8px 20px;
+                box-sizing: border-box;
+                background: linear-gradient(90deg, #F5841F 0%, #ED801E 25%, #E57B1D 50%, #D5731B 75%, #C66B19 100%);
+                border-radius: 10px;
+                font-family: 'GilmerMedium';
+                font-style: normal;
+                font-weight: 700;
+                font-size: 14px;
+                line-height: 24px;
+                color: white;
+                cursor: pointer;
+            }
+
+        }
+
+        .BetCard-Wrapper {
+            width: 100%;
+
+            .BetCard-Container {
+                width: 450px;
+                height: 300px;
+            }
+        }
+    }
+
+
+}

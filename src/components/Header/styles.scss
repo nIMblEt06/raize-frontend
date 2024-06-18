@@ -1,0 +1,21 @@
+.Header-Wrapper {
+    padding: 15px 100px;
+    background-color: #141414;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .Header-Logo {
+        width: 89px;
+        height: 37px;
+    }
+
+    .Header-LinksContainer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
