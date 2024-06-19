@@ -1,6 +1,6 @@
 import React from "react";
 import "./bets.scss";
-import BetDetails from "@/components/BetDetails"; 
+import BetDetails from "@/components/MyBets"; 
 
 function page() {
   return (

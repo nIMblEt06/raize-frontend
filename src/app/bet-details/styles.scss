@@ -1,0 +1,27 @@
+.BetDetailView {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  height: calc(100vh - 140px);
+  .GoBack {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 20px;
+    font-family: "GilmerRegular";
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    color: #ffffff;
+    width: 540px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    img {
+      padding: 10px;
+      border-radius: 50%;
+      border: 1px solid #ffffff;
+    }
+  }
+}

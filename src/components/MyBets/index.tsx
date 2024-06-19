@@ -3,7 +3,7 @@ import OpenPositions from "./OpenPositions";
 import ClosedPositions from "./ClosedPositions";
 import "./styles.scss";
 
-function BetDetails() {
+function MyBets() {
   return (
     <div className="MyBets">
         <OpenPositions />
@@ -12,4 +12,4 @@ function BetDetails() {
   );
 }
 
-export default BetDetails;
+export default MyBets;

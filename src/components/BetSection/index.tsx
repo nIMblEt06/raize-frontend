@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import "./styles.scss";
 import BetHeroCard from "./BetHeroCard";
 import { CRICKET_LOGO, US_LOGO } from "../helpers/icons";
+import Football from "/assets/images/football.png";
 import BetCard from "./BetCard";
 
 interface Props {}
@@ -14,7 +15,7 @@ const tabList = [
     tabId: "trd",
   },
   {
-    tabName: "Crypto Market",
+    tabName: "Crypto",
     tabId: "cmr",
   },
   {
@@ -48,29 +49,32 @@ const BetSection: NextPage<Props> = ({}) => {
     setActiveTab("trd");
   }, []);
   return (
-    <div className="BetSection">
-      <div className="BetSection-Hero">
-        <div className="BetSection-HeroCard">
+    <div className='BetSection'>
+      <div className='BetSection-Hero'>
+        <div className='BetSection-HeroCard'>
           <BetHeroCard
-            category="Sports"
+            category='Sports'
             categoryLogo={CRICKET_LOGO}
-            categoryName="Cricket World Cup"
-            cardBgColor="linear-gradient(67.58deg, #E20000 -0.96%, #9B3838 78.06%)"
+            categoryName='Cricket World Cup'
+            cardBgColor='linear-gradient(67.58deg, #E20000 -0.96%, #9B3838 78.06%)'
+            image='/assets/images/kohli.png'
           />
         </div>
-        <div className="BetSection-HeroCard">
+        <div className='BetSection-HeroCard'>
           <BetHeroCard
-            category="Sports"
+            category='Sports'
             categoryLogo={CRICKET_LOGO}
-            categoryName="Cricket World Cup"
-            cardBgColor="linear-gradient(90deg, #143CDA 0%, #0D268A 100%)"
+            categoryName='UEFA Euros 2024'
+            cardBgColor='linear-gradient(90deg, #143CDA 0%, #0D268A 100%)'
+            image='/assets/images/football.png'
           />
         </div>
       </div>
-      <div className="BetSection-CardWrapper">
-        <div className="Tabs-Section">
-          {tabList.map((item) => (
+      <div className='BetSection-CardWrapper'>
+        <div className='Tabs-Section'>
+          {tabList.map((item, index) => (
             <div
+              key={index}
               onClick={() => {
                 setActiveTab(item.tabId);
               }}
@@ -80,9 +84,9 @@ const BetSection: NextPage<Props> = ({}) => {
             </div>
           ))}
         </div>
-        <div className="BetCard-Wrapper">
-          {betsList.map((item) => (
-            <div className="BetCard-Container">
+        <div className='BetCard-Wrapper'>
+          {betsList.map((item, index) => (
+            <div key={index} className='BetCard-Container'>
               <BetCard
                 name={item.betname}
                 logo={item.betLogo}
