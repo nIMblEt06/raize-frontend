@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 import "./styles.scss";
 import BetHeroCard from "./BetHeroCard";
-import { CRICKET_LOGO } from "../helpers/icons";
+import { CRICKET_LOGO, US_LOGO } from "../helpers/icons";
 import BetCard from "./BetCard";
 
 interface Props {}
@@ -28,6 +28,16 @@ const tabList = [
   {
     tabName: "Politics",
     tabId: "pol",
+  },
+];
+
+const betsList = [
+  {
+    betname: "US Elections",
+    betLogo: US_LOGO,
+    duration: "1",
+    betHeading: "Trump vs Biden",
+    betSubHeading: "Will Trump emerge victorious again?",
   },
 ];
 
@@ -71,9 +81,17 @@ const BetSection: NextPage<Props> = ({}) => {
           ))}
         </div>
         <div className="BetCard-Wrapper">
-          <div className="BetCard-Container">
-            <BetCard />
-          </div>
+          {betsList.map((item) => (
+            <div className="BetCard-Container">
+              <BetCard
+                name={item.betname}
+                logo={item.betLogo}
+                duration={item.duration}
+                heading={item.betHeading}
+                subHeading={item.betSubHeading}
+              />
+            </div>
+          ))}
         </div>
       </div>
     </div>

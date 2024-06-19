@@ -1,12 +1,12 @@
 import React from "react";
 import "./styles.scss";
 import Image from "next/image";
-import StarknetLogo from "../../../../public/assets/logos/starknetlogo.svg";
+import StarknetLogo from "../../../../public/assets/logos/starknet.svg";
 
-function ClosedPositions() {
+function OpenPositions() {
   return (
     <div className='OpenPositions'>
-      <div className='Heading'>Closed Positions</div>
+      <div className='Heading'>Open Positions</div>
       <div className='Container'>
         <div className='Headings'>
           <p className='Status'>Status</p>
@@ -35,4 +35,4 @@ function ClosedPositions() {
   );
 }
 
-export default ClosedPositions;
+export default OpenPositions;

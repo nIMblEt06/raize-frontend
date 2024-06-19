@@ -1,0 +1,118 @@
+.BetModal-DetailsContainer {
+    width: 500px;
+    background-color: #17171B;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    border-radius: 10px;
+
+    .HeadingContainer {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+
+        .BetName {
+            font-family: 'GilmerRegular';
+            font-style: normal;
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 24px;
+            color: #909090;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            span {
+                margin-top: 2px;
+            }
+
+            .BetDetails-Logo {
+                width: 20px;
+                height: 20px;
+            }
+        }
+
+        .BetDuration {
+            font-family: 'GilmerRegular';
+            font-style: normal;
+            font-weight: 600;
+            font-size: 12px;
+            line-height: 17px;
+            background: linear-gradient(90deg, #FCFCFB 0%, #E6E5E5 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+
+            span {
+                margin-top: 1px;
+            }
+
+            .BetDetails-Logo {
+                width: 12px;
+                height: 12px;
+            }
+
+        }
+    }
+
+    .BetDetails {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+
+        .Heading {
+            font-family: 'GilmerRegular';
+            font-style: normal;
+            font-weight: 700;
+            font-size: 22px;
+            background: linear-gradient(90deg, #FCFCFB 0%, #E6E5E5 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+
+        .Sub-Heading {
+            font-family: 'GilmerRegular';
+            font-style: normal;
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 24px;
+            color: #D5D5D5;
+        }
+    }
+
+    .BetPool {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-family: 'GilmerMedium';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 29px;
+        background: linear-gradient(90deg, #FCFCFB 0%, #E6E5E5 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-fill-color: transparent;
+
+        .Colored {
+            background: linear-gradient(90deg, #F5841F 0%, #EEAE74 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+
+        .Starknet-logo {
+            width: 20px;
+            height: 20px;
+        }
+    }
+}

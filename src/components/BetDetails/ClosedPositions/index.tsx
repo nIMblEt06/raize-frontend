@@ -1,7 +1,7 @@
 import React from "react";
 import "./styles.scss";
 import Image from "next/image";
-import StarknetLogo from "../../../../public/assets/logos/starknetlogo.svg";
+import StarknetLogo from "../../../../public/assets/logos/starknet.svg";
 
 function ClosedPositions() {
   return (
