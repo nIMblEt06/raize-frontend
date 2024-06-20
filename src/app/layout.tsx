@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import { StarknetProvider } from "@/components/starknet-provider";
 import "./globals.css";
 import Header from "@/components/Header";
+import { MarketProvider } from "./context/MarketProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,11 +18,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang='en'>
       <body>
         <StarknetProvider>
           <Header />
-          <main style={{ flex: "1", width: "100%" }}>{children}</main>
+          <MarketProvider>
+            <main style={{ flex: "1", width: "100%" }}>{children}</main>
+          </MarketProvider>
         </StarknetProvider>
       </body>
     </html>

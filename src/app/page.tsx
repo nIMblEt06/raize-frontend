@@ -4,11 +4,12 @@ import "./styles.scss";
 import BetSection from "@/components/BetSection";
 
 export default function Home() {
+  sessionStorage.setItem("currentMarket", "");
   return (
-    <main className="Home">
-      <div className="Heading-Section">
-        <span className="Heading">Turn insights into income.</span>
-        <span className="Sub-Heading">
+    <main className='Home'>
+      <div className='Heading-Section'>
+        <span className='Heading'>Turn insights into income.</span>
+        <span className='Sub-Heading'>
           Leverage your intuition to predict real-world events, take positions,
           and win big.
         </span>

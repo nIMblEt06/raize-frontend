@@ -6,16 +6,45 @@ import { useAccount, useConnect } from "@starknet-react/core";
 import { Box } from "@mui/material";
 import "./styles.scss";
 import CustomLogo from "@/components/common/CustomIcons";
-import { STARKNET_LOGO } from "@/components/helpers/icons";
+import { ETH_LOGO, STARKNET_LOGO } from "@/components/helpers/icons";
+import { useContext, useEffect, useState } from "react";
+import { MarketContext } from "@/app/context/MarketProvider";
+import { Outcome } from "@/components/helpers/types";
+import { num } from "starknet";
+import { ETH_ADDRESS } from "@/components/helpers/constants";
 
 interface Props {
-  prediction: string;
-  setPrediction: (prediction: string) => void;
+  outcomes: Outcome[];
+  betToken: string;
 }
 
-const BetActions: NextPage<Props> = ({ prediction, setPrediction }) => {
+const BetActions: NextPage<Props> = ({ outcomes, betToken }) => {
   const { address } = useAccount();
   const { connectors, connect } = useConnect();
+  const { choice, setChoice } = useContext(MarketContext);
+
+  const [percent1, setPercent1] = useState(0);
+  const [percent2, setPercent2] = useState(0);
+
+  useEffect(() => {
+    outcomes &&
+      setPercent1(
+        (parseFloat(outcomes[0].boughtShares.toString()) /
+          1e18 /
+          (parseFloat(outcomes[0].boughtShares.toString()) / 1e18 +
+            parseFloat(outcomes[1].boughtShares.toString()) / 1e18)) *
+          100
+      );
+    outcomes &&
+      setPercent2(
+        (parseFloat(outcomes[1].boughtShares.toString()) /
+          1e18 /
+          (parseFloat(outcomes[0].boughtShares.toString()) / 1e18 +
+            parseFloat(outcomes[1].boughtShares.toString()) / 1e18)) *
+          100
+      );
+  }, [outcomes]);
+
   return (
     <Box className='BetActions'>
       <span className='BetActions-Label'>Your Prediction</span>
@@ -23,13 +52,13 @@ const BetActions: NextPage<Props> = ({ prediction, setPrediction }) => {
         <span className='BetOptionsLabel'>Choose your option</span>
         <Box
           onClick={() => {
-            setPrediction("yes");
+            setChoice(0);
           }}
-          className={prediction === "yes" ? "BetOptionActive" : "BetOption"}
+          className={choice === 0 ? "BetOptionActive" : "BetOption"}
         >
           <span className='Green'>Yes</span>
           <Box className='RadioButtonContainer'>
-            <span className='RadioLabel'>21.2%</span>
+            <span className='RadioLabel'>{percent2}%</span>
             <Box className='RadioButton'>
               <Box className='RadioButtonInner'></Box>
             </Box>
@@ -37,13 +66,13 @@ const BetActions: NextPage<Props> = ({ prediction, setPrediction }) => {
         </Box>
         <Box
           onClick={() => {
-            setPrediction("no");
+            setChoice(1);
           }}
-          className={prediction === "no" ? "BetOptionActive" : "BetOption"}
+          className={choice === 1 ? "BetOptionActive" : "BetOption"}
         >
           <span className='Red'>No</span>
           <Box className='RadioButtonContainer'>
-            <span className='RadioLabel'>21.2%</span>
+            <span className='RadioLabel'>{percent1}%</span>
             <Box className='RadioButton'>
               <Box className='RadioButtonInner'></Box>
             </Box>
@@ -54,13 +83,22 @@ const BetActions: NextPage<Props> = ({ prediction, setPrediction }) => {
         <span className='Label'>Order Value</span>
         <Box className='InputWrapper'>
           <Box className='Starknet-logo'>
-            <CustomLogo src={STARKNET_LOGO} />
+            <CustomLogo
+              src={
+                betToken &&
+                num.toHex(betToken).toString().toLowerCase() ==
+                  ETH_ADDRESS.toLowerCase()
+                  ? ETH_LOGO
+                  : STARKNET_LOGO
+              }
+            />
           </Box>
           <input
             className='InputField'
             type='number'
             id='numberInput'
             name='numberInput'
+            placeholder='0.00'
             required
           />
         </Box>
@@ -70,7 +108,15 @@ const BetActions: NextPage<Props> = ({ prediction, setPrediction }) => {
         <Box className='ReturnValue'>
           <span className='Green'>24.00</span>
           <Box className='Starknet-logo'>
-            <CustomLogo src={STARKNET_LOGO} />
+            <CustomLogo
+              src={
+                betToken &&
+                num.toHex(betToken).toString().toLowerCase() ==
+                  ETH_ADDRESS.toLowerCase()
+                  ? ETH_LOGO
+                  : STARKNET_LOGO
+              }
+            />
           </Box>
         </Box>
       </Box>

@@ -12,7 +12,7 @@ import {
 } from "@starknet-react/core";
 import abi from "../../abi/ContractABI.json";
 import { CONTRACT_ADDRESS } from "../helpers/constants";
-
+import { Market } from "../helpers/types";
 interface Props {}
 
 const tabList = [
@@ -38,29 +38,9 @@ const tabList = [
   },
 ];
 
-const betsList = [
-  {
-    betname: "US Elections",
-    betLogo: US_LOGO,
-    duration: "1",
-    betHeading: "Trump vs Biden",
-    betSubHeading: "Will Trump emerge victorious again?",
-  },
-];
-
 const BetSection: NextPage<Props> = ({}) => {
   const [activeTab, setActiveTab] = useState<string>("trd");
-  // const {
-  //   data: marketCount,
-  //   isLoading,
-  //   isError,
-  //   isSuccess,
-  // } = useContractRead({
-  //   abi: abi,
-  //   address: CONTRACT_ADDRESS,
-  //   functionName: "getMarketCount",
-  //   args: [],
-  // });
+  const [markets, setMarkets] = useState<Market[]>([]);
 
   const { contract } = useContract({
     address: CONTRACT_ADDRESS,
@@ -68,16 +48,16 @@ const BetSection: NextPage<Props> = ({}) => {
   });
 
   useEffect(() => {
-    const getMarketCount = () => {
+    const getAllMarkets = () => {
       if (!contract) {
         return;
       }
-      contract.getMarketCount().then((res: any) => {
-        console.log(res);
+      contract.getAllMarkets().then((res: any) => {
+        setMarkets(res);
       });
     };
-    getMarketCount();
-  }, [activeTab]);
+    getAllMarkets();
+  }, []);
 
   useEffect(() => {
     setActiveTab("trd");
@@ -119,17 +99,22 @@ const BetSection: NextPage<Props> = ({}) => {
           ))}
         </div>
         <div className='BetCard-Wrapper'>
-          {betsList.map((item, index) => (
-            <div key={index} className='BetCard-Container'>
-              <BetCard
-                name={item.betname}
-                logo={item.betLogo}
-                duration={item.duration}
-                heading={item.betHeading}
-                subHeading={item.betSubHeading}
-              />
-            </div>
-          ))}
+          {markets &&
+            markets.map((item, index) => (
+              <div key={index} className='BetCard-Container'>
+                <BetCard
+                  marketId={index + 1}
+                  category={item.category}
+                  logo={item.image}
+                  duration={item.deadline}
+                  heading={item.name}
+                  betToken={item.betToken}
+                  subHeading={item.description}
+                  outcomes={item.outcomes}
+                  moneyInPool={item.moneyInPool}
+                />
+              </div>
+            ))}
         </div>
       </div>
     </div>
