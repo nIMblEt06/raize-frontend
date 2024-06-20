@@ -1,0 +1,552 @@
+[
+    {
+        "type": "impl",
+        "name": "MarketFactory",
+        "interface_name": "raize_contracts::MarketFactory::IMarketFactory"
+    },
+    {
+        "type": "struct",
+        "name": "core::byte_array::ByteArray",
+        "members": [
+            {
+                "name": "data",
+                "type": "core::array::Array::<core::bytes_31::bytes31>"
+            },
+            {
+                "name": "pending_word",
+                "type": "core::felt252"
+            },
+            {
+                "name": "pending_word_len",
+                "type": "core::integer::u32"
+            }
+        ]
+    },
+    {
+        "type": "struct",
+        "name": "core::integer::u256",
+        "members": [
+            {
+                "name": "low",
+                "type": "core::integer::u128"
+            },
+            {
+                "name": "high",
+                "type": "core::integer::u128"
+            }
+        ]
+    },
+    {
+        "type": "enum",
+        "name": "core::bool",
+        "variants": [
+            {
+                "name": "False",
+                "type": "()"
+            },
+            {
+                "name": "True",
+                "type": "()"
+            }
+        ]
+    },
+    {
+        "type": "struct",
+        "name": "raize_contracts::MarketFactory::Outcome",
+        "members": [
+            {
+                "name": "name",
+                "type": "core::felt252"
+            },
+            {
+                "name": "currentOdds",
+                "type": "core::integer::u256"
+            },
+            {
+                "name": "boughtShares",
+                "type": "core::integer::u256"
+            }
+        ]
+    },
+    {
+        "type": "enum",
+        "name": "core::option::Option::<raize_contracts::MarketFactory::Outcome>",
+        "variants": [
+            {
+                "name": "Some",
+                "type": "raize_contracts::MarketFactory::Outcome"
+            },
+            {
+                "name": "None",
+                "type": "()"
+            }
+        ]
+    },
+    {
+        "type": "struct",
+        "name": "raize_contracts::MarketFactory::Market",
+        "members": [
+            {
+                "name": "name",
+                "type": "core::byte_array::ByteArray"
+            },
+            {
+                "name": "description",
+                "type": "core::byte_array::ByteArray"
+            },
+            {
+                "name": "outcomes",
+                "type": "(raize_contracts::MarketFactory::Outcome, raize_contracts::MarketFactory::Outcome)"
+            },
+            {
+                "name": "category",
+                "type": "core::felt252"
+            },
+            {
+                "name": "image",
+                "type": "core::byte_array::ByteArray"
+            },
+            {
+                "name": "isSettled",
+                "type": "core::bool"
+            },
+            {
+                "name": "isActive",
+                "type": "core::bool"
+            },
+            {
+                "name": "deadline",
+                "type": "core::integer::u256"
+            },
+            {
+                "name": "betToken",
+                "type": "core::starknet::contract_address::ContractAddress"
+            },
+            {
+                "name": "winningOutcome",
+                "type": "core::option::Option::<raize_contracts::MarketFactory::Outcome>"
+            },
+            {
+                "name": "moneyInPool",
+                "type": "core::integer::u256"
+            }
+        ]
+    },
+    {
+        "type": "interface",
+        "name": "raize_contracts::MarketFactory::IMarketFactory",
+        "items": [
+            {
+                "type": "function",
+                "name": "createMarket",
+                "inputs": [
+                    {
+                        "name": "name",
+                        "type": "core::byte_array::ByteArray"
+                    },
+                    {
+                        "name": "description",
+                        "type": "core::byte_array::ByteArray"
+                    },
+                    {
+                        "name": "outcomes",
+                        "type": "(core::felt252, core::felt252)"
+                    },
+                    {
+                        "name": "betToken",
+                        "type": "core::starknet::contract_address::ContractAddress"
+                    },
+                    {
+                        "name": "category",
+                        "type": "core::felt252"
+                    },
+                    {
+                        "name": "image",
+                        "type": "core::byte_array::ByteArray"
+                    },
+                    {
+                        "name": "deadline",
+                        "type": "core::integer::u256"
+                    }
+                ],
+                "outputs": [],
+                "state_mutability": "external"
+            },
+            {
+                "type": "function",
+                "name": "getMarketCount",
+                "inputs": [],
+                "outputs": [
+                    {
+                        "type": "core::integer::u256"
+                    }
+                ],
+                "state_mutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "buyShares",
+                "inputs": [
+                    {
+                        "name": "marketId",
+                        "type": "core::integer::u256"
+                    },
+                    {
+                        "name": "tokenToMint",
+                        "type": "core::integer::u8"
+                    },
+                    {
+                        "name": "amount",
+                        "type": "core::integer::u256"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "type": "core::bool"
+                    }
+                ],
+                "state_mutability": "external"
+            },
+            {
+                "type": "function",
+                "name": "settleMarket",
+                "inputs": [
+                    {
+                        "name": "marketId",
+                        "type": "core::integer::u256"
+                    },
+                    {
+                        "name": "winningOutcome",
+                        "type": "core::integer::u8"
+                    }
+                ],
+                "outputs": [],
+                "state_mutability": "external"
+            },
+            {
+                "type": "function",
+                "name": "toggleMarketStatus",
+                "inputs": [
+                    {
+                        "name": "marketId",
+                        "type": "core::integer::u256"
+                    }
+                ],
+                "outputs": [],
+                "state_mutability": "external"
+            },
+            {
+                "type": "function",
+                "name": "claimWinnings",
+                "inputs": [
+                    {
+                        "name": "marketId",
+                        "type": "core::integer::u256"
+                    },
+                    {
+                        "name": "receiver",
+                        "type": "core::starknet::contract_address::ContractAddress"
+                    }
+                ],
+                "outputs": [],
+                "state_mutability": "external"
+            },
+            {
+                "type": "function",
+                "name": "getMarket",
+                "inputs": [
+                    {
+                        "name": "marketId",
+                        "type": "core::integer::u256"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "type": "raize_contracts::MarketFactory::Market"
+                    }
+                ],
+                "state_mutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "getAllMarkets",
+                "inputs": [],
+                "outputs": [
+                    {
+                        "type": "core::array::Array::<raize_contracts::MarketFactory::Market>"
+                    }
+                ],
+                "state_mutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "getMarketByCategory",
+                "inputs": [
+                    {
+                        "name": "category",
+                        "type": "core::felt252"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "type": "core::array::Array::<raize_contracts::MarketFactory::Market>"
+                    }
+                ],
+                "state_mutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "getUserMarkets",
+                "inputs": [
+                    {
+                        "name": "user",
+                        "type": "core::starknet::contract_address::ContractAddress"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "type": "core::array::Array::<raize_contracts::MarketFactory::Market>"
+                    }
+                ],
+                "state_mutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "checkForApproval",
+                "inputs": [
+                    {
+                        "name": "token",
+                        "type": "core::starknet::contract_address::ContractAddress"
+                    },
+                    {
+                        "name": "amount",
+                        "type": "core::integer::u256"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "type": "core::bool"
+                    }
+                ],
+                "state_mutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "getOwner",
+                "inputs": [],
+                "outputs": [
+                    {
+                        "type": "core::starknet::contract_address::ContractAddress"
+                    }
+                ],
+                "state_mutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "getTreasuryWallet",
+                "inputs": [],
+                "outputs": [
+                    {
+                        "type": "core::starknet::contract_address::ContractAddress"
+                    }
+                ],
+                "state_mutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "setTreasuryWallet",
+                "inputs": [
+                    {
+                        "name": "wallet",
+                        "type": "core::starknet::contract_address::ContractAddress"
+                    }
+                ],
+                "outputs": [],
+                "state_mutability": "external"
+            },
+            {
+                "type": "function",
+                "name": "upgrade",
+                "inputs": [
+                    {
+                        "name": "new_class_hash",
+                        "type": "core::starknet::class_hash::ClassHash"
+                    }
+                ],
+                "outputs": [],
+                "state_mutability": "external"
+            }
+        ]
+    },
+    {
+        "type": "constructor",
+        "name": "constructor",
+        "inputs": [
+            {
+                "name": "owner",
+                "type": "core::starknet::contract_address::ContractAddress"
+            }
+        ]
+    },
+    {
+        "type": "event",
+        "name": "raize_contracts::MarketFactory::MarketFactory::MarketCreated",
+        "kind": "struct",
+        "members": [
+            {
+                "name": "market",
+                "type": "raize_contracts::MarketFactory::Market",
+                "kind": "data"
+            }
+        ]
+    },
+    {
+        "type": "event",
+        "name": "raize_contracts::MarketFactory::MarketFactory::ShareBought",
+        "kind": "struct",
+        "members": [
+            {
+                "name": "user",
+                "type": "core::starknet::contract_address::ContractAddress",
+                "kind": "data"
+            },
+            {
+                "name": "market",
+                "type": "raize_contracts::MarketFactory::Market",
+                "kind": "data"
+            },
+            {
+                "name": "outcome",
+                "type": "raize_contracts::MarketFactory::Outcome",
+                "kind": "data"
+            },
+            {
+                "name": "amount",
+                "type": "core::integer::u256",
+                "kind": "data"
+            }
+        ]
+    },
+    {
+        "type": "event",
+        "name": "raize_contracts::MarketFactory::MarketFactory::MarketSettled",
+        "kind": "struct",
+        "members": [
+            {
+                "name": "market",
+                "type": "raize_contracts::MarketFactory::Market",
+                "kind": "data"
+            }
+        ]
+    },
+    {
+        "type": "event",
+        "name": "raize_contracts::MarketFactory::MarketFactory::MarketToggled",
+        "kind": "struct",
+        "members": [
+            {
+                "name": "market",
+                "type": "raize_contracts::MarketFactory::Market",
+                "kind": "data"
+            }
+        ]
+    },
+    {
+        "type": "event",
+        "name": "raize_contracts::MarketFactory::MarketFactory::WinningsClaimed",
+        "kind": "struct",
+        "members": [
+            {
+                "name": "user",
+                "type": "core::starknet::contract_address::ContractAddress",
+                "kind": "data"
+            },
+            {
+                "name": "market",
+                "type": "raize_contracts::MarketFactory::Market",
+                "kind": "data"
+            },
+            {
+                "name": "outcome",
+                "type": "raize_contracts::MarketFactory::Outcome",
+                "kind": "data"
+            },
+            {
+                "name": "amount",
+                "type": "core::integer::u256",
+                "kind": "data"
+            }
+        ]
+    },
+    {
+        "type": "event",
+        "name": "raize_contracts::MarketFactory::MarketFactory::WithdrawnFromTreasury",
+        "kind": "struct",
+        "members": [
+            {
+                "name": "token",
+                "type": "core::starknet::contract_address::ContractAddress",
+                "kind": "data"
+            },
+            {
+                "name": "amount",
+                "type": "core::integer::u256",
+                "kind": "data"
+            }
+        ]
+    },
+    {
+        "type": "event",
+        "name": "raize_contracts::MarketFactory::MarketFactory::Upgraded",
+        "kind": "struct",
+        "members": [
+            {
+                "name": "class_hash",
+                "type": "core::starknet::class_hash::ClassHash",
+                "kind": "data"
+            }
+        ]
+    },
+    {
+        "type": "event",
+        "name": "raize_contracts::MarketFactory::MarketFactory::Event",
+        "kind": "enum",
+        "variants": [
+            {
+                "name": "MarketCreated",
+                "type": "raize_contracts::MarketFactory::MarketFactory::MarketCreated",
+                "kind": "nested"
+            },
+            {
+                "name": "ShareBought",
+                "type": "raize_contracts::MarketFactory::MarketFactory::ShareBought",
+                "kind": "nested"
+            },
+            {
+                "name": "MarketSettled",
+                "type": "raize_contracts::MarketFactory::MarketFactory::MarketSettled",
+                "kind": "nested"
+            },
+            {
+                "name": "MarketToggled",
+                "type": "raize_contracts::MarketFactory::MarketFactory::MarketToggled",
+                "kind": "nested"
+            },
+            {
+                "name": "WinningsClaimed",
+                "type": "raize_contracts::MarketFactory::MarketFactory::WinningsClaimed",
+                "kind": "nested"
+            },
+            {
+                "name": "WithdrawnFromTreasury",
+                "type": "raize_contracts::MarketFactory::MarketFactory::WithdrawnFromTreasury",
+                "kind": "nested"
+            },
+            {
+                "name": "Upgraded",
+                "type": "raize_contracts::MarketFactory::MarketFactory::Upgraded",
+                "kind": "nested"
+            }
+        ]
+    }
+]

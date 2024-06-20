@@ -2,7 +2,12 @@
 import { NextPage } from "next";
 import "./styles.scss";
 import { useEffect, useMemo } from "react";
-import { useAccount, useConnect, useDisconnect } from "@starknet-react/core";
+import {
+  useAccount,
+  useConnect,
+  useDisconnect,
+  useNetwork,
+} from "@starknet-react/core";
 
 import ConnectWallet from "../ConnectWallet";
 import CustomLogo from "@/components/common/CustomIcons";
@@ -14,6 +19,9 @@ const WalletButtons: NextPage<Props> = ({}) => {
   const { address } = useAccount();
   const { disconnect } = useDisconnect();
   const { connectors, connect } = useConnect();
+  const {
+    chain: { id, name },
+  } = useNetwork();
 
   useEffect(() => {
     const connectToStarknet = async () => {
@@ -30,10 +38,10 @@ const WalletButtons: NextPage<Props> = ({}) => {
   }, [address]);
 
   return (
-    <div className="WalletButtons">
+    <div className='WalletButtons'>
       {address ? (
-        <div onClick={() => disconnect()} className="AddressBtn">
-          <div className="AddressBtn-Logo">
+        <div onClick={() => disconnect()} className='AddressBtn'>
+          <div className='AddressBtn-Logo'>
             <CustomLogo src={ARGENT_LOGO} />
           </div>
           <span>{shortenedAddress}</span>

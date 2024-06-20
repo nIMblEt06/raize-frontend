@@ -4,8 +4,14 @@ import { useEffect, useState } from "react";
 import "./styles.scss";
 import BetHeroCard from "./BetHeroCard";
 import { CRICKET_LOGO, US_LOGO } from "../helpers/icons";
-import Football from "/assets/images/football.png";
 import BetCard from "./BetCard";
+import {
+  useContract,
+  useContractRead,
+  useContractWrite,
+} from "@starknet-react/core";
+import abi from "../../abi/ContractABI.json";
+import { CONTRACT_ADDRESS } from "../helpers/constants";
 
 interface Props {}
 
@@ -44,6 +50,34 @@ const betsList = [
 
 const BetSection: NextPage<Props> = ({}) => {
   const [activeTab, setActiveTab] = useState<string>("trd");
+  // const {
+  //   data: marketCount,
+  //   isLoading,
+  //   isError,
+  //   isSuccess,
+  // } = useContractRead({
+  //   abi: abi,
+  //   address: CONTRACT_ADDRESS,
+  //   functionName: "getMarketCount",
+  //   args: [],
+  // });
+
+  const { contract } = useContract({
+    address: CONTRACT_ADDRESS,
+    abi: abi,
+  });
+
+  useEffect(() => {
+    const getMarketCount = () => {
+      if (!contract) {
+        return;
+      }
+      contract.getMarketCount().then((res: any) => {
+        console.log(res);
+      });
+    };
+    getMarketCount();
+  }, [activeTab]);
 
   useEffect(() => {
     setActiveTab("trd");
