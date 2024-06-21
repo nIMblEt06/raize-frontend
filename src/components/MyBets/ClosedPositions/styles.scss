@@ -24,7 +24,7 @@
       justify-content: space-between;
       color: #818181;
       .Status {
-        width: 40px;
+        width: 60px;
         text-align: left;
       }
       .Event {
@@ -49,6 +49,7 @@
       font-size: 20px;
       width: 100%;
       justify-content: space-between;
+      align-items: center;
       color: #fff;
       margin-top: 10px;
       .BetToken {
@@ -62,8 +63,18 @@
         color: #3dd179;
       }
       .Status {
-        width: 40px;
+        width: 60px;
         text-align: left;
+      }
+      .Claim {
+        background-color: #D5741C;
+        padding-inline: 16px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-block: 8px;
+        border-radius: 20px;
+        cursor: pointer;
       }
       .Event {
         width: 250px;

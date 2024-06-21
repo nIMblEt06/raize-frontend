@@ -54,10 +54,14 @@ function BetDetailView() {
         logo={market?.image || ""}
         subHeading={market?.description || ""}
         moneyInPool={market?.moneyInPool || 0}
-        betToken = {market?.betToken || ""}
+        betToken={market?.betToken || ""}
       />
 
-      <BetActions betToken={market?.betToken!} outcomes={market?.outcomes!} />
+      <BetActions
+        moneyInPool={market?.moneyInPool!}
+        betToken={market?.betToken!}
+        outcomes={market?.outcomes!}
+      />
     </div>
   );
 }

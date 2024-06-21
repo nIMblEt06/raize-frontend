@@ -6,6 +6,8 @@ import Image from "next/image";
 
 interface Props {
   category: string;
+  setActiveTab: Function;
+  categoryIndex: number;
   categoryLogo: string;
   categoryName: string;
   cardBgColor: string;
@@ -13,6 +15,8 @@ interface Props {
 }
 
 const BetHeroCard: NextPage<Props> = ({
+  setActiveTab,
+  categoryIndex,
   category,
   categoryLogo,
   categoryName,
@@ -34,7 +38,7 @@ const BetHeroCard: NextPage<Props> = ({
         </div>
         <div className='Bet-Heading'>{categoryName}</div>
       </div>
-      <div className='Predict-Btn'>Predict Now</div>
+      <div className='Predict-Btn' onClick={() => setActiveTab(categoryIndex)}>Predict Now</div>
       <div className='Card-Image'>
         <Image src={image} alt={categoryName} width={350} height={200} />
       </div>

@@ -16,12 +16,6 @@ export const MarketContext = createContext<MarketContextType>({
   setChoice: () => {},
 });
 
-interface Outcome {
-  name: string;
-  currentOdds: string;
-  boughtShares: string;
-}
-
 export function MarketProvider({ children }: any) {
   const [currentMarket, setCurrentMarket] = useState<number>(0);
   const [choice, setChoice] = useState<number>(0);

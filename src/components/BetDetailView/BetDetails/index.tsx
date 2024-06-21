@@ -10,6 +10,7 @@ import {
 import { useEffect, useState } from "react";
 import { num } from "starknet";
 import { ETH_ADDRESS } from "@/components/helpers/constants";
+import { getNumber } from "@/components/helpers/functions";
 
 interface Props {
   category: string;
@@ -65,7 +66,7 @@ const BetDetails: NextPage<Props> = ({
       </Box>
       <Box className='BetPool'>
         Prize-Pool{" "}
-        <span className='Colored'>{BigInt(moneyInPool).toString()}</span>{" "}
+        <span className='Colored'>{getNumber(moneyInPool).slice(0,7)}</span>{" "}
         <Box className='Starknet-logo'>
           <CustomLogo
             src={

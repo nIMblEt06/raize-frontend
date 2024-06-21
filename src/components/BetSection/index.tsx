@@ -5,41 +5,33 @@ import "./styles.scss";
 import BetHeroCard from "./BetHeroCard";
 import { CRICKET_LOGO, US_LOGO } from "../helpers/icons";
 import BetCard from "./BetCard";
-import {
-  useContract,
-  useContractRead,
-  useContractWrite,
-} from "@starknet-react/core";
+import { useContract } from "@starknet-react/core";
 import abi from "../../abi/ContractABI.json";
 import { CONTRACT_ADDRESS } from "../helpers/constants";
 import { Market } from "../helpers/types";
+import { getString } from "../helpers/functions";
 interface Props {}
 
 const tabList = [
   {
     tabName: "Trending",
-    tabId: "trd",
   },
   {
-    tabName: "Crypto",
-    tabId: "cmr",
+    tabName: "Crypto Market",
   },
   {
-    tabName: "Cricket",
-    tabId: "crk",
+    tabName: "UEFA Euros 2024",
   },
   {
-    tabName: "Pop Culture",
-    tabId: "pcl",
+    tabName: "Global Politics",
   },
   {
-    tabName: "Politics",
-    tabId: "pol",
+    tabName: "Cricket World Cup",
   },
 ];
 
 const BetSection: NextPage<Props> = ({}) => {
-  const [activeTab, setActiveTab] = useState<string>("trd");
+  const [activeTab, setActiveTab] = useState<number>(0);
   const [markets, setMarkets] = useState<Market[]>([]);
 
   const { contract } = useContract({
@@ -60,13 +52,15 @@ const BetSection: NextPage<Props> = ({}) => {
   }, []);
 
   useEffect(() => {
-    setActiveTab("trd");
+    setActiveTab(0);
   }, []);
   return (
     <div className='BetSection'>
       <div className='BetSection-Hero'>
         <div className='BetSection-HeroCard'>
           <BetHeroCard
+            setActiveTab={setActiveTab}
+            categoryIndex={4}
             category='Sports'
             categoryLogo={CRICKET_LOGO}
             categoryName='Cricket World Cup'
@@ -76,6 +70,8 @@ const BetSection: NextPage<Props> = ({}) => {
         </div>
         <div className='BetSection-HeroCard'>
           <BetHeroCard
+            setActiveTab={setActiveTab}
+            categoryIndex={2}
             category='Sports'
             categoryLogo={CRICKET_LOGO}
             categoryName='UEFA Euros 2024'
@@ -90,31 +86,52 @@ const BetSection: NextPage<Props> = ({}) => {
             <div
               key={index}
               onClick={() => {
-                setActiveTab(item.tabId);
+                setActiveTab(index);
               }}
-              className={activeTab === item.tabId ? "Tab-Active" : "Tab"}
+              className={activeTab === index ? "Tab-Active" : "Tab"}
             >
               {item.tabName}
             </div>
           ))}
         </div>
         <div className='BetCard-Wrapper'>
-          {markets &&
-            markets.map((item, index) => (
-              <div key={index} className='BetCard-Container'>
-                <BetCard
-                  marketId={index + 1}
-                  category={item.category}
-                  logo={item.image}
-                  duration={item.deadline}
-                  heading={item.name}
-                  betToken={item.betToken}
-                  subHeading={item.description}
-                  outcomes={item.outcomes}
-                  moneyInPool={item.moneyInPool}
-                />
-              </div>
-            ))}
+          {activeTab === 0
+            ? markets.map((item, index) => (
+                <div key={index} className='BetCard-Container'>
+                  <BetCard
+                    marketId={item.marketId}
+                    category={item.category}
+                    logo={item.image}
+                    duration={item.deadline}
+                    heading={item.name}
+                    betToken={item.betToken}
+                    subHeading={item.description}
+                    outcomes={item.outcomes}
+                    moneyInPool={item.moneyInPool}
+                  />
+                </div>
+              ))
+            : markets
+                .filter((market) =>
+                  tabList[activeTab].tabName.includes(
+                    getString(market.category)
+                  )
+                )
+                .map((item, index) => (
+                  <div key={index} className='BetCard-Container'>
+                    <BetCard
+                      marketId={item.marketId}
+                      category={item.category}
+                      logo={item.image}
+                      duration={item.deadline}
+                      heading={item.name}
+                      betToken={item.betToken}
+                      subHeading={item.description}
+                      outcomes={item.outcomes}
+                      moneyInPool={item.moneyInPool}
+                    />
+                  </div>
+                ))}
         </div>
       </div>
     </div>

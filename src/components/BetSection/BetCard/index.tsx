@@ -13,6 +13,7 @@ import { shortString, num } from "starknet";
 import { ETH_ADDRESS } from "@/components/helpers/constants";
 import { MarketContext } from "@/app/context/MarketProvider";
 import { Outcome } from "@/components/helpers/types";
+import { getProbabilites, getString } from "@/components/helpers/functions";
 
 interface Props {
   category: string;
@@ -53,20 +54,9 @@ const BetCard: NextPage<Props> = ({
 
 
   useEffect(() => {
-    setPercent1(
-      (parseFloat(outcomes[0].boughtShares.toString()) /
-        1e18 /
-        (parseFloat(outcomes[0].boughtShares.toString()) / 1e18 +
-          parseFloat(outcomes[1].boughtShares.toString()) / 1e18)) *
-        100
-    );
-    setPercent2(
-      (parseFloat(outcomes[1].boughtShares.toString()) /
-        1e18 /
-        (parseFloat(outcomes[0].boughtShares.toString()) / 1e18 +
-          parseFloat(outcomes[1].boughtShares.toString()) / 1e18)) *
-        100
-    );
+    const percentages = getProbabilites(outcomes[0].boughtShares.toString(), outcomes[1].boughtShares.toString());
+    setPercent1(percentages[0]);
+    setPercent2(percentages[1]);
   }, [outcomes]);
 
   const { setChoice, setCurrentMarket } = useContext(MarketContext);
@@ -85,7 +75,7 @@ const BetCard: NextPage<Props> = ({
             <CustomLogo src={logo} />
           </div>
           <div className='CategoryName'>
-            {shortString.decodeShortString(category)}
+            {getString(category)}
           </div>
         </div>
         <div className='Bet-Duration'>
@@ -107,7 +97,7 @@ const BetCard: NextPage<Props> = ({
           className='BetCard-Option'
         >
           <span className='Green-Text'>
-            {shortString.decodeShortString(outcomes[0].name)}
+            {getString(outcomes[0].name)}
           </span>
           <span className='Bet-Stat'>{percent1}%</span>
         </div>
@@ -118,14 +108,14 @@ const BetCard: NextPage<Props> = ({
           className='BetCard-Option'
         >
           <span className='Red-Text'>
-            {shortString.decodeShortString(outcomes[1].name)}
+            {getString(outcomes[1].name)}
           </span>
           <span className='Bet-Stat'>{percent2}%</span>
         </div>
       </div>
       <div className='Pool-Stats'>
         Prize Pool
-        <span className='Pool-Value'>{BigInt(moneyInPool).toString()}</span>
+        <span className='Pool-Value'>{(parseFloat(BigInt(moneyInPool).toString()) / 1e18).toString().slice(0,7)}</span>
         <div className='Starknet-logo'>
           <CustomLogo
             src={

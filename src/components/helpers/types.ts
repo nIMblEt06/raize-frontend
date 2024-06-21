@@ -1,3 +1,5 @@
+import { CairoOption } from "starknet";
+
 export interface Market {
   name: string;
   betToken: string;
@@ -7,13 +9,13 @@ export interface Market {
   isActive: boolean;
   isSettled: boolean;
   outcomes: Outcome[];
-  winningOutcome: Outcome | null;
+  winningOutcome: CairoOption<Outcome>;
   moneyInPool: number;
   image: string;
+  marketId: number;
 }
 
 export interface Outcome {
   name: string;
-  currentOdds: string;
   boughtShares: string;
 }
