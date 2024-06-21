@@ -26,6 +26,7 @@ function MyBets() {
       if (!contract || !address) {
         return;
       }
+      if (openMarkets.length > 0 || closedMarkets.length > 0) return;
       contract.getUserMarkets(address).then((res: any) => {
         res.forEach((market: Market) => {
           if (market.isActive) {

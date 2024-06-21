@@ -13,6 +13,8 @@ import { CONTRACT_ADDRESS, ETH_ADDRESS } from "@/components/helpers/constants";
 import abi from "../../../abi/ContractABI.json";
 import { num } from "starknet";
 import { ETH_LOGO, STARKNET_LOGO } from "@/components/helpers/icons";
+import { enqueueSnackbar } from "notistack";
+import { useRouter } from "next/navigation";
 
 interface Props {
   closedMarkets: Market[];
@@ -27,6 +29,7 @@ enum WinStatus {
 
 function ClosedPositions({ closedMarkets, closedBets }: Props) {
   const { address } = useAccount();
+  const router = useRouter();
   const [marketId, setMarketId] = useState<any>(null);
   const getWinStatus = (market: Market, bet: any) => {
     if (!bet) return;
@@ -62,6 +65,36 @@ function ClosedPositions({ closedMarkets, closedBets }: Props) {
 
   const storeMarket = (marketId: number) => {
     setMarketId(marketId);
+  };
+
+  useEffect(() => {
+    if (data) {
+      handleToast(
+        "Claim Successful!",
+        "Money is credited in your wallet, all the best for your next prediction. We’ll let you in on a secret - it’s fun.",
+        data.transaction_hash
+      );
+    }
+    if (error) {
+      handleToast(
+        "Oh shoot!",
+        "Something unexpected happened, check everything from your side while we check what happened on our end and try again."
+      );
+    }
+  }, [data, error]);
+
+  const handleToast = (message: string, subHeading: string, hash?: string) => {
+    enqueueSnackbar(message, {
+      //@ts-ignore
+      variant: "custom",
+      subHeading: subHeading,
+      hash: hash,
+      type: "danger",
+      anchorOrigin: {
+        vertical: "top",
+        horizontal: "right",
+      },
+    });
   };
 
   return (

@@ -11,6 +11,7 @@ import { useContract } from "@starknet-react/core";
 import abi from "../../abi/ContractABI.json";
 import { CONTRACT_ADDRESS } from "@/components/helpers/constants";
 import { Market } from "@/components/helpers/types";
+import { Metadata } from "next";
 
 function BetDetailView() {
   const router = useRouter();

@@ -16,10 +16,16 @@ import { useContext, useEffect, useMemo, useState } from "react";
 import { MarketContext } from "@/app/context/MarketProvider";
 import { Outcome } from "@/components/helpers/types";
 import { num } from "starknet";
-import { CONTRACT_ADDRESS, ETH_ADDRESS } from "@/components/helpers/constants";
+import {
+  CONTRACT_ADDRESS,
+  ETH_ADDRESS,
+  STARK_ADDRESS,
+} from "@/components/helpers/constants";
 import abi from "../../../abi/ContractABI.json";
 import tokenABI from "../../../abi/ERC20ABI.json";
 import { getProbabilites } from "@/components/helpers/functions";
+import { enqueueSnackbar } from "notistack";
+import { useRouter } from "next/navigation";
 
 interface Props {
   outcomes: Outcome[];
@@ -29,6 +35,7 @@ interface Props {
 
 const BetActions: NextPage<Props> = ({ outcomes, betToken, moneyInPool }) => {
   const { address } = useAccount();
+  const router = useRouter();
   const { connectors, connect } = useConnect();
   const { choice, setChoice, currentMarket } = useContext(MarketContext);
   const [betAmount, setBetAmount] = useState("");
@@ -90,7 +97,7 @@ const BetActions: NextPage<Props> = ({ outcomes, betToken, moneyInPool }) => {
   });
 
   const { contract: tokenContract } = useContract({
-    address: betToken ? num.getHexString(betToken) : ETH_ADDRESS,
+    address: betToken ? num.getHexString(betToken) : STARK_ADDRESS,
     abi: tokenABI,
   });
 
@@ -123,6 +130,46 @@ const BetActions: NextPage<Props> = ({ outcomes, betToken, moneyInPool }) => {
   } = useContractWrite({
     calls: tokenCalls,
   });
+
+  useEffect(() => {
+    if (data) {
+      handleToast(
+        "Prediction Placed Successfully!",
+        "Watch out for the results in “My bets” section. PS - All the best for this and your next prediction.",
+        data.transaction_hash
+      );
+      setTimeout(() => {
+        router.push("/");
+      }, 1000);
+    }
+    if (tokenData) {
+      handleToast(
+        "Approval Successful!",
+        "Let's head in and place some predictions!",
+        tokenData.transaction_hash
+      );
+    }
+    if (error || tokenError) {
+      handleToast(
+        "Oh shoot!",
+        "Something unexpected happened, check everything from your side while we check what happened on our end and try again."
+      );
+    }
+  }, [data, error, tokenData, tokenError]);
+
+  const handleToast = (message: string, subHeading: string, hash?: string) => {
+    enqueueSnackbar(message, {
+      //@ts-ignore
+      variant: "custom",
+      subHeading: subHeading,
+      hash: hash,
+      type: "danger",
+      anchorOrigin: {
+        vertical: "top",
+        horizontal: "right",
+      },
+    });
+  };
 
   return (
     <Box className='BetActions'>
@@ -161,27 +208,29 @@ const BetActions: NextPage<Props> = ({ outcomes, betToken, moneyInPool }) => {
       <Box className='InputContainer'>
         <span className='Label'>Order Value</span>
         <Box className='InputWrapper'>
-          <Box className='Starknet-logo'>
-            <CustomLogo
-              src={
-                betToken &&
-                num.toHex(betToken).toString().toLowerCase() ==
-                  ETH_ADDRESS.toLowerCase()
-                  ? ETH_LOGO
-                  : STARKNET_LOGO
-              }
+          <Box className='Input-Left'>
+            <Box className='Starknet-logo'>
+              <CustomLogo
+                src={
+                  betToken &&
+                  num.toHex(betToken).toString().toLowerCase() ==
+                    ETH_ADDRESS.toLowerCase()
+                    ? ETH_LOGO
+                    : STARKNET_LOGO
+                }
+              />
+            </Box>
+            <input
+              className='InputField'
+              type='number'
+              id='numberInput'
+              name='numberInput'
+              value={betAmount}
+              onChange={(e) => getPotentialWinnings(e.target.value)}
+              placeholder='0.00'
+              required
             />
           </Box>
-          <input
-            className='InputField'
-            type='number'
-            id='numberInput'
-            name='numberInput'
-            value={betAmount}
-            onChange={(e) => getPotentialWinnings(e.target.value)}
-            placeholder='0.00'
-            required
-          />
           <span className='InputField'>
             Balance: {(parseFloat(balance) / 1e18).toString().slice(0, 7)}{" "}
           </span>

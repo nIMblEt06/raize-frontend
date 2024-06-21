@@ -11,8 +11,8 @@
   }
   .Container {
     width: 100%;
-    padding-top: 30px;
-    padding-block: 40px;
+    padding-inline: 30px;
+    padding-block: 24px;
     margin-block: 40px;
     border-radius: 16px;
     background-color: #17171b;
@@ -51,7 +51,6 @@
       justify-content: space-between;
       align-items: center;
       color: #fff;
-      margin-top: 10px;
       .BetToken {
         display: flex;
         align-items: center;
@@ -67,7 +66,7 @@
         text-align: left;
       }
       .Claim {
-        background-color: #D5741C;
+        background-color: #d5741c;
         padding-inline: 16px;
         display: flex;
         justify-content: center;

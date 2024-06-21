@@ -1,16 +1,13 @@
-import type { Metadata } from "next";
+"use client";
 import { Inter } from "next/font/google";
 import { StarknetProvider } from "@/components/starknet-provider";
 import "./globals.css";
 import Header from "@/components/Header";
 import { MarketProvider } from "./context/MarketProvider";
+import { SnackbarProvider } from "notistack";
+import CustomToastWrapper from "@/components/Toast/Wrapper";
 
 const inter = Inter({ subsets: ["latin"] });
-
-export const metadata: Metadata = {
-  title: "Raize",
-  description: "Precision Market on Starknet",
-};
 
 export default function RootLayout({
   children,
@@ -23,7 +20,15 @@ export default function RootLayout({
         <StarknetProvider>
           <Header />
           <MarketProvider>
-            <main style={{ flex: "1", width: "100%" }}>{children}</main>
+            <SnackbarProvider
+              maxSnack={2}
+              Components={{
+                //@ts-ignore
+                custom: CustomToastWrapper,
+              }}
+            >
+              <main style={{ flex: "1", width: "100%" }}>{children}</main>
+            </SnackbarProvider>
           </MarketProvider>
         </StarknetProvider>
       </body>

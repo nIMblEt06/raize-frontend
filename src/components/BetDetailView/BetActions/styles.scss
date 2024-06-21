@@ -180,6 +180,11 @@
       align-items: center;
       gap: 10px;
       justify-content: space-between;
+      .Input-Left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
 
       .Starknet-logo {
         width: 20px;
