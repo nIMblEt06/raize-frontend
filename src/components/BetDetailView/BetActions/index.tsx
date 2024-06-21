@@ -97,7 +97,7 @@ const BetActions: NextPage<Props> = ({ outcomes, betToken, moneyInPool }) => {
   });
 
   const { contract: tokenContract } = useContract({
-    address: betToken ? num.getHexString(betToken) : STARK_ADDRESS,
+    address: betToken ? num.getHexString(betToken) : ETH_ADDRESS,
     abi: tokenABI,
   });
 

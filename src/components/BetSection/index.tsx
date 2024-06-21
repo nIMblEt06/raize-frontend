@@ -45,6 +45,7 @@ const BetSection: NextPage<Props> = ({}) => {
         return;
       }
       contract.getAllMarkets().then((res: any) => {
+        console.log(res);
         setMarkets(res);
       });
     };
