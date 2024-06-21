@@ -35,9 +35,15 @@ function OpenPositions({ openMarkets, openBets }: Props) {
                 height={15}
                 alt={"tokenImage"}
               />{" "}
-              {openBets.length > 0 && getNumber(openBets[index][1].amount)}
+              {openBets.length > 0 && openBets[index]
+                ? getNumber(openBets[index][1].amount)
+                : "0"}
             </p>
-            <p className='Yes Prediction'>{openBets.length > 0 && getString(openBets[index][0].name)}</p>
+            <p className='Yes Prediction'>
+              {openBets.length > 0 && openBets[index]
+                ? getString(openBets[index][0].name)
+                : "0"}
+            </p>
           </div>
         ))}
       </div>

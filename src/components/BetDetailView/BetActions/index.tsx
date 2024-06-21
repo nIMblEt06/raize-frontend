@@ -140,7 +140,7 @@ const BetActions: NextPage<Props> = ({ outcomes, betToken, moneyInPool }) => {
       );
       setTimeout(() => {
         router.push("/");
-      }, 1000);
+      }, 5000);
     }
     if (tokenData) {
       handleToast(
