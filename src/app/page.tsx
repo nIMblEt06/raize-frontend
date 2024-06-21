@@ -4,7 +4,6 @@ import "./styles.scss";
 import BetSection from "@/components/BetSection";
 
 export default function Home() {
-  sessionStorage.setItem("currentMarket", "");
   return (
     <main className='Home'>
       <div className='Heading-Section'>

@@ -27,16 +27,12 @@ function BetDetailView() {
   });
 
   useEffect(() => {
-    // const market = sessionStorage.getItem("currentMarket");
-    // console.log(market);
-
     const getMarket = () => {
       if (!contract) {
         return;
       }
       contract.getMarket(currentMarket).then((res: any) => {
         setMarket(res);
-        // sessionStorage.setItem("currentMarket",currentMarket.toString());
       });
     };
     getMarket();

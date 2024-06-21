@@ -425,6 +425,13 @@
                     }
                 ],
                 "state_mutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "deleteAllMarkets",
+                "inputs": [],
+                "outputs": [],
+                "state_mutability": "external"
             }
         ]
     },
