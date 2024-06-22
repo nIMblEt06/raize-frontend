@@ -9,7 +9,7 @@ import { useContract } from "@starknet-react/core";
 import abi from "../../abi/ContractABI.json";
 import { CONTRACT_ADDRESS } from "../helpers/constants";
 import { Market } from "../helpers/types";
-import { getString } from "../helpers/functions";
+import { getNumber, getString } from "../helpers/functions";
 interface Props {}
 
 const tabList = [
@@ -97,27 +97,30 @@ const BetSection: NextPage<Props> = ({}) => {
         </div>
         <div className='BetCard-Wrapper'>
           {activeTab === 0
-            ? markets.map((item, index) => (
-                <div key={index} className='BetCard-Container'>
-                  <BetCard
-                    marketId={item.marketId}
-                    category={item.category}
-                    logo={item.image}
-                    duration={item.deadline}
-                    heading={item.name}
-                    betToken={item.betToken}
-                    subHeading={item.description}
-                    outcomes={item.outcomes}
-                    moneyInPool={item.moneyInPool}
-                  />
-                </div>
-              ))
+            ? markets
+                .sort((a, b) => parseFloat(getNumber(b.moneyInPool)) - parseFloat(getNumber(a.moneyInPool)))
+                .map((item, index) => (
+                  <div key={index} className='BetCard-Container'>
+                    <BetCard
+                      marketId={item.marketId}
+                      category={item.category}
+                      logo={item.image}
+                      duration={item.deadline}
+                      heading={item.name}
+                      betToken={item.betToken}
+                      subHeading={item.description}
+                      outcomes={item.outcomes}
+                      moneyInPool={item.moneyInPool}
+                    />
+                  </div>
+                ))
             : markets
                 .filter((market) =>
                   tabList[activeTab].tabName.includes(
                     getString(market.category)
                   )
                 )
+                .sort((a, b) => parseFloat(getNumber(b.moneyInPool)) - parseFloat(getNumber(a.moneyInPool)))
                 .map((item, index) => (
                   <div key={index} className='BetCard-Container'>
                     <BetCard

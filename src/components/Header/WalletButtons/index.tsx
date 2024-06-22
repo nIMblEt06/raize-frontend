@@ -15,7 +15,6 @@ import CustomLogo from "@/components/common/CustomIcons";
 import {
   ARGENT_LOGO,
   ETH_LOGO,
-  STARKNET_LOGO,
 } from "@/components/helpers/icons";
 import { useRouter } from "next/navigation";
 import Image from "next/image";

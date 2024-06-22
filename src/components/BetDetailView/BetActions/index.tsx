@@ -23,9 +23,9 @@ import {
 } from "@/components/helpers/constants";
 import abi from "../../../abi/ContractABI.json";
 import tokenABI from "../../../abi/ERC20ABI.json";
-import { getProbabilites } from "@/components/helpers/functions";
+import { getProbabilites, getString } from "@/components/helpers/functions";
 import { enqueueSnackbar } from "notistack";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 interface Props {
   outcomes: Outcome[];
@@ -36,8 +36,9 @@ interface Props {
 const BetActions: NextPage<Props> = ({ outcomes, betToken, moneyInPool }) => {
   const { address } = useAccount();
   const router = useRouter();
+  const pathname = usePathname();
   const { connectors, connect } = useConnect();
-  const { choice, setChoice, currentMarket } = useContext(MarketContext);
+  const { choice, setChoice } = useContext(MarketContext);
   const [betAmount, setBetAmount] = useState("");
   const [potentialWinnings, setPotentialWinnings] = useState(0);
   const [allowance, setAllowance] = useState(false);
@@ -55,6 +56,12 @@ const BetActions: NextPage<Props> = ({ outcomes, betToken, moneyInPool }) => {
     setPercent2(percentages[1]);
   }, [outcomes]);
 
+  useEffect(() => {
+    if (moneyInPool && betAmount != "") {
+      getPotentialWinnings(betAmount);
+    }
+  }, [choice]);
+
   function getPotentialWinnings(value: string) {
     if (value == "") {
       setBetAmount("");
@@ -64,20 +71,22 @@ const BetActions: NextPage<Props> = ({ outcomes, betToken, moneyInPool }) => {
       if (choice == 0) {
         setPotentialWinnings(
           (parseFloat(value) *
-            (parseFloat(value) + parseFloat(BigInt(moneyInPool).toString()))) /
+            (parseFloat(value) +
+              parseFloat(BigInt(moneyInPool).toString()) / 1e18)) /
             (parseFloat(value) +
               parseFloat(outcomes[0].boughtShares.toString()) / 1e18)
         );
       } else {
         setPotentialWinnings(
-          (parseFloat(value) * parseFloat(BigInt(moneyInPool).toString())) /
+          (parseFloat(value) *
+            (parseFloat(value) +
+              parseFloat(BigInt(moneyInPool).toString()) / 1e18)) /
             (parseFloat(value) +
               parseFloat(outcomes[1].boughtShares.toString()) / 1e18)
         );
       }
     }
   }
-
   const { contract } = useContract({
     address: CONTRACT_ADDRESS,
     abi: abi,
@@ -86,27 +95,21 @@ const BetActions: NextPage<Props> = ({ outcomes, betToken, moneyInPool }) => {
   const calls = useMemo(() => {
     if (!address || !contract || betAmount == "") return [];
     return contract.populateTransaction["buyShares"]!(
-      currentMarket,
+      parseInt(pathname.split("/")[2]),
       choice,
       BigInt(parseFloat(betAmount) * 1e18)
     );
-  }, [contract, address, currentMarket, choice, betAmount]);
+  }, [contract, address, choice, betAmount]);
 
-  const { writeAsync, data, error } = useContractWrite({
-    calls,
-  });
+  const { writeAsync, data, error, isError, isSuccess, isPending } =
+    useContractWrite({
+      calls,
+    });
 
   const { contract: tokenContract } = useContract({
     address: betToken ? num.getHexString(betToken) : ETH_ADDRESS,
     abi: tokenABI,
   });
-
-  useEffect(() => {
-    if (!tokenContract || !address || betAmount == "") return;
-    tokenContract.allowance(address, CONTRACT_ADDRESS).then((res: any) => {
-      setAllowance(res >= BigInt(parseFloat(betAmount) * 1e18));
-    });
-  }, [tokenContract, address, betAmount, betToken]);
 
   useEffect(() => {
     if (!tokenContract || !address) return;
@@ -127,35 +130,52 @@ const BetActions: NextPage<Props> = ({ outcomes, betToken, moneyInPool }) => {
     writeAsync: approveAsync,
     data: tokenData,
     error: tokenError,
+    isError: tokenIsError,
+    isSuccess: tokenIsSuccess,
+    isPending: tokenIsPending,
   } = useContractWrite({
     calls: tokenCalls,
   });
 
   useEffect(() => {
-    if (data) {
+    if (isPending) {
+      handleToast(
+        "Transaction Pending",
+        "Your transaction is being processed, please wait for a few seconds."
+      );
+    }
+    if (data || isSuccess) {
       handleToast(
         "Prediction Placed Successfully!",
         "Watch out for the results in “My bets” section. PS - All the best for this and your next prediction.",
-        data.transaction_hash
+        data!.transaction_hash
       );
       setTimeout(() => {
         router.push("/");
       }, 5000);
     }
-    if (tokenData) {
+    if (tokenData || tokenIsSuccess) {
       handleToast(
         "Approval Successful!",
         "Let's head in and place some predictions!",
-        tokenData.transaction_hash
+        tokenData!.transaction_hash
       );
     }
-    if (error || tokenError) {
+    if (isError || tokenIsError) {
       handleToast(
         "Oh shoot!",
         "Something unexpected happened, check everything from your side while we check what happened on our end and try again."
       );
     }
-  }, [data, error, tokenData, tokenError]);
+    console.log(error || tokenError);
+  }, [data, isError, tokenIsError, tokenData]);
+
+  useEffect(() => {
+    if (!tokenContract || !address || betAmount == "") return;
+    tokenContract.allowance(address, CONTRACT_ADDRESS).then((res: any) => {
+      setAllowance(res >= BigInt(parseFloat(betAmount) * 1e18));
+    });
+  }, [tokenContract, address, betAmount, betToken, tokenData]);
 
   const handleToast = (message: string, subHeading: string, hash?: string) => {
     enqueueSnackbar(message, {
@@ -182,9 +202,11 @@ const BetActions: NextPage<Props> = ({ outcomes, betToken, moneyInPool }) => {
           }}
           className={choice === 0 ? "BetOptionActive" : "BetOption"}
         >
-          <span className='Green'>Yes</span>
+          <span className='Green'>
+            {outcomes ? getString(outcomes[0].name) : "Yes"}
+          </span>
           <Box className='RadioButtonContainer'>
-            <span className='RadioLabel'>{percent2}%</span>
+            <span className='RadioLabel'>{percent1.toFixed(2)}%</span>
             <Box className='RadioButton'>
               <Box className='RadioButtonInner'></Box>
             </Box>
@@ -196,9 +218,11 @@ const BetActions: NextPage<Props> = ({ outcomes, betToken, moneyInPool }) => {
           }}
           className={choice === 1 ? "BetOptionActive" : "BetOption"}
         >
-          <span className='Red'>No</span>
+          <span className='Red'>
+            {outcomes ? getString(outcomes[1].name) : "No"}
+          </span>
           <Box className='RadioButtonContainer'>
-            <span className='RadioLabel'>{percent1}%</span>
+            <span className='RadioLabel'>{percent2.toFixed(2)}%</span>
             <Box className='RadioButton'>
               <Box className='RadioButtonInner'></Box>
             </Box>
@@ -240,7 +264,7 @@ const BetActions: NextPage<Props> = ({ outcomes, betToken, moneyInPool }) => {
         <span className='ReturnLabel'>Potential Winning</span>
         <Box className='ReturnValue'>
           <span className={betAmount == "" ? "Gray" : "Green"}>
-            {potentialWinnings ? potentialWinnings : 0}
+            {potentialWinnings ? potentialWinnings.toFixed(5) : 0}
           </span>
           <Box className='Starknet-logo'>
             <CustomLogo

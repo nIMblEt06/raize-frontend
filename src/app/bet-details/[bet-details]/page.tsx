@@ -2,24 +2,24 @@
 import BetActions from "@/components/BetDetailView/BetActions";
 import BetDetails from "@/components/BetDetailView/BetDetails";
 import React, { useContext, useEffect, useState } from "react";
-import ArrowLeft from "../../../public/assets/icons/arrow.svg";
+import ArrowLeft from "../../../../public/assets/icons/arrow.svg";
 import "./styles.scss";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { MarketContext } from "../context/MarketProvider";
+import { usePathname, useRouter } from "next/navigation";
+import { MarketContext } from "../../context/MarketProvider";
 import { useContract } from "@starknet-react/core";
-import abi from "../../abi/ContractABI.json";
+import abi from "../../../abi/ContractABI.json";
 import { CONTRACT_ADDRESS } from "@/components/helpers/constants";
 import { Market } from "@/components/helpers/types";
-import { Metadata } from "next";
+import { NextPage } from "next";
 
-function BetDetailView() {
+const BetDetailView: NextPage = () => {
   const router = useRouter();
-  const { currentMarket, setCurrentMarket } = useContext(MarketContext);
   const [market, setMarket] = useState<Market | null>(null);
   const handleBack = () => {
     router.push("/");
   };
+  const pathname = usePathname();
 
   const { contract } = useContract({
     address: CONTRACT_ADDRESS,
@@ -31,7 +31,7 @@ function BetDetailView() {
       if (!contract) {
         return;
       }
-      contract.getMarket(currentMarket).then((res: any) => {
+      contract.getMarket(pathname.split("/")[2]).then((res: any) => {
         setMarket(res);
       });
     };
@@ -61,6 +61,6 @@ function BetDetailView() {
       />
     </div>
   );
-}
+};
 
 export default BetDetailView;

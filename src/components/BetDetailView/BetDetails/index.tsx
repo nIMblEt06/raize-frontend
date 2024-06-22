@@ -10,7 +10,7 @@ import {
 import { useEffect, useState } from "react";
 import { num } from "starknet";
 import { ETH_ADDRESS } from "@/components/helpers/constants";
-import { getNumber } from "@/components/helpers/functions";
+import { getNumber, getTimeBetween } from "@/components/helpers/functions";
 
 interface Props {
   category: string;
@@ -32,14 +32,16 @@ const BetDetails: NextPage<Props> = ({
   betToken,
 }) => {
   const [hoursRemaining, setHoursRemaining] = useState(0);
+  const [daysRemaining, setDaysRemaining] = useState(0);
   const [minutes, setMinutesRemaining] = useState(0);
 
   useEffect(() => {
     const currentTime = new Date().getTime();
     const deadline = new Date(parseInt(duration)).getTime();
-    const timeRemaining = deadline - currentTime;
-    setHoursRemaining(new Date(timeRemaining).getHours());
-    setMinutesRemaining(new Date(timeRemaining).getMinutes());
+    const timeBetween = getTimeBetween(deadline, currentTime);
+    setDaysRemaining(timeBetween[0]);
+    setHoursRemaining(timeBetween[1]);
+    setMinutesRemaining(timeBetween[2]);
   }, [duration]);
 
   return (
@@ -56,7 +58,7 @@ const BetDetails: NextPage<Props> = ({
             <CustomLogo src={CLOCK_ICON} />
           </Box>
           <span>
-            {hoursRemaining}h : {minutes}m
+            {daysRemaining}d: {hoursRemaining}h : {minutes}m
           </span>
         </Box>
       </Box>
@@ -66,7 +68,7 @@ const BetDetails: NextPage<Props> = ({
       </Box>
       <Box className='BetPool'>
         Prize-Pool{" "}
-        <span className='Colored'>{getNumber(moneyInPool).slice(0,7)}</span>{" "}
+        <span className='Colored'>{getNumber(moneyInPool).slice(0, 7)}</span>{" "}
         <Box className='Starknet-logo'>
           <CustomLogo
             src={

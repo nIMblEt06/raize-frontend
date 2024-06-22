@@ -24,9 +24,28 @@ export const getProbabilites = (shares1: any, shares2: any) => {
 
 export const getString = (string: any) => {
   return shortString.decodeShortString(string);
-
-}
+};
 
 export const getNumber = (num: any) => {
   return (parseFloat(BigInt(num).toString()) / 1e18).toString();
-}
+};
+
+export const getTimeBetween = (dateFuture: number, dateNow: number) => {
+  var seconds = Math.floor((dateFuture - dateNow) / 1000);
+  var minutes = Math.floor(seconds / 60);
+  var hours = Math.floor(minutes / 60);
+  var days = Math.floor(hours / 24);
+
+  hours = hours - days * 24;
+  minutes = minutes - days * 24 * 60 - hours * 60;
+
+  console.log(
+    "Time until new year:\nDays: " +
+      days +
+      " Hours: " +
+      hours +
+      " Minutes: " +
+      minutes
+  );
+  return [days, hours, minutes];
+};
