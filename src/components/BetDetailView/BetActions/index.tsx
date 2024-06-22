@@ -6,6 +6,7 @@ import {
   useConnect,
   useContract,
   useContractWrite,
+  useWaitForTransaction,
 } from "@starknet-react/core";
 
 import { Box } from "@mui/material";
@@ -103,29 +104,29 @@ const BetActions: NextPage<Props> = ({
     abi: tokenABI,
   });
 
-  // const calls = useMemo(() => {
-  //   if (!address || !contract || betAmount == "" || !tokenContract) return [];
-  //   return [
-  //     tokenContract.populateTransaction["approve"]!(
-  //       CONTRACT_ADDRESS,
-  //       BigInt(parseFloat(betAmount) * 1e18)
-  //     ),
-  //     contract.populateTransaction["buyShares"]!(
-  //       parseInt(pathname.split("/")[2]),
-  //       choice,
-  //       BigInt(parseFloat(betAmount) * 1e18)
-  //     ),
-  //   ];
-  // }, [contract, address, choice, betAmount]);
-
   const calls = useMemo(() => {
-    if (!address || !contract || betAmount == "") return [];
-    return contract.populateTransaction["buyShares"]!(
-      parseInt(pathname.split("/")[2]),
-      choice,
-      BigInt(parseFloat(betAmount) * 1e18)
-    );
-  }, [contract, address, choice, betAmount]);
+    if (!address || !contract || betAmount == "" || !tokenContract) return [];
+    return [
+      tokenContract.populateTransaction["approve"]!(
+        CONTRACT_ADDRESS,
+        BigInt(parseFloat(betAmount) * 1e18)
+      ),
+      contract.populateTransaction["buyShares"]!(
+        parseInt(pathname.split("/")[2]),
+        choice,
+        BigInt(parseFloat(betAmount) * 1e18)
+      ),
+    ];
+  }, [contract, address, choice, betAmount, tokenContract]);
+
+  // const calls = useMemo(() => {
+  //   if (!address || !contract || betAmount == "") return [];
+  //   return contract.populateTransaction["buyShares"]!(
+  //     parseInt(pathname.split("/")[2]),
+  //     choice,
+  //     BigInt(parseFloat(betAmount) * 1e18)
+  //   );
+  // }, [contract, address, choice, betAmount]);
 
   const { writeAsync, data, error, isError, isSuccess, isPending } =
     useContractWrite({
@@ -139,33 +140,18 @@ const BetActions: NextPage<Props> = ({
     });
   }, [tokenContract, address, betAmount, betToken]);
 
-  const tokenCalls = useMemo(() => {
-    if (!address || !tokenContract || betAmount == "") return [];
-    return tokenContract.populateTransaction["approve"]!(
-      CONTRACT_ADDRESS,
-      BigInt(parseFloat(betAmount) * 1e18)
-    );
-  }, [tokenContract, address, betAmount]);
-
-  const {
-    writeAsync: approveAsync,
-    data: tokenData,
-    error: tokenError,
-    isError: tokenIsError,
-    isSuccess: tokenIsSuccess,
-    isPending: tokenIsPending,
-  } = useContractWrite({
-    calls: tokenCalls,
+  const { isPending: pending, isSuccess: success } = useWaitForTransaction({
+    hash: data?.transaction_hash,
   });
 
   useEffect(() => {
-    if (isPending || tokenIsPending) {
+    if (data && pending) {
       handleToast(
         "Transaction Pending",
         "Your transaction is being processed, please wait for a few seconds."
       );
     }
-    if (data || isSuccess) {
+    if (data || success) {
       handleToast(
         "Prediction Placed Successfully!",
         "Watch out for the results in “My bets” section. PS - All the best for this and your next prediction.",
@@ -175,34 +161,13 @@ const BetActions: NextPage<Props> = ({
         router.push("/");
       }, 5000);
     }
-    if (tokenData || tokenIsSuccess) {
-      handleToast(
-        "Approval Successful!",
-        "Let's head in and place some predictions!",
-        tokenData!.transaction_hash
-      );
-      setTimeout(() => {
-        tokenContract!.allowance(address, CONTRACT_ADDRESS).then((res: any) => {
-          setAllowance(res >= BigInt(parseFloat(betAmount) * 1e18));
-        });
-      }, 7000);
-    }
-    if (isError || tokenIsError) {
+    if (isError) {
       handleToast(
         "Oh shoot!",
         "Something unexpected happened, check everything from your side while we check what happened on our end and try again."
       );
     }
-  }, [
-    data,
-    isError,
-    tokenIsError,
-    tokenData,
-    tokenIsSuccess,
-    tokenIsPending,
-    isPending,
-    isSuccess,
-  ]);
+  }, [data, isError, isPending, isSuccess]);
 
   useEffect(() => {
     if (!tokenContract || !address || betAmount == "") return;
@@ -315,16 +280,14 @@ const BetActions: NextPage<Props> = ({
       </Box>
       {address ? (
         <Box
-          onClick={() => (allowance ? writeAsync() : approveAsync())}
+          onClick={() => writeAsync()}
           className={`ActionBtn ${betPlaced ? "BetPlaced" : ""}`}
         >
           {betPlaced
             ? "Awaiting an Outcome!"
             : betAmount == ""
             ? "Enter Amount"
-            : allowance
-            ? "Place Order"
-            : "Approve"}
+            : "Place Order"}
         </Box>
       ) : (
         <Box

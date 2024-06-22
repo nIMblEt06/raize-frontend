@@ -8,6 +8,7 @@ import {
   useAccount,
   useContract,
   useContractWrite,
+  useWaitForTransaction,
 } from "@starknet-react/core";
 import { CONTRACT_ADDRESS, ETH_ADDRESS } from "@/components/helpers/constants";
 import abi from "../../../abi/ContractABI.json";
@@ -31,16 +32,17 @@ function ClosedPositions({ closedMarkets, closedBets }: Props) {
   const { address } = useAccount();
   const router = useRouter();
   const [marketId, setMarketId] = useState<any>(null);
+  const [winStatus, setWinStatus] = useState<WinStatus[] | null>([]);
   const getWinStatus = (market: Market, bet: any) => {
     if (!bet) return;
     if (market.winningOutcome.Some!.name === bet[0].name) {
       if (bet[1].hasClaimed == false) {
-        return WinStatus.Claimable;
+        setWinStatus([...winStatus!, WinStatus.Claimable]);
       } else {
-        return WinStatus.Won;
+        return setWinStatus([...winStatus!, WinStatus.Won]);
       }
     } else {
-      return WinStatus.Lost;
+      return setWinStatus([...winStatus!, WinStatus.Lost]);
     }
   };
 
@@ -58,6 +60,10 @@ function ClosedPositions({ closedMarkets, closedBets }: Props) {
     calls,
   });
 
+  const { isPending: pending, isSuccess: success } = useWaitForTransaction({
+    hash: data?.transaction_hash,
+  });
+
   useEffect(() => {
     marketId && writeAsync();
     setMarketId(null);
@@ -68,18 +74,19 @@ function ClosedPositions({ closedMarkets, closedBets }: Props) {
   };
 
   useEffect(() => {
-    if (isPending) {
+    if (pending) {
       handleToast(
         "Transaction Pending",
         "Your transaction is being processed, please wait for a few seconds."
       );
     }
-    if (data || isSuccess) {
+    if (success) {
       handleToast(
         "Claim Successful!",
         "Money is credited in your wallet, all the best for your next prediction. We’ll let you in on a secret - it’s fun.",
         data!.transaction_hash
       );
+      setWinStatus([...winStatus!, (winStatus![marketId] = WinStatus.Won)]);
     }
     if (error) {
       handleToast(
@@ -119,18 +126,20 @@ function ClosedPositions({ closedMarkets, closedBets }: Props) {
             <p
               onClick={
                 closedBets.length > 0 &&
-                getWinStatus(market, closedBets[index]) == WinStatus.Claimable
+                winStatus &&
+                winStatus[index] == WinStatus.Claimable
                   ? () => storeMarket(market.marketId)
                   : () => {}
               }
               className={`Status ${
                 closedBets.length > 0 &&
-                getWinStatus(market, closedBets[index]) == WinStatus.Claimable
+                winStatus &&
+                winStatus[index] == WinStatus.Claimable
                   ? "Claim"
                   : ""
               }`}
             >
-              {closedBets.length > 0 && getWinStatus(market, closedBets[index])}
+              {closedBets.length > 0 && winStatus && winStatus[index]}
             </p>
             <p className='Event'>{market.name}</p>
             <p className='DatePlaced'>
