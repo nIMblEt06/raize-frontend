@@ -254,6 +254,7 @@
     padding: 15px;
     display: flex;
     justify-content: center;
+    transition: all 0.3s ease-in-out;
     align-items: center;
     box-sizing: border-box;
     background: linear-gradient(
@@ -277,6 +278,11 @@
     &:hover {
       opacity: 0.8;
     }
+  }
+  .BetPlaced {
+    cursor: not-allowed;
+    pointer-events: none;
+    background: #e98228;
   }
 }
 

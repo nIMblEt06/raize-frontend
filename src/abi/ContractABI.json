@@ -428,10 +428,23 @@
             },
             {
                 "type": "function",
-                "name": "deleteAllMarkets",
-                "inputs": [],
-                "outputs": [],
-                "state_mutability": "external"
+                "name": "hasUserPlacedBet",
+                "inputs": [
+                    {
+                        "name": "user",
+                        "type": "core::starknet::contract_address::ContractAddress"
+                    },
+                    {
+                        "name": "marketId",
+                        "type": "core::integer::u256"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "type": "core::bool"
+                    }
+                ],
+                "state_mutability": "view"
             }
         ]
     },

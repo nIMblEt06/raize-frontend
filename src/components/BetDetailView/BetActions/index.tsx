@@ -31,9 +31,15 @@ interface Props {
   outcomes: Outcome[];
   betToken: string;
   moneyInPool: number;
+  betPlaced: boolean;
 }
 
-const BetActions: NextPage<Props> = ({ outcomes, betToken, moneyInPool }) => {
+const BetActions: NextPage<Props> = ({
+  outcomes,
+  betToken,
+  moneyInPool,
+  betPlaced,
+}) => {
   const { address } = useAccount();
   const router = useRouter();
   const pathname = usePathname();
@@ -282,9 +288,15 @@ const BetActions: NextPage<Props> = ({ outcomes, betToken, moneyInPool }) => {
       {address ? (
         <Box
           onClick={() => (allowance ? writeAsync() : approveAsync())}
-          className='ActionBtn'
+          className={`ActionBtn ${betPlaced ? "BetPlaced" : ""}`}
         >
-          {allowance ? "Place Order" : "Approve"}
+          {betPlaced
+            ? "Awaiting an Outcome!"
+            : betAmount == ""
+            ? "Enter Amount"
+            : allowance
+            ? "Place Order"
+            : "Approve"}
         </Box>
       ) : (
         <Box

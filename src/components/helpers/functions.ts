@@ -38,14 +38,5 @@ export const getTimeBetween = (dateFuture: number, dateNow: number) => {
 
   hours = hours - days * 24;
   minutes = minutes - days * 24 * 60 - hours * 60;
-
-  console.log(
-    "Time until new year:\nDays: " +
-      days +
-      " Hours: " +
-      hours +
-      " Minutes: " +
-      minutes
-  );
   return [days, hours, minutes];
 };
