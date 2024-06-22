@@ -1,13 +1,10 @@
 "use client";
-import { Inter } from "next/font/google";
 import { StarknetProvider } from "@/components/starknet-provider";
 import "./globals.css";
 import Header from "@/components/Header";
 import { MarketProvider } from "./context/MarketProvider";
 import { SnackbarProvider } from "notistack";
 import CustomToastWrapper from "@/components/Toast/Wrapper";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({
   children,
@@ -16,6 +13,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang='en'>
+      <head>
+        <title>Raize Club | Turn Insights into Income</title>
+        <meta
+          name='RaizeClub'
+          content='On-chain prediction market on the Starknet ecosystem.'
+        />
+      </head>
       <body>
         <StarknetProvider>
           <Header />
