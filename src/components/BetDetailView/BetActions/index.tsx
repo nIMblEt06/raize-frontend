@@ -166,6 +166,11 @@ const BetActions: NextPage<Props> = ({
         "Let's head in and place some predictions!",
         tokenData!.transaction_hash
       );
+      setTimeout(() => {
+        tokenContract!.allowance(address, CONTRACT_ADDRESS).then((res: any) => {
+          setAllowance(res >= BigInt(parseFloat(betAmount) * 1e18));
+        });
+      }, 7000);
     }
     if (isError || tokenIsError) {
       handleToast(
@@ -173,7 +178,6 @@ const BetActions: NextPage<Props> = ({
         "Something unexpected happened, check everything from your side while we check what happened on our end and try again."
       );
     }
-    console.log(error || tokenError);
   }, [data, isError, tokenIsError, tokenData]);
 
   useEffect(() => {
@@ -181,7 +185,7 @@ const BetActions: NextPage<Props> = ({
     tokenContract.allowance(address, CONTRACT_ADDRESS).then((res: any) => {
       setAllowance(res >= BigInt(parseFloat(betAmount) * 1e18));
     });
-  }, [tokenContract, address, betAmount, betToken, tokenData]);
+  }, [tokenContract, address, betAmount, betToken]);
 
   const handleToast = (message: string, subHeading: string, hash?: string) => {
     enqueueSnackbar(message, {

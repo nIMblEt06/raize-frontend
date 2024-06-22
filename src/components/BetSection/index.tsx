@@ -45,7 +45,6 @@ const BetSection: NextPage<Props> = ({}) => {
         return;
       }
       contract.getAllMarkets().then((res: any) => {
-        console.log(res);
         setMarkets(res);
       });
     };
@@ -98,7 +97,11 @@ const BetSection: NextPage<Props> = ({}) => {
         <div className='BetCard-Wrapper'>
           {activeTab === 0
             ? markets
-                .sort((a, b) => parseFloat(getNumber(b.moneyInPool)) - parseFloat(getNumber(a.moneyInPool)))
+                .sort(
+                  (a, b) =>
+                    parseFloat(getNumber(b.moneyInPool)) -
+                    parseFloat(getNumber(a.moneyInPool))
+                )
                 .map((item, index) => (
                   <div key={index} className='BetCard-Container'>
                     <BetCard
@@ -120,7 +123,11 @@ const BetSection: NextPage<Props> = ({}) => {
                     getString(market.category)
                   )
                 )
-                .sort((a, b) => parseFloat(getNumber(b.moneyInPool)) - parseFloat(getNumber(a.moneyInPool)))
+                .sort(
+                  (a, b) =>
+                    parseFloat(getNumber(b.moneyInPool)) -
+                    parseFloat(getNumber(a.moneyInPool))
+                )
                 .map((item, index) => (
                   <div key={index} className='BetCard-Container'>
                     <BetCard

@@ -41,7 +41,6 @@ const BetDetailView: NextPage = () => {
         .hasUserPlacedBet(address, pathname.split("/")[2])
         .then((res: any) => {
           setUserPlacedBet(res);
-          console.log(res, "hasUserPlacedBet");
         });
     };
     getMarket();
