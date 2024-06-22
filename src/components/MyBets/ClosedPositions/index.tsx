@@ -46,6 +46,12 @@ function ClosedPositions({ closedMarkets, closedBets }: Props) {
     }
   };
 
+  useEffect(() => {
+    closedMarkets.forEach((market, index) => {
+      getWinStatus(market, closedBets[index]);
+    });
+  }, [closedMarkets, closedBets]);
+
   const { contract } = useContract({
     address: CONTRACT_ADDRESS,
     abi: abi,
@@ -74,13 +80,13 @@ function ClosedPositions({ closedMarkets, closedBets }: Props) {
   };
 
   useEffect(() => {
-    if (pending) {
+    if (pending && data) {
       handleToast(
         "Transaction Pending",
         "Your transaction is being processed, please wait for a few seconds."
       );
     }
-    if (success) {
+    if (data || success) {
       handleToast(
         "Claim Successful!",
         "Money is credited in your wallet, all the best for your next prediction. We’ll let you in on a secret - it’s fun.",
@@ -94,7 +100,7 @@ function ClosedPositions({ closedMarkets, closedBets }: Props) {
         "Something unexpected happened, check everything from your side while we check what happened on our end and try again."
       );
     }
-  }, [data, error, isPending, isSuccess]);
+  }, [data, error, isPending, isSuccess, success, pending]);
 
   const handleToast = (message: string, subHeading: string, hash?: string) => {
     enqueueSnackbar(message, {
@@ -139,7 +145,7 @@ function ClosedPositions({ closedMarkets, closedBets }: Props) {
                   : ""
               }`}
             >
-              {closedBets.length > 0 && winStatus && winStatus[index]}
+              {closedBets.length > 0 && winStatus ? winStatus[index] : ""}
             </p>
             <p className='Event'>{market.name}</p>
             <p className='DatePlaced'>

@@ -167,7 +167,7 @@ const BetActions: NextPage<Props> = ({
         "Something unexpected happened, check everything from your side while we check what happened on our end and try again."
       );
     }
-  }, [data, isError, isPending, isSuccess]);
+  }, [data, isError, isPending, isSuccess, success]);
 
   useEffect(() => {
     if (!tokenContract || !address || betAmount == "") return;
