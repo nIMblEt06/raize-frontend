@@ -98,6 +98,26 @@ const BetActions: NextPage<Props> = ({
     abi: abi,
   });
 
+  const { contract: tokenContract } = useContract({
+    address: betToken ? num.getHexString(betToken) : ETH_ADDRESS,
+    abi: tokenABI,
+  });
+
+  // const calls = useMemo(() => {
+  //   if (!address || !contract || betAmount == "" || !tokenContract) return [];
+  //   return [
+  //     tokenContract.populateTransaction["approve"]!(
+  //       CONTRACT_ADDRESS,
+  //       BigInt(parseFloat(betAmount) * 1e18)
+  //     ),
+  //     contract.populateTransaction["buyShares"]!(
+  //       parseInt(pathname.split("/")[2]),
+  //       choice,
+  //       BigInt(parseFloat(betAmount) * 1e18)
+  //     ),
+  //   ];
+  // }, [contract, address, choice, betAmount]);
+
   const calls = useMemo(() => {
     if (!address || !contract || betAmount == "") return [];
     return contract.populateTransaction["buyShares"]!(
@@ -111,11 +131,6 @@ const BetActions: NextPage<Props> = ({
     useContractWrite({
       calls,
     });
-
-  const { contract: tokenContract } = useContract({
-    address: betToken ? num.getHexString(betToken) : ETH_ADDRESS,
-    abi: tokenABI,
-  });
 
   useEffect(() => {
     if (!tokenContract || !address) return;

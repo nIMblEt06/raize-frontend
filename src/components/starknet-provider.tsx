@@ -6,6 +6,7 @@ import {
   StarknetConfig,
   argent,
   braavos,
+  jsonRpcProvider,
   publicProvider,
   useInjectedConnectors,
   voyager,
@@ -20,6 +21,14 @@ export function StarknetProvider({ children }: { children: ReactNode }) {
     // Randomize the order of the connectors.
     order: "random",
   });
+
+  function rpc() {
+    return {
+      nodeUrl: "https://starknet-sepolia.public.blastapi.io",
+    };
+  }
+
+  const provider = jsonRpcProvider({ rpc });
 
   return (
     <StarknetConfig
