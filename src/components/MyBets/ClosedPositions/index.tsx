@@ -54,7 +54,7 @@ function ClosedPositions({ closedMarkets, closedBets }: Props) {
     return contract.populateTransaction["claimWinnings"]!(marketId, address);
   }, [marketId, contract, address]);
 
-  const { writeAsync, data, error } = useContractWrite({
+  const { writeAsync, data, error, isSuccess, isPending } = useContractWrite({
     calls,
   });
 
@@ -68,11 +68,17 @@ function ClosedPositions({ closedMarkets, closedBets }: Props) {
   };
 
   useEffect(() => {
-    if (data) {
+    if (isPending) {
+      handleToast(
+        "Transaction Pending",
+        "Your transaction is being processed, please wait for a few seconds."
+      );
+    }
+    if (data || isSuccess) {
       handleToast(
         "Claim Successful!",
         "Money is credited in your wallet, all the best for your next prediction. We’ll let you in on a secret - it’s fun.",
-        data.transaction_hash
+        data!.transaction_hash
       );
     }
     if (error) {
@@ -81,7 +87,7 @@ function ClosedPositions({ closedMarkets, closedBets }: Props) {
         "Something unexpected happened, check everything from your side while we check what happened on our end and try again."
       );
     }
-  }, [data, error]);
+  }, [data, error, isPending, isSuccess]);
 
   const handleToast = (message: string, subHeading: string, hash?: string) => {
     enqueueSnackbar(message, {

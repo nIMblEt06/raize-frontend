@@ -144,7 +144,7 @@ const BetActions: NextPage<Props> = ({
   });
 
   useEffect(() => {
-    if (isPending) {
+    if (isPending || tokenIsPending) {
       handleToast(
         "Transaction Pending",
         "Your transaction is being processed, please wait for a few seconds."
@@ -178,7 +178,16 @@ const BetActions: NextPage<Props> = ({
         "Something unexpected happened, check everything from your side while we check what happened on our end and try again."
       );
     }
-  }, [data, isError, tokenIsError, tokenData]);
+  }, [
+    data,
+    isError,
+    tokenIsError,
+    tokenData,
+    tokenIsSuccess,
+    tokenIsPending,
+    isPending,
+    isSuccess,
+  ]);
 
   useEffect(() => {
     if (!tokenContract || !address || betAmount == "") return;
