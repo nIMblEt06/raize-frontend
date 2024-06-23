@@ -1,3 +1,5 @@
+@import "../../../app/mixin.scss";
+
 .BetCard {
     width: 100%;
     height: 100%;
@@ -17,6 +19,7 @@
 
         .BetCard-CategoryContainer {
             display: flex;
+            align-items: center;
             gap: 10px;
 
             .CategoryLogo {
@@ -31,6 +34,18 @@
                 font-size: 14px;
                 line-height: 24px;
                 color: #909090;
+
+                @include md {}
+
+                @include lg {}
+
+                @include xl {
+                    font-size: 13px;
+                }
+
+                @include xxl {
+                    font-size: 14px;
+                }
             }
         }
 
@@ -73,6 +88,18 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
             text-fill-color: transparent;
+
+            @include md {}
+
+            @include lg {}
+
+            @include xl {
+                font-size: 22px;
+            }
+
+            @include xxl {
+                font-size: 24px;
+            }
         }
 
         .Sub-Heading {
@@ -86,6 +113,18 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
             text-fill-color: transparent;
+
+            @include md {}
+
+            @include lg {}
+
+            @include xl {
+                font-size: 13px;
+            }
+
+            @include xxl {
+                font-size: 14px;
+            }
 
         }
     }

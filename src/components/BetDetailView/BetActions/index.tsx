@@ -119,14 +119,6 @@ const BetActions: NextPage<Props> = ({
     ];
   }, [contract, address, choice, betAmount, tokenContract]);
 
-  // const calls = useMemo(() => {
-  //   if (!address || !contract || betAmount == "") return [];
-  //   return contract.populateTransaction["buyShares"]!(
-  //     parseInt(pathname.split("/")[2]),
-  //     choice,
-  //     BigInt(parseFloat(betAmount) * 1e18)
-  //   );
-  // }, [contract, address, choice, betAmount]);
 
   const { writeAsync, data, error, isError, isSuccess, isPending } =
     useContractWrite({

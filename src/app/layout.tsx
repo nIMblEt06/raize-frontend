@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import { MarketProvider } from "./context/MarketProvider";
 import { SnackbarProvider } from "notistack";
 import CustomToastWrapper from "@/components/Toast/Wrapper";
+import HeaderMobile from "@/components/Header/HeaderMobile";
 
 export default function RootLayout({
   children,
@@ -23,6 +24,7 @@ export default function RootLayout({
       <body>
         <StarknetProvider>
           <Header />
+          <HeaderMobile />
           <MarketProvider>
             <SnackbarProvider
               maxSnack={2}
@@ -31,7 +33,9 @@ export default function RootLayout({
                 custom: CustomToastWrapper,
               }}
             >
-              <main style={{ flex: "1", width: "100%" }}>{children}</main>
+              <main style={{ flex: "1", width: "100%", overflowY: "scroll" }}>
+                {children}
+              </main>
             </SnackbarProvider>
           </MarketProvider>
         </StarknetProvider>

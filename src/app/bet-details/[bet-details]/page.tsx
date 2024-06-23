@@ -2,9 +2,7 @@
 import BetActions from "@/components/BetDetailView/BetActions";
 import BetDetails from "@/components/BetDetailView/BetDetails";
 import React, { useContext, useEffect, useState } from "react";
-import ArrowLeft from "../../../../public/assets/icons/arrow.svg";
 import "./styles.scss";
-import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useAccount, useContract } from "@starknet-react/core";
 import abi from "../../../abi/ContractABI.json";
@@ -12,6 +10,8 @@ import { CONTRACT_ADDRESS } from "@/components/helpers/constants";
 import { Market } from "@/components/helpers/types";
 import { NextPage } from "next";
 import { enqueueSnackbar } from "notistack";
+import CustomLogo from "@/components/common/CustomIcons";
+import { BACK_LOGO } from "@/components/helpers/icons";
 
 const BetDetailView: NextPage = () => {
   const router = useRouter();
@@ -65,7 +65,7 @@ const BetDetailView: NextPage = () => {
   return (
     <div className='BetDetailView'>
       <div className='GoBack' onClick={handleBack}>
-        <Image src={ArrowLeft} alt='Arrow' width={20} height={20} />
+        <CustomLogo width={"30px"} height={"20px"} src={BACK_LOGO} />
         <div>Back</div>
       </div>
       <BetDetails

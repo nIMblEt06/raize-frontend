@@ -1,6 +1,6 @@
 import { NextPage } from "next";
 import "./styles.scss";
-import { Box } from "@mui/material";
+import { Box, Skeleton } from "@mui/material";
 import CustomLogo from "@/components/common/CustomIcons";
 import {
   CLOCK_ICON,
@@ -51,7 +51,13 @@ const BetDetails: NextPage<Props> = ({
           <Box className='BetDetails-Logo'>
             <CustomLogo src={logo} width={30} height={30} />
           </Box>
-          <span>{category}</span>
+          <span>
+            {category ? (
+              category
+            ) : (
+              <Skeleton variant="rectangular" width={100} height={20} />
+            )}
+          </span>
         </Box>
         <Box className='BetDuration'>
           <Box className='BetDetails-Logo'>
@@ -62,9 +68,21 @@ const BetDetails: NextPage<Props> = ({
           </span>
         </Box>
       </Box>
-      <Box className='BetDetails'>
-        <span className='Heading'>{heading}</span>
-        <span className='Sub-Heading'>{subHeading}</span>
+      <Box className="BetDetails">
+        <span className="Heading">
+          {heading ? (
+            heading
+          ) : (
+            <Skeleton variant="rectangular" width={100} height={20} />
+          )}
+        </span>
+        <span className="Sub-Heading">
+          {subHeading ? (
+            subHeading
+          ) : (
+            <Skeleton variant="rectangular" width={100} height={20} />
+          )}
+        </span>
       </Box>
       <Box className='BetPool'>
         Prize-Pool{" "}

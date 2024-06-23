@@ -1,3 +1,5 @@
+@import "../../../app/mixin.scss";
+
 .WalletButtons {
   display: flex;
   justify-content: center;
@@ -6,6 +8,7 @@
   .Buttons {
     display: flex;
     align-items: center;
+
     .ClaimButton {
       font-family: "GilmerMedium";
       background: linear-gradient(90deg, #ae842e 0%, #d8c36d 100%);
@@ -14,8 +17,8 @@
       background-clip: text;
       text-fill-color: transparent;
       padding-block: 6px;
-      font-size: 14px;
-      padding-inline: 18px;
+      font-size: 12px;
+      padding-inline: 15px;
       border-radius: 12px;
       margin-right: 10px;
       border: 1px solid #d8c36d;
@@ -24,14 +27,26 @@
       justify-content: space-around;
       align-items: center;
       gap: 10px;
+
+      @include md {
+        padding-inline: 18px;
+        font-size: 14px;
+      }
+
+      @include lg {}
+
+      @include xl {}
+
+      @include xxl {}
     }
+
     .AddressBtn {
       border-radius: 8px;
-      padding: 8px 30px;
+      padding: 8px 10px;
       cursor: pointer;
       font-family: "GilmerMedium";
       color: white;
-      font-size: 14px;
+      font-size: 11px;
       background-color: #202020;
       border: 1px solid #3d3d3d;
       text-align: center;
@@ -39,6 +54,17 @@
       justify-content: center;
       align-items: center;
       gap: 10px;
+
+      @include md {
+        padding: 8px 30px;
+        font-size: 14px;
+      }
+
+      @include lg {}
+
+      @include xl {}
+
+      @include xxl {}
 
       &:hover {
         opacity: 0.8;
@@ -51,6 +77,17 @@
       .AddressBtn-Logo {
         width: 15px;
         height: 15px;
+
+        @include md {
+          width: 15px;
+          height: 15px;
+        }
+
+        @include lg {}
+
+        @include xl {}
+
+        @include xxl {}
       }
     }
   }

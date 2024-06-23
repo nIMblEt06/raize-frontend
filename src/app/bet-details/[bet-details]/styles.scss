@@ -1,10 +1,31 @@
+@import "../../../app/mixin.scss";
+
 .BetDetailView {
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  margin-top: 20px;
-  height: calc(100vh - 140px);
+  justify-content: flex-start;
+  height: 100%;
+  overflow-y: auto;
+  padding-top: 20px;
+  padding-bottom: 20px;
+
+
+  @include md {
+    padding-top: 40px;
+  }
+
+  @include lg {}
+
+  @include xl {
+    padding-top: 0px;
+    padding-bottom: 0px;
+    justify-content: center;
+  }
+
+  @include xxl {}
+
   .GoBack {
     display: flex;
     align-items: center;
@@ -15,13 +36,50 @@
     font-weight: 600;
     font-size: 18px;
     color: #ffffff;
-    width: 540px;
+    width: 90%;
     margin-bottom: 20px;
     cursor: pointer;
-    img {
-      padding: 10px;
-      border-radius: 50%;
-      border: 1px solid #ffffff;
+
+    @include md {
+      width: 540px;
     }
+
+    @include lg {}
+
+    @include xl {
+      font-size: 15px;
+      width: 440px;
+    }
+
+    @include xxl {
+      font-size: 18px;
+      width: 540px;
+    }
+
+    .GoBackLogo {
+      width: 20px;
+      height: 20px;
+      padding: 8px;
+      border: 1px solid #ffffff;
+      border-radius: 50%;
+
+      @include md {}
+
+      @include lg {}
+
+      @include xl {}
+
+      @include xxl {
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+
+    // img {
+    //   padding: 10px;
+    //   border-radius: 50%;
+    //   border: 1px solid #ffffff;
+    // }
   }
 }

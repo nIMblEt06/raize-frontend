@@ -3,8 +3,8 @@ import Image from "next/image";
 
 interface Props {
   src: string;
-  width?: number;
-  height?: number;
+  width?: string;
+  height?: string;
 }
 
 const CustomLogo: NextPage<Props> = ({ src, width, height }) => {
@@ -16,8 +16,8 @@ const CustomLogo: NextPage<Props> = ({ src, width, height }) => {
           height: height ? height : "100%",
           objectFit: "cover",
         }}
-        width={width ? width : 0}
-        height={height ? height : 0}
+        width={0}
+        height={0}
         src={src}
         alt='raize'
       />
