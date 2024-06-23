@@ -32,24 +32,22 @@ function ClosedPositions({ closedMarkets, closedBets }: Props) {
   const { address } = useAccount();
   const router = useRouter();
   const [marketId, setMarketId] = useState<any>(null);
-  const [winStatus, setWinStatus] = useState<WinStatus[] | null>([]);
-  const getWinStatus = (market: Market, bet: any) => {
-    if (!bet) return;
-    if (market.winningOutcome.Some!.name === bet[0].name) {
-      if (bet[1].hasClaimed == false) {
-        setWinStatus([...winStatus!, WinStatus.Claimable]);
-      } else {
-        return setWinStatus([...winStatus!, WinStatus.Won]);
-      }
-    } else {
-      return setWinStatus([...winStatus!, WinStatus.Lost]);
-    }
-  };
+  const [winStatus, setWinStatus] = useState<WinStatus[]>([]);
 
   useEffect(() => {
-    closedMarkets.forEach((market, index) => {
-      getWinStatus(market, closedBets[index]);
+    const newWinStatus = closedMarkets.map((market, index) => {
+      const bet = closedBets[index];
+      if (!bet) return WinStatus.Lost; // Default or error state
+      if (
+        market.winningOutcome.Some &&
+        market.winningOutcome.Some.name === bet[0].name
+      ) {
+        return bet[1].hasClaimed ? WinStatus.Won : WinStatus.Claimable;
+      } else {
+        return WinStatus.Lost;
+      }
     });
+    setWinStatus(newWinStatus);
   }, [closedMarkets, closedBets]);
 
   const { contract } = useContract({
@@ -116,6 +114,44 @@ function ClosedPositions({ closedMarkets, closedBets }: Props) {
     });
   };
 
+  const renderMarket = (market: Market, index: number) => {
+    const isClaimable = winStatus[index] === WinStatus.Claimable;
+    const statusClass = isClaimable ? "Claim" : "";
+    const onClickHandler = isClaimable
+      ? () => storeMarket(market.marketId)
+      : () => {};
+
+    return (
+      <div className='Data' key={market.marketId}>
+        <p onClick={onClickHandler} className={`Status ${statusClass}`}>
+          {winStatus[index]}
+        </p>
+        <p className='Event'>{market.name}</p>
+        <p className='DatePlaced'>
+          {new Date(parseInt(market.deadline)).toString().split("GMT")[0]}
+        </p>
+        <p className='BetToken StakedAmount'>
+          <Image
+            src={
+              market.betToken &&
+              num.toHex(market.betToken).toString().toLowerCase() ==
+                ETH_ADDRESS.toLowerCase()
+                ? ETH_LOGO
+                : STARKNET_LOGO
+            }
+            width={15}
+            height={15}
+            alt={"tokenImage"}
+          />{" "}
+          {getNumber(closedBets[index]?.[1].amount || "0")}
+        </p>
+        <p className='Yes Prediction'>
+          {getString(closedBets[index]?.[0].name || "0")}
+        </p>
+      </div>
+    );
+  };
+
   return (
     <div className='ClosedPositions'>
       <div className='Heading'>Closed Positions</div>
@@ -127,54 +163,7 @@ function ClosedPositions({ closedMarkets, closedBets }: Props) {
           <p className='StakedAmount'>Staked Amount</p>
           <p className='Prediction'>Prediction</p>
         </div>
-        {closedMarkets.map((market, index) => (
-          <div className='Data' key={index}>
-            <p
-              onClick={
-                closedBets.length > 0 &&
-                winStatus &&
-                winStatus[index] == WinStatus.Claimable
-                  ? () => storeMarket(market.marketId)
-                  : () => {}
-              }
-              className={`Status ${
-                closedBets.length > 0 &&
-                winStatus &&
-                winStatus[index] == WinStatus.Claimable
-                  ? "Claim"
-                  : ""
-              }`}
-            >
-              {closedBets.length > 0 && winStatus ? winStatus[index] : ""}
-            </p>
-            <p className='Event'>{market.name}</p>
-            <p className='DatePlaced'>
-              {new Date(parseInt(market.deadline)).toString().split("GMT")[0]}
-            </p>
-            <p className='BetToken StakedAmount'>
-              <Image
-                src={
-                  market.betToken &&
-                  num.toHex(market.betToken).toString().toLowerCase() ==
-                    ETH_ADDRESS.toLowerCase()
-                    ? ETH_LOGO
-                    : STARKNET_LOGO
-                }
-                width={15}
-                height={15}
-                alt={"tokenImage"}
-              />{" "}
-              {closedBets.length > 0 && closedBets[index]
-                ? getNumber(closedBets[index][1].amount)
-                : "0"}
-            </p>
-            <p className='Yes Prediction'>
-              {closedBets.length > 0 && closedBets[index]
-                ? getString(closedBets[index][0].name)
-                : "0"}
-            </p>
-          </div>
-        ))}
+        {closedMarkets.map(renderMarket)}
       </div>
     </div>
   );

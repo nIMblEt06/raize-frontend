@@ -22,29 +22,33 @@ function MyBets() {
   });
 
   useEffect(() => {
-    const getAllMarkets = () => {
+    const getAllMarkets = async () => {
       if (!contract || !address) {
         return;
       }
       if (openMarkets.length > 0 || closedMarkets.length > 0) return;
-      contract.getUserMarkets(address).then((res: any) => {
-        res.forEach((market: Market) => {
-          if (market.isActive) {
-            setOpenMarkets((prev) => [...prev, market]);
-          } else {
-            setClosedMarkets((prev) => [...prev, market]);
-          }
-          contract
-            .getOutcomeAndBet(address, market.marketId)
-            .then((res: any) => {
-              if (market.isActive) {
-                setOpenBets((prev: any) => [...prev, res]);
-              } else {
-                setClosedBets((prev: any) => [...prev, res]);
-              }
-            });
-        });
-      });
+      const res = await contract.getUserMarkets(address);
+      const openMarketsRes: Market[] = [];
+      const closedMarketsRes: Market[] = [];
+      const openBets: any[] = [];
+      const closedBets: any[] = [];
+      for (const market of res) {
+        if (market.isActive) {
+          openMarketsRes.push(market);
+        } else {
+          closedMarketsRes.push(market);
+        }
+        const outcomeAndBet = await contract.getOutcomeAndBet(address, market.marketId);
+        if (market.isActive) {
+          openBets.push(outcomeAndBet);
+        } else {
+          closedBets.push(outcomeAndBet);
+        }
+      }
+      setOpenMarkets(openMarketsRes);
+      setClosedMarkets(closedMarketsRes);
+      setOpenBets(openBets);
+      setClosedBets(closedBets);
     };
     getAllMarkets();
   }, [address, contract]);

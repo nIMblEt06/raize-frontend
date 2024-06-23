@@ -12,10 +12,7 @@ import {
 
 import ConnectWallet from "../ConnectWallet";
 import CustomLogo from "@/components/common/CustomIcons";
-import {
-  ARGENT_LOGO,
-  ETH_LOGO,
-} from "@/components/helpers/icons";
+import { ARGENT_LOGO, ETH_LOGO } from "@/components/helpers/icons";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { CONTRACT_ADDRESS } from "@/components/helpers/constants";
@@ -75,7 +72,7 @@ const WalletButtons: NextPage<Props> = ({}) => {
         <div className='Buttons'>
           <div className='ClaimButton' onClick={goToClaim}>
             <Image width={20} height={20} alt='StarkNet' src={ETH_LOGO} />
-            {winnings} Claim
+            {winnings ? parseFloat(winnings).toFixed(2) : "0"} Claim
           </div>
           <div onClick={() => disconnect()} className='AddressBtn'>
             <div className='AddressBtn-Logo'>

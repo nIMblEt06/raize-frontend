@@ -4,7 +4,7 @@
   align-items: center;
   justify-content: center;
   color: white;
-  height: calc(100vh - 70px);
+  min-height: calc(100vh - 70px);
   font-family: "GilmerMedium";
   
   background:linear-gradient(107.74deg, #0E0E0E 0.42%, #151515 99.58%);

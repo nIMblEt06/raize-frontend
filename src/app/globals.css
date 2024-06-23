@@ -36,3 +36,11 @@ body {
   font-family: "GilmerLight";
   src: url("/fonts/GilmerLight.otf");
 }
+
+*::-webkit-scrollbar {
+  display: none;
+}
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}

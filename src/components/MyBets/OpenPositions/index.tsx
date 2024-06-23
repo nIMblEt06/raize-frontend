@@ -4,6 +4,9 @@ import Image from "next/image";
 import StarknetLogo from "../../../../public/assets/logos/starknet.svg";
 import { Market } from "@/components/helpers/types";
 import { getNumber, getString } from "@/components/helpers/functions";
+import { ETH_LOGO, STARKNET_LOGO } from "@/components/helpers/icons";
+import { ETH_ADDRESS } from "@/components/helpers/constants";
+import { num } from "starknet";
 
 interface Props {
   openMarkets: Market[];
@@ -30,7 +33,13 @@ function OpenPositions({ openMarkets, openBets }: Props) {
             </p>
             <p className='BetToken StakedAmount'>
               <Image
-                src={StarknetLogo}
+                src={
+                  market.betToken &&
+                  num.toHex(market.betToken).toString().toLowerCase() ==
+                    ETH_ADDRESS.toLowerCase()
+                    ? ETH_LOGO
+                    : STARKNET_LOGO
+                }
                 width={15}
                 height={15}
                 alt={"tokenImage"}

@@ -5,12 +5,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  height: 100%;
+  justify-content: center;
+  min-height: 100%;
   overflow-y: auto;
   padding-top: 20px;
   padding-bottom: 20px;
-
 
   @include md {
     padding-top: 40px;
@@ -74,12 +73,5 @@
         height: 20px;
       }
     }
-
-
-    // img {
-    //   padding: 10px;
-    //   border-radius: 50%;
-    //   border: 1px solid #ffffff;
-    // }
   }
 }
