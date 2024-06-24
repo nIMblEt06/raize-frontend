@@ -49,7 +49,7 @@ const BetDetails: NextPage<Props> = ({
       <Box className='HeadingContainer'>
         <Box className='BetName'>
           <Box className='BetDetails-Logo'>
-            <CustomLogo src={logo} width={30} height={30} />
+            <CustomLogo src={logo} width={"30px"} height={"30px"} />
           </Box>
           <span>
             {category ? (

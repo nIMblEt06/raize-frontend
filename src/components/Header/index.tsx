@@ -11,7 +11,11 @@ const Header: NextPage<Props> = ({}) => {
   return (
     <div className='Header-Wrapper'>
       <div className='Header-Logo'>
-        <CustomLogo width={45} height={40} src='/assets/logos/raizelogo.svg' />
+        <CustomLogo
+          width={"45px"}
+          height={"40px"}
+          src='/assets/logos/raizelogo.svg'
+        />
       </div>
       <div className='Header-LinksContainer'>
         <HeaderLink
