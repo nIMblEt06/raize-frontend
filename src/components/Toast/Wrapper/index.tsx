@@ -1,4 +1,4 @@
-import { forwardRef, useCallback } from "react";
+import { forwardRef, useCallback, useState } from "react";
 import Image from "next/image";
 import "./styles.scss";
 
@@ -16,6 +16,7 @@ interface CustomToastWrapperProps extends CustomContentProps {
 const CustomToastWrapper = forwardRef<HTMLDivElement, CustomToastWrapperProps>(
   ({ id, ...props }, ref) => {
     const { closeSnackbar } = useSnackbar();
+    const [startAnimation, setStartAnimation] = useState<boolean>(false);
 
     const handleDismiss = useCallback(() => {
       closeSnackbar(id);
@@ -25,22 +26,37 @@ const CustomToastWrapper = forwardRef<HTMLDivElement, CustomToastWrapperProps>(
       <SnackbarContent
         ref={ref}
         className={`CustomToastWrapper-Root${props.type}`}
+        onMouseEnter={() => {
+          setStartAnimation(true);
+        }}
+        onMouseLeave={() => setStartAnimation(false)}
       >
-        <CustomToast
-          //@ts-ignore
-          message={props.message}
-          subHeading={props.subHeading}
-          hash={props.hash}
-        />
-        <Box onClick={handleDismiss} className='CustomToastWrapper-CloseBtn'>
+        <Box>
+          <CustomToast
+            //@ts-ignore
+            message={props.message}
+            subHeading={props.subHeading}
+            hash={props.hash}
+          />
+        </Box>
+
+        <Box
+          style={{
+            transform: startAnimation
+              ? "translate(0,0)"
+              : "translate(100%,-100%)",
+          }}
+          onClick={handleDismiss}
+          className="CustomToastWrapper-CloseBtn"
+        >
           <Image
-            src='/assets/icons/cross.svg'
-            alt='Raize-Club'
+            src="/assets/icons/cross.svg"
+            alt="Raize-Club"
             width={0}
             height={0}
             style={{
-              width: "14px",
-              height: "14px",
+              width: "10px",
+              height: "10px",
               objectFit: "cover",
             }}
           />

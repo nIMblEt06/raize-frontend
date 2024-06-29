@@ -22,11 +22,11 @@ const CustomToast: NextPage<Props> = ({ message, subHeading, hash }) => {
     }
   };
   return (
-    <Box className='Toast'>
-      <p className='Toast-Heading'>{message}</p>
-      <p className='Toast-SubHeading'>{subHeading}</p>
+    <Box className="Toast">
+      <span className="Toast-Heading">{message}</span>
+      <span className="Toast-SubHeading">{subHeading}</span>
       {hash && (
-        <Box onClick={openViewTransaction} className='Toast-ViewBtn'>
+        <Box onClick={openViewTransaction} className="Toast-ViewBtn">
           View Transaction
         </Box>
       )}

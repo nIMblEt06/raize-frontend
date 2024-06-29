@@ -1,3 +1,4 @@
+import { enqueueSnackbar } from "notistack";
 import { shortString } from "starknet";
 
 export const getProbabilites = (shares1: any, shares2: any) => {
@@ -39,4 +40,22 @@ export const getTimeBetween = (dateFuture: number, dateNow: number) => {
   hours = hours - days * 24;
   minutes = minutes - days * 24 * 60 - hours * 60;
   return [days, hours, minutes];
+};
+
+export const handleToast = (
+  heading: string,
+  subHeading: string,
+  type: string
+) => {
+  enqueueSnackbar(heading, {
+    //@ts-ignore
+    variant: "custom",
+    subHeading: subHeading,
+    type: type,
+    persist: true,
+    anchorOrigin: {
+      vertical: "top",
+      horizontal: "right",
+    },
+  });
 };

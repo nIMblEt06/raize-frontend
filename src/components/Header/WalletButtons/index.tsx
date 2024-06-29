@@ -19,18 +19,23 @@ import { CONTRACT_ADDRESS } from "@/components/helpers/constants";
 import abi from "../../../abi/ContractABI.json";
 import { getNumber } from "@/components/helpers/functions";
 import { motion } from "framer-motion";
+import { IoIosArrowDropdown } from "react-icons/io";
+import WalletDropdown from "./WalletDropdown";
+import useDropdown from "@/components/hooks/useDropdown";
 
 interface Props {}
 
 const WalletButtons: NextPage<Props> = ({}) => {
   const { address, connector } = useAccount();
   const router = useRouter();
-  const { disconnect } = useDisconnect();
   const { connectors, connect } = useConnect();
   const [winnings, setWinnings] = useState("0");
   const {
-    chain: { id, name },
-  } = useNetwork();
+    anchorEl: walletDropdownAnchor,
+    open: openWalletDropdown,
+    handleClose,
+    handleClick,
+  } = useDropdown();
 
   useEffect(() => {
     const connectToStarknet = async () => {
@@ -79,7 +84,7 @@ const WalletButtons: NextPage<Props> = ({}) => {
           </div>
           <motion.div
             whileTap={{ scale: 1.2 }}
-            onClick={() => disconnect()}
+            onClick={handleClick}
             className="AddressBtn"
           >
             <div className="AddressBtn-Logo">
@@ -88,7 +93,15 @@ const WalletButtons: NextPage<Props> = ({}) => {
               )}
             </div>
             <span>{shortenedAddress}</span>
+            <span className="DropdownIcon">
+              <IoIosArrowDropdown />
+            </span>
           </motion.div>
+          <WalletDropdown
+            anchorEl={walletDropdownAnchor}
+            open={openWalletDropdown}
+            handleClose={handleClose}
+          />
         </div>
       ) : (
         <ConnectWallet />
