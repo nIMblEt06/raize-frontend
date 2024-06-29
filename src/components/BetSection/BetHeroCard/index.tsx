@@ -8,12 +8,13 @@ import { useState } from "react";
 
 interface Props {
   category: string;
-  setActiveTab: Function;
   categoryIndex: number;
   categoryLogo: string;
   categoryName: string;
   cardBgColor: string;
   image: string;
+  setActiveTab: Function;
+  scrollFn?: Function;
 }
 
 const BetHeroCard: NextPage<Props> = ({
@@ -24,6 +25,7 @@ const BetHeroCard: NextPage<Props> = ({
   categoryName,
   cardBgColor,
   image,
+  scrollFn,
 }) => {
   const [startAnimation, setStartAnimation] = useState<boolean>(false);
 
@@ -55,7 +57,12 @@ const BetHeroCard: NextPage<Props> = ({
       <motion.div
         whileTap={{ scale: 1.2 }}
         className="Predict-Btn"
-        onClick={() => setActiveTab(categoryIndex)}
+        onClick={() => {
+          setActiveTab(categoryIndex);
+          if (scrollFn) {
+            scrollFn();
+          }
+        }}
       >
         Predict Now
       </motion.div>

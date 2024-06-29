@@ -17,6 +17,7 @@
     transition: all 0.1s ease-in-out;
 
     &:hover {
+        background: none;
         background-color: white;
         color: #F5841F;
     }
@@ -46,6 +47,7 @@
     transition: all 0.1s ease-in-out;
 
     &:hover {
+        background: none;
         background-color: white;
         border: 1px solid white;
         color: #F5841F;
