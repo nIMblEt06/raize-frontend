@@ -1,0 +1,78 @@
+.WalletModal-Container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    outline: none;
+
+    .WalletModal-Wrapper {
+        width: 400px;
+        padding: 30px;
+        background-color: #0F0F0F;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+
+        .WalletModal-CloseBtn {
+            position: absolute;
+            top: 20px;
+            right: 15px;
+            transform: translate(-50%, -50%);
+            width: 10px;
+            height: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+
+            &:hover {
+                opacity: 0.8;
+            }
+        }
+
+        .WalletModal-DetailsContainer {
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            border-right: 1px solid #292929;
+
+
+            .WalletModal-Logo {
+                width: 50px;
+                height: 50px;
+            }
+
+            .WalletModal-Details {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+
+                .Heading {
+                    font-family: 'GilmerMedium';
+                    font-weight: 700;
+                    font-size: 18px;
+                    color: #FFFFFF;
+                }
+
+                .Sub-Heading {
+                    width: 80%;
+                    font-family: 'GilmerRegular';
+                    font-weight: 400;
+                    font-size: 14px;
+                    color: #787878;
+                }
+            }
+        }
+
+        .WalletModal-ButtonContainer {
+            width: 50%;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 10px;
+        }
+    }
+}

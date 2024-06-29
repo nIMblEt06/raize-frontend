@@ -1,6 +1,7 @@
 "use client";
 import { NextPage } from "next";
 import "./styles.scss";
+import { useState } from "react";
 import { usePathname } from "next/navigation";
 
 import CustomLogo from "@/components/common/CustomIcons";
@@ -20,11 +21,16 @@ const HeaderLink: NextPage<Props> = ({
   linkCTA,
 }) => {
   const pathname = usePathname();
+  const [changeLogo, setChangeLogo] = useState<boolean>(false);
   return (
     <Link href={link} style={{ textDecoration: "none" }}>
-      <div className={pathname === link ? "HeaderLink" : "HeaderLink-White"}>
+      <div
+        onMouseEnter={() => setChangeLogo(true)}
+        onMouseLeave={() => setChangeLogo(false)}
+        className={pathname === link ? "HeaderLink" : "HeaderLink-White"}
+      >
         <div className="HeaderLink-Logo">
-          <CustomLogo src={pathname === link ? coloredIcon : whiteIcon} />
+          <CustomLogo src={changeLogo ? coloredIcon : whiteIcon} />
         </div>
         {linkCTA}
       </div>

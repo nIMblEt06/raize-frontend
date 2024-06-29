@@ -12,6 +12,7 @@
      justify-content: space-between;
      position: relative;
      overflow: hidden;
+     cursor: pointer;
 
      @include md {}
 
@@ -36,6 +37,7 @@
          background-size: cover;
          background-repeat: no-repeat;
          z-index: 1;
+         transition: all 0.2s ease-in-out;
      }
 
      .BetHeroCard-HeadingWrapper {
@@ -75,6 +77,7 @@
                  font-weight: 600;
                  font-size: 11px;
                  line-height: 24px;
+                 letter-spacing: 0.5px;
                  color: #FAFAFA;
 
                  @include md {}
@@ -108,17 +111,18 @@
                      font-style: normal;
                      font-weight: 600;
                      font-size: 14px;
+                     letter-spacing: 0.5px;
 
                      @include md {}
 
                      @include lg {}
 
                      @include xl {
-                         font-size: 16px;
+                         font-size: 15px;
                      }
 
                      @include xxl {
-                         font-size: 20px;
+                         font-size: 16px;
                      }
                  }
              }
@@ -132,6 +136,7 @@
              font-size: 16px;
              line-height: 48px;
              color: #E6E6E6;
+             letter-spacing: 0.5px;
 
 
              @include md {}
@@ -167,6 +172,8 @@
          align-items: center;
          cursor: pointer;
          z-index: 3;
+         letter-spacing: 0.5px;
+         transition: all 0.2s ease-in-out;
 
          @include md {}
 
@@ -189,10 +196,13 @@
 
      .Card-Image {
          position: absolute;
-         bottom: -10px;
+         bottom: 0px;
          right: 0;
-         width: 200px;
-         height: 120px;
+         width: 170px;
+         height: 90px;
+         z-index: 3;
+         cursor: pointer;
+
 
          @include md {}
 

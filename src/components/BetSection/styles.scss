@@ -87,6 +87,7 @@
         display: flex;
         justify-content: center;
         flex-wrap: wrap;
+        letter-spacing: 0.5px;
 
         &:hover {
           opacity: 0.8;
@@ -114,6 +115,7 @@
         width: fit-content;
         color: white;
         cursor: pointer;
+        letter-spacing: 0.5px;
         animation: fadeIn 0.2s ease-in-out forwards;
 
       }
@@ -124,6 +126,8 @@
       height: auto;
       flex-wrap: wrap;
       display: flex;
+      justify-content: center;
+      align-items: center;
       padding-bottom: 60px;
       flex-direction: row;
       gap: 20px;
@@ -132,8 +136,7 @@
 
       @include lg {}
 
-      @include xl {
-      }
+      @include xl {}
 
       @include xxl {}
 

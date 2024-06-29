@@ -1,5 +1,8 @@
 import { NextPage } from "next";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
+import { useInView } from "framer-motion";
+import { useRouter } from "next/navigation";
+
 import "./styles.scss";
 import CustomLogo from "@/components/common/CustomIcons";
 import {
@@ -8,8 +11,8 @@ import {
   STARKNET_LOGO,
   US_LOGO,
 } from "@/components/helpers/icons";
-import { useRouter } from "next/navigation";
-import { shortString, num } from "starknet";
+
+import { num } from "starknet";
 import { ETH_ADDRESS } from "@/components/helpers/constants";
 import { MarketContext } from "@/app/context/MarketProvider";
 import { Outcome } from "@/components/helpers/types";
@@ -29,6 +32,7 @@ interface Props {
   outcomes: Outcome[];
   moneyInPool: number;
   marketId: number;
+  index?: number;
 }
 
 const BetCard: NextPage<Props> = ({
@@ -41,8 +45,11 @@ const BetCard: NextPage<Props> = ({
   outcomes,
   moneyInPool,
   marketId,
+  index,
 }) => {
   const router = useRouter();
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true });
   const [percent1, setPercent1] = useState(0);
   const [percent2, setPercent2] = useState(0);
 
@@ -70,59 +77,79 @@ const BetCard: NextPage<Props> = ({
 
   const { setChoice } = useContext(MarketContext);
 
-  const handleOpen = (outcome: number) => {
-    setChoice(outcome);
-    router.push(`/bet-details/${marketId}`);
+  const stringToHex = (int: number) => {
+    const hex = int.toString(16); // Convert to hex without padding
+    const randomChars = Math.random().toString(36).substring(2, 6); // Generate 4 random characters
+    return `${hex}${randomChars}`;
   };
 
+  const handleOpen = (outcome: number) => {
+    setChoice(outcome);
+    const encodedId = stringToHex(marketId);
+    console.log(encodedId);
+    router.push(`/bet-details/${encodedId}`);
+  };
+
+  console.log(logo);
+
   return (
-    <div className='BetCard'>
-      <div className='BetCard-HeadingContainer'>
-        <div className='BetCard-CategoryContainer'>
-          <div className='CategoryLogo'>
+    <div
+      ref={ref}
+      style={{
+        opacity: isInView ? 1 : 0,
+        transition:
+          typeof index === "number"
+            ? `all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) ${(index % 3) / 10}s`
+            : "all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 0.5s",
+      }}
+      className="BetCard"
+    >
+      <div className="BetCard-HeadingContainer">
+        <div className="BetCard-CategoryContainer">
+          <div className="CategoryLogo">
             <CustomLogo src={logo} />
           </div>
-          <div className='CategoryName'>{getString(category)}</div>
+          <div className="CategoryName">{getString(category)}</div>
         </div>
-        <div className='Bet-Duration'>
-          <div className='DurationIcon'>
+        <div className="Bet-Duration">
+          <div className="DurationIcon">
             <CustomLogo src={CLOCK_ICON} />
           </div>
           {daysRemaining}d : {hoursRemaining}h : {minutes}m
         </div>
       </div>
-      <div className='BetCard-DetailsWrapper'>
-        <span className='Heading'>{heading}</span>
-        <span className='Sub-Heading'>{subHeading}</span>
+      <div className="BetCard-DetailsWrapper">
+        <span className="Heading">{heading}</span>
+        <span className="Sub-Heading">{subHeading}</span>
       </div>
-      <div className='BetCard-OptionsContainer'>
+      <div className="BetCard-OptionsContainer">
         <div
           onClick={() => {
             handleOpen(0);
           }}
-          className='BetCard-Option'
+          className="BetCard-Option"
         >
-          <span className='Green-Text'>{getString(outcomes[0].name)}</span>
-          <span className='Bet-Stat'>{percent1.toFixed(2)}%</span>
+          <span className="Green-Text">{getString(outcomes[0].name)}</span>
+          <span className="Bet-Stat">{percent1.toFixed(2)}%</span>
         </div>
         <div
           onClick={() => {
             handleOpen(1);
           }}
-          className='BetCard-Option'
+          className="BetCard-Option"
         >
-          <span className='Red-Text'>{getString(outcomes[1].name)}</span>
-          <span className='Bet-Stat'>{percent2.toFixed(2)}%</span>
+          <span className="Red-Text">{getString(outcomes[1].name)}</span>
+          <span className="Bet-Stat">{percent2.toFixed(2)}%</span>
         </div>
       </div>
-      <div className='Pool-Stats'>
+      <div className="Pool-Stats">
         Prize Pool
-        <span className='Pool-Value'>
+        <span className="Pool-Value">
           {(parseFloat(BigInt(moneyInPool).toString()) / 1e18)
             .toString()
             .slice(0, 7)}
         </span>
-        <div className='Starknet-logo'>
+        <div className="Starknet-logo">
           <CustomLogo
             src={
               num.toHex(betToken).toString().toLowerCase() ==

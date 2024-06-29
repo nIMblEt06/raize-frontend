@@ -6,16 +6,19 @@
     justify-content: center;
     align-items: center;
     gap: 10px;
-    border: 1px solid #F5841F;
-    border-radius: 10px;
-    color: #F5AD6C;
+    border-radius: 40px;
+    color: white;
     font-size: 14px;
+    letter-spacing: 0.5px;
     font-family: "GilmerRegular";
     text-decoration: none;
+    background-color: #F5841F;
     cursor: pointer;
+    transition: all 0.1s ease-in-out;
 
     &:hover {
-        opacity: 0.8;
+        background-color: white;
+        color: #F5841F;
     }
 
     .HeaderLink-Logo {
@@ -32,15 +35,20 @@
     align-items: center;
     gap: 10px;
     border: 1px solid #c6c6c6;
-    border-radius: 10px;
+    border-radius: 40px;
     color: #c6c6c6;
     font-size: 14px;
+    letter-spacing: 0.5px;
     font-family: "GilmerRegular";
     text-decoration: none;
     cursor: pointer;
 
+    transition: all 0.1s ease-in-out;
+
     &:hover {
-        opacity: 0.8;
+        background-color: white;
+        border: 1px solid white;
+        color: #F5841F;
     }
 
     .HeaderLink-Logo {

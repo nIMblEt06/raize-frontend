@@ -3,6 +3,8 @@ import "./styles.scss";
 
 import CustomLogo from "@/components/common/CustomIcons";
 import Image from "next/image";
+import { motion } from "framer-motion";
+import { useState } from "react";
 
 interface Props {
   category: string;
@@ -23,25 +25,47 @@ const BetHeroCard: NextPage<Props> = ({
   cardBgColor,
   image,
 }) => {
+  const [startAnimation, setStartAnimation] = useState<boolean>(false);
+
   return (
-    <div className='BetHeroCard' style={{ background: cardBgColor }}>
-      <div className='Background-Card'></div>
-      <div className='BetHeroCard-HeadingWrapper'>
-        <div className='BetHeroCard-HeadingContainer'>
-          <div className='Category'>{category}</div>
-          <div className='Bet-Details'>
-            <div className='Bet-Logo'>
+    <div
+      onMouseEnter={() => setStartAnimation(true)}
+      onMouseLeave={() => setStartAnimation(false)}
+      className="BetHeroCard"
+      style={{ background: cardBgColor }}
+    >
+      <div
+        style={{
+          transform: startAnimation ? "scale(1.2)" : "scale(1)",
+        }}
+        className="Background-Card"
+      ></div>
+      <div className="BetHeroCard-HeadingWrapper">
+        <div className="BetHeroCard-HeadingContainer">
+          <div className="Category">{category}</div>
+          <div className="Bet-Details">
+            <div className="Bet-Logo">
               <CustomLogo src={categoryLogo} />
             </div>
-            <span className='Bet-Name'>{categoryName}</span>
+            <span className="Bet-Name">{categoryName}</span>
           </div>
         </div>
-        <div className='Bet-Heading'>{categoryName}</div>
+        <div className="Bet-Heading">{categoryName}</div>
       </div>
-      <div className='Predict-Btn' onClick={() => setActiveTab(categoryIndex)}>Predict Now</div>
-      <div className='Card-Image'>
-        <Image src={image} alt={categoryName} width={350} height={200} />
-      </div>
+      <motion.div
+        whileTap={{ scale: 1.2 }}
+        className="Predict-Btn"
+        onClick={() => setActiveTab(categoryIndex)}
+      >
+        Predict Now
+      </motion.div>
+      <motion.div
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.8 }}
+        className="Card-Image"
+      >
+        <CustomLogo src={image} />
+      </motion.div>
     </div>
   );
 };

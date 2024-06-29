@@ -2,14 +2,18 @@
     box-sizing: border-box;
     background: linear-gradient(90deg, #F5841F 0%, #ED801E 25%, #E57B1D 50%, #D5731B 75%, #C66B19 100%);
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 8px;
+    border-radius: 40px;
     padding: 8px 30px;
+    letter-spacing: 0.5px;
     cursor: pointer;
     font-family: "GilmerMedium";
     color: white;
     font-size: 14px;
+    transition: all 0.3s ease-in-out;
 
     &:hover {
-        opacity: 0.8;
+        background: none;
+        background-color: white;
+        color: #C66B19;
     }
 }

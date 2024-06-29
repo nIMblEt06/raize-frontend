@@ -33,15 +33,16 @@ const BetDetailView: NextPage = () => {
       if (!contract) {
         return;
       }
-      contract.getMarket(pathname.split("/")[2]).then((res: any) => {
+      const encoded = pathname.split("/")[2];
+      const hexPart = encoded.slice(0, -4);
+      const marketId = parseInt(hexPart, 16);
+      contract.getMarket(marketId).then((res: any) => {
         setMarket(res);
       });
       if (!address) return;
-      contract
-        .hasUserPlacedBet(address, pathname.split("/")[2])
-        .then((res: any) => {
-          setUserPlacedBet(res);
-        });
+      contract.hasUserPlacedBet(address, marketId).then((res: any) => {
+        setUserPlacedBet(res);
+      });
     };
     getMarket();
   }, [contract, address, pathname]);
@@ -63,8 +64,8 @@ const BetDetailView: NextPage = () => {
   }, [userPlacedBet]);
 
   return (
-    <div className='BetDetailView'>
-      <div className='GoBack' onClick={handleBack}>
+    <div className="BetDetailView">
+      <div className="GoBack" onClick={handleBack}>
         <CustomLogo width={"30px"} height={"20px"} src={BACK_LOGO} />
         <div>Back</div>
       </div>

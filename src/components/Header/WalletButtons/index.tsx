@@ -18,11 +18,12 @@ import Image from "next/image";
 import { CONTRACT_ADDRESS } from "@/components/helpers/constants";
 import abi from "../../../abi/ContractABI.json";
 import { getNumber } from "@/components/helpers/functions";
+import { motion } from "framer-motion";
 
 interface Props {}
 
 const WalletButtons: NextPage<Props> = ({}) => {
-  const { address } = useAccount();
+  const { address, connector } = useAccount();
   const router = useRouter();
   const { disconnect } = useDisconnect();
   const { connectors, connect } = useConnect();
@@ -67,19 +68,27 @@ const WalletButtons: NextPage<Props> = ({}) => {
   }, [address, contract]);
 
   return (
-    <div className='WalletButtons'>
+    <div className="WalletButtons">
       {address ? (
-        <div className='Buttons'>
-          <div className='ClaimButton' onClick={goToClaim}>
-            <Image width={20} height={20} alt='StarkNet' src={ETH_LOGO} />
-            {winnings ? parseFloat(winnings).toFixed(2) : "0"} Claim
+        <div className="Buttons">
+          <div className="ClaimButton" onClick={goToClaim}>
+            <Image width={20} height={20} alt="StarkNet" src={ETH_LOGO} />
+            <span>
+              {winnings ? parseFloat(winnings).toFixed(2) : "0"} Claim
+            </span>
           </div>
-          <div onClick={() => disconnect()} className='AddressBtn'>
-            <div className='AddressBtn-Logo'>
-              <CustomLogo src={ARGENT_LOGO} />
+          <motion.div
+            whileTap={{ scale: 1.2 }}
+            onClick={() => disconnect()}
+            className="AddressBtn"
+          >
+            <div className="AddressBtn-Logo">
+              {connector?.icon.dark && (
+                <CustomLogo src={connector?.icon.dark} />
+              )}
             </div>
             <span>{shortenedAddress}</span>
-          </div>
+          </motion.div>
         </div>
       ) : (
         <ConnectWallet />

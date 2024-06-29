@@ -17,10 +17,11 @@
       background-clip: text;
       text-fill-color: transparent;
       padding-block: 6px;
-      font-size: 12px;
-      padding-inline: 15px;
-      border-radius: 12px;
+      font-size: 11px;
+      padding: 8px 10px;
+      border-radius: 8px;
       margin-right: 10px;
+      letter-spacing: 1px;
       border: 1px solid #d8c36d;
       cursor: pointer;
       display: flex;
@@ -28,8 +29,12 @@
       align-items: center;
       gap: 10px;
 
+      span {
+        margin-top: 1.5px;
+      }
+
       @include md {
-        padding-inline: 18px;
+        padding: 8px 20px;
         font-size: 14px;
       }
 
@@ -47,6 +52,7 @@
       font-family: "GilmerMedium";
       color: white;
       font-size: 11px;
+      letter-spacing: 1px;
       background-color: #202020;
       border: 1px solid #3d3d3d;
       text-align: center;
