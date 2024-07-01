@@ -64,7 +64,7 @@ const WalletButtons: NextPage<Props> = ({}) => {
     const getUserTotalWinnings = () => {
       if (!address) return;
       if (!contract) return;
-      contract.getUserTotalClaimable(address).then((res: any) => {
+      contract.get_user_total_claimable(address).then((res: any) => {
         setWinnings(getNumber(res.toString()));
       });
     };

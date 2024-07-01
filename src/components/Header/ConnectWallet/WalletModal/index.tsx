@@ -15,7 +15,6 @@ interface Props {
 
 const WalletModal: NextPage<Props> = ({ open, handleClose }) => {
   const { connectors, connect } = useConnect();
-  console.log(connectors);
   return (
     <Modal
       open={open}

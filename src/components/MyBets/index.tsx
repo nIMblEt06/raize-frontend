@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import OpenPositions from "./OpenPositions";
 import ClosedPositions from "./ClosedPositions";
 import "./styles.scss";
-import { Market } from "../helpers/types";
+import { Market, Outcome, UserBet } from "../helpers/types";
 import { useAccount, useContract } from "@starknet-react/core";
 import { CONTRACT_ADDRESS } from "../helpers/constants";
 import abi from "../../abi/ContractABI.json";
@@ -27,19 +27,23 @@ function MyBets() {
         return;
       }
       if (openMarkets.length > 0 || closedMarkets.length > 0) return;
-      const res = await contract.getUserMarkets(address);
+      const res = await contract.get_user_markets(address);
+      console.log(res);
       const openMarketsRes: Market[] = [];
       const closedMarketsRes: Market[] = [];
       const openBets: any[] = [];
       const closedBets: any[] = [];
       for (const market of res) {
-        if (market.isActive) {
+        if (market.is_active) {
           openMarketsRes.push(market);
         } else {
           closedMarketsRes.push(market);
         }
-        const outcomeAndBet = await contract.getOutcomeAndBet(address, market.marketId);
-        if (market.isActive) {
+        const outcomeAndBet: UserBet = await contract.get_outcome_and_bet(
+          address,
+          market.market_id
+        );
+        if (market.is_active) {
           openBets.push(outcomeAndBet);
         } else {
           closedBets.push(outcomeAndBet);

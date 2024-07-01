@@ -30,17 +30,11 @@ import { usePathname, useRouter } from "next/navigation";
 
 interface Props {
   outcomes: Outcome[];
-  betToken: string;
   moneyInPool: number;
   betPlaced: boolean;
 }
 
-const BetActions: NextPage<Props> = ({
-  outcomes,
-  betToken,
-  moneyInPool,
-  betPlaced,
-}) => {
+const BetActions: NextPage<Props> = ({ outcomes, moneyInPool, betPlaced }) => {
   const { address } = useAccount();
   const router = useRouter();
   const pathname = usePathname();
@@ -48,7 +42,6 @@ const BetActions: NextPage<Props> = ({
   const { choice, setChoice } = useContext(MarketContext);
   const [betAmount, setBetAmount] = useState("");
   const [potentialWinnings, setPotentialWinnings] = useState(0);
-  const [allowance, setAllowance] = useState(false);
   const [balance, setBalance] = useState("");
   const [percent1, setPercent1] = useState(0);
   const [percent2, setPercent2] = useState(0);
@@ -56,8 +49,8 @@ const BetActions: NextPage<Props> = ({
   useEffect(() => {
     if (!outcomes) return;
     const percentages = getProbabilites(
-      outcomes[0].boughtShares.toString(),
-      outcomes[1].boughtShares.toString()
+      outcomes[0].bought_shares.toString(),
+      outcomes[1].bought_shares.toString()
     );
     setPercent1(percentages[0]);
     setPercent2(percentages[1]);
@@ -81,7 +74,7 @@ const BetActions: NextPage<Props> = ({
             (parseFloat(value) +
               parseFloat(BigInt(moneyInPool).toString()) / 1e18)) /
             (parseFloat(value) +
-              parseFloat(outcomes[0].boughtShares.toString()) / 1e18)
+              parseFloat(outcomes[0].bought_shares.toString()) / 1e18)
         );
       } else {
         setPotentialWinnings(
@@ -89,7 +82,7 @@ const BetActions: NextPage<Props> = ({
             (parseFloat(value) +
               parseFloat(BigInt(moneyInPool).toString()) / 1e18)) /
             (parseFloat(value) +
-              parseFloat(outcomes[1].boughtShares.toString()) / 1e18)
+              parseFloat(outcomes[1].bought_shares.toString()) / 1e18)
         );
       }
     }
@@ -100,25 +93,27 @@ const BetActions: NextPage<Props> = ({
   });
 
   const { contract: tokenContract } = useContract({
-    address: betToken ? num.getHexString(betToken) : ETH_ADDRESS,
+    address: ETH_ADDRESS,
     abi: tokenABI,
   });
 
   const calls = useMemo(() => {
+    const encoded = pathname.split("/")[2];
+    const hexPart = encoded.slice(0, -4);
+    const marketId = parseInt(hexPart, 16);
     if (!address || !contract || betAmount == "" || !tokenContract) return [];
     return [
       tokenContract.populateTransaction["approve"]!(
         CONTRACT_ADDRESS,
         BigInt(parseFloat(betAmount) * 1e18)
       ),
-      contract.populateTransaction["buyShares"]!(
-        parseInt(pathname.split("/")[2]),
+      contract.populateTransaction["buy_shares"]!(
+        marketId,
         choice,
         BigInt(parseFloat(betAmount) * 1e18)
       ),
     ];
   }, [contract, address, choice, betAmount, tokenContract]);
-
 
   const { writeAsync, data, error, isError, isSuccess, isPending } =
     useContractWrite({
@@ -130,7 +125,7 @@ const BetActions: NextPage<Props> = ({
     tokenContract.balance_of(address).then((res: any) => {
       setBalance(res.toString());
     });
-  }, [tokenContract, address, betAmount, betToken]);
+  }, [tokenContract, address, betAmount]);
 
   const { isPending: pending, isSuccess: success } = useWaitForTransaction({
     hash: data?.transaction_hash,
@@ -160,13 +155,6 @@ const BetActions: NextPage<Props> = ({
       );
     }
   }, [data, isError, isPending, isSuccess, success]);
-
-  useEffect(() => {
-    if (!tokenContract || !address || betAmount == "") return;
-    tokenContract.allowance(address, CONTRACT_ADDRESS).then((res: any) => {
-      setAllowance(res >= BigInt(parseFloat(betAmount) * 1e18));
-    });
-  }, [tokenContract, address, betAmount, betToken]);
 
   const handleToast = (message: string, subHeading: string, hash?: string) => {
     enqueueSnackbar(message, {
@@ -225,15 +213,7 @@ const BetActions: NextPage<Props> = ({
         <Box className='InputWrapper'>
           <Box className='Input-Left'>
             <Box className='Starknet-logo'>
-              <CustomLogo
-                src={
-                  betToken &&
-                  num.toHex(betToken).toString().toLowerCase() ==
-                    ETH_ADDRESS.toLowerCase()
-                    ? ETH_LOGO
-                    : STARKNET_LOGO
-                }
-              />
+              <CustomLogo src={ETH_LOGO} />
             </Box>
             <input
               className='InputField'
@@ -258,15 +238,7 @@ const BetActions: NextPage<Props> = ({
             {potentialWinnings ? potentialWinnings.toFixed(5) : 0}
           </span>
           <Box className='Starknet-logo'>
-            <CustomLogo
-              src={
-                betToken &&
-                num.toHex(betToken).toString().toLowerCase() ==
-                  ETH_ADDRESS.toLowerCase()
-                  ? ETH_LOGO
-                  : STARKNET_LOGO
-              }
-            />
+            <CustomLogo src={ETH_LOGO} />
           </Box>
         </Box>
       </Box>

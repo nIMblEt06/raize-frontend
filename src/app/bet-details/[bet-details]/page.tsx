@@ -36,11 +36,11 @@ const BetDetailView: NextPage = () => {
       const encoded = pathname.split("/")[2];
       const hexPart = encoded.slice(0, -4);
       const marketId = parseInt(hexPart, 16);
-      contract.getMarket(marketId).then((res: any) => {
+      contract.get_market(marketId).then((res: any) => {
         setMarket(res);
       });
       if (!address) return;
-      contract.hasUserPlacedBet(address, marketId).then((res: any) => {
+      contract.has_user_placed_bet(address, marketId).then((res: any) => {
         setUserPlacedBet(res);
       });
     };
@@ -64,8 +64,8 @@ const BetDetailView: NextPage = () => {
   }, [userPlacedBet]);
 
   return (
-    <div className="BetDetailView">
-      <div className="GoBack" onClick={handleBack}>
+    <div className='BetDetailView'>
+      <div className='GoBack' onClick={handleBack}>
         <CustomLogo width={"30px"} height={"20px"} src={BACK_LOGO} />
         <div>Back</div>
       </div>
@@ -75,14 +75,12 @@ const BetDetailView: NextPage = () => {
         heading={market?.name || ""}
         logo={market?.image || ""}
         subHeading={market?.description || ""}
-        moneyInPool={market?.moneyInPool || 0}
-        betToken={market?.betToken || ""}
+        moneyInPool={market?.money_in_pool || 0}
       />
 
       <BetActions
         betPlaced={userPlacedBet}
-        moneyInPool={market?.moneyInPool!}
-        betToken={market?.betToken!}
+        moneyInPool={market?.money_in_pool!}
         outcomes={market?.outcomes!}
       />
     </div>

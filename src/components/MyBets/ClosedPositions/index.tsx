@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import "./styles.scss";
 import Image from "next/image";
 import StarknetLogo from "../../../../public/assets/logos/starknet.svg";
-import { Market } from "@/components/helpers/types";
+import { Market, UserBet } from "@/components/helpers/types";
 import { getNumber, getString } from "@/components/helpers/functions";
 import {
   useAccount,
@@ -19,7 +19,7 @@ import { useRouter } from "next/navigation";
 
 interface Props {
   closedMarkets: Market[];
-  closedBets: any;
+  closedBets: UserBet[];
 }
 
 enum WinStatus {
@@ -39,10 +39,10 @@ function ClosedPositions({ closedMarkets, closedBets }: Props) {
       const bet = closedBets[index];
       if (!bet) return WinStatus.Lost; // Default or error state
       if (
-        market.winningOutcome.Some &&
-        market.winningOutcome.Some.name === bet[0].name
+        market.winning_outcome.Some &&
+        market.winning_outcome.Some.name === bet.outcome.name
       ) {
-        return bet[1].hasClaimed ? WinStatus.Won : WinStatus.Claimable;
+        return bet.position.hasClaimed ? WinStatus.Won : WinStatus.Claimable;
       } else {
         return WinStatus.Lost;
       }
@@ -57,7 +57,7 @@ function ClosedPositions({ closedMarkets, closedBets }: Props) {
 
   const calls = useMemo(() => {
     if (!address || !contract || !marketId) return [];
-    return contract.populateTransaction["claimWinnings"]!(marketId, address);
+    return contract.populateTransaction["claim_winnings"]!(marketId, address);
   }, [marketId, contract, address]);
 
   const { writeAsync, data, error, isSuccess, isPending } = useContractWrite({
@@ -118,11 +118,11 @@ function ClosedPositions({ closedMarkets, closedBets }: Props) {
     const isClaimable = winStatus[index] === WinStatus.Claimable;
     const statusClass = isClaimable ? "Claim" : "";
     const onClickHandler = isClaimable
-      ? () => storeMarket(market.marketId)
+      ? () => storeMarket(market.market_id)
       : () => {};
 
     return (
-      <div className='Data' key={market.marketId}>
+      <div className='Data' key={market.market_id}>
         <p onClick={onClickHandler} className={`Status ${statusClass}`}>
           {winStatus[index]}
         </p>
@@ -131,22 +131,11 @@ function ClosedPositions({ closedMarkets, closedBets }: Props) {
           {new Date(parseInt(market.deadline)).toString().split("GMT")[0]}
         </p>
         <p className='BetToken StakedAmount'>
-          <Image
-            src={
-              market.betToken &&
-              num.toHex(market.betToken).toString().toLowerCase() ==
-                ETH_ADDRESS.toLowerCase()
-                ? ETH_LOGO
-                : STARKNET_LOGO
-            }
-            width={15}
-            height={15}
-            alt={"tokenImage"}
-          />{" "}
-          {getNumber(closedBets[index]?.[1].amount || "0")}
+          <Image src={ETH_LOGO} width={15} height={15} alt={"tokenImage"} />{" "}
+          {getNumber(closedBets[index]?.position.amount || "0")}
         </p>
         <p className='Yes Prediction'>
-          {getString(closedBets[index]?.[0].name || "0")}
+          {getString(closedBets[index]?.outcome.name || "0")}
         </p>
       </div>
     );

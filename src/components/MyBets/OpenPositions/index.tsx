@@ -1,16 +1,13 @@
 import React from "react";
 import "./styles.scss";
 import Image from "next/image";
-import StarknetLogo from "../../../../public/assets/logos/starknet.svg";
-import { Market } from "@/components/helpers/types";
+import { Market, UserBet } from "@/components/helpers/types";
 import { getNumber, getString } from "@/components/helpers/functions";
 import { ETH_LOGO, STARKNET_LOGO } from "@/components/helpers/icons";
-import { ETH_ADDRESS } from "@/components/helpers/constants";
-import { num } from "starknet";
 
 interface Props {
   openMarkets: Market[];
-  openBets: any;
+  openBets: UserBet[];
 }
 function OpenPositions({ openMarkets, openBets }: Props) {
   return (
@@ -32,25 +29,14 @@ function OpenPositions({ openMarkets, openBets }: Props) {
               {new Date(parseInt(market.deadline)).toString().split("GMT")[0]}
             </p>
             <p className='BetToken StakedAmount'>
-              <Image
-                src={
-                  market.betToken &&
-                  num.toHex(market.betToken).toString().toLowerCase() ==
-                    ETH_ADDRESS.toLowerCase()
-                    ? ETH_LOGO
-                    : STARKNET_LOGO
-                }
-                width={15}
-                height={15}
-                alt={"tokenImage"}
-              />{" "}
+              <Image src={ETH_LOGO} width={15} height={15} alt={"tokenImage"} />{" "}
               {openBets.length > 0 && openBets[index]
-                ? getNumber(openBets[index][1].amount)
+                ? getNumber(openBets[index].position.amount)
                 : "0"}
             </p>
             <p className='Yes Prediction'>
               {openBets.length > 0 && openBets[index]
-                ? getString(openBets[index][0].name)
+                ? getString(openBets[index].outcome.name)
                 : "0"}
             </p>
           </div>

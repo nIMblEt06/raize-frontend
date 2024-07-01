@@ -2,20 +2,28 @@ import { CairoOption } from "starknet";
 
 export interface Market {
   name: string;
-  betToken: string;
   category: string;
   deadline: string;
   description: string;
-  isActive: boolean;
-  isSettled: boolean;
+  is_active: boolean;
+  is_settled: boolean;
   outcomes: Outcome[];
-  winningOutcome: CairoOption<Outcome>;
-  moneyInPool: number;
+  winning_outcome: CairoOption<Outcome>;
+  money_in_pool: number;
   image: string;
-  marketId: number;
+  market_id: number;
 }
 
 export interface Outcome {
   name: string;
-  boughtShares: string;
+  bought_shares: string;
+}
+
+export interface UserPosition {
+  amount: number;
+  hasClaimed: boolean;
+}
+export interface UserBet {
+  outcome: Outcome;
+  position: UserPosition;
 }

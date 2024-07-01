@@ -51,8 +51,7 @@ const BetSection: NextPage<Props> = ({}) => {
       if (!contract) {
         return;
       }
-      contract.getAllMarkets().then((res: any) => {
-        console.log(res);
+      contract.get_all_markets().then((res: any) => {
         setMarkets(res);
       });
     };
@@ -63,35 +62,35 @@ const BetSection: NextPage<Props> = ({}) => {
     setActiveTab(0);
   }, []);
   return (
-    <div className="BetSection">
-      <div className="BetSection-Hero">
-        <div className="BetSection-HeroCard">
+    <div className='BetSection'>
+      <div className='BetSection-Hero'>
+        <div className='BetSection-HeroCard'>
           <BetHeroCard
             setActiveTab={setActiveTab}
             categoryIndex={4}
-            category="Sports"
+            category='Sports'
             categoryLogo={CRICKET_LOGO}
-            categoryName="Cricket World Cup"
-            cardBgColor="linear-gradient(67.58deg, #E20000 -0.96%, #9B3838 78.06%)"
-            image="/assets/images/kohli.svg"
+            categoryName='Cricket World Cup'
+            cardBgColor='linear-gradient(67.58deg, #E20000 -0.96%, #9B3838 78.06%)'
+            image='/assets/images/kohli.svg'
             scrollFn={scrollToElement}
           />
         </div>
-        <div className="BetSection-HeroCard">
+        <div className='BetSection-HeroCard'>
           <BetHeroCard
             setActiveTab={setActiveTab}
             categoryIndex={2}
-            category="Sports"
+            category='Sports'
             categoryLogo={CRICKET_LOGO}
-            categoryName="UEFA Euros 2024"
-            cardBgColor="linear-gradient(90deg, #143CDA 0%, #0D268A 100%)"
-            image="/assets/images/football.svg"
+            categoryName='UEFA Euros 2024'
+            cardBgColor='linear-gradient(90deg, #143CDA 0%, #0D268A 100%)'
+            image='/assets/images/football.svg'
             scrollFn={scrollToElement}
           />
         </div>
       </div>
-      <div ref={betCardWrapperDiv} className="BetSection-CardWrapper">
-        <div className="Tabs-Section">
+      <div ref={betCardWrapperDiv} className='BetSection-CardWrapper'>
+        <div className='Tabs-Section'>
           {tabList.map((item, index) => (
             <div
               key={index}
@@ -104,31 +103,31 @@ const BetSection: NextPage<Props> = ({}) => {
             </div>
           ))}
         </div>
-        <div className="BetCard-Wrapper">
-          {activeTab === 0
+        <div className='BetCard-Wrapper'>
+          {activeTab === 0 && markets.length > 0
             ? markets
                 .sort(
                   (a, b) =>
-                    parseFloat(getNumber(b.moneyInPool)) -
-                    parseFloat(getNumber(a.moneyInPool))
+                    parseFloat(getNumber(b.money_in_pool)) -
+                    parseFloat(getNumber(a.money_in_pool))
                 )
                 .map((item, index) => (
-                  <div key={index} className="BetCard-Container">
+                  <div key={index} className='BetCard-Container'>
                     <BetCard
                       index={index}
-                      marketId={item.marketId}
+                      marketId={item.market_id}
                       category={item.category}
                       logo={item.image}
                       duration={item.deadline}
                       heading={item.name}
-                      betToken={item.betToken}
                       subHeading={item.description}
                       outcomes={item.outcomes}
-                      moneyInPool={item.moneyInPool}
+                      moneyInPool={item.money_in_pool}
                     />
                   </div>
                 ))
-            : markets
+            : markets.length > 0 &&
+              markets
                 .filter((market) =>
                   tabList[activeTab].tabName.includes(
                     getString(market.category)
@@ -136,22 +135,21 @@ const BetSection: NextPage<Props> = ({}) => {
                 )
                 .sort(
                   (a, b) =>
-                    parseFloat(getNumber(b.moneyInPool)) -
-                    parseFloat(getNumber(a.moneyInPool))
+                    parseFloat(getNumber(b.money_in_pool)) -
+                    parseFloat(getNumber(a.money_in_pool))
                 )
                 .map((item, index) => (
-                  <div key={index} className="BetCard-Container">
+                  <div key={index} className='BetCard-Container'>
                     <BetCard
                       index={index}
-                      marketId={item.marketId}
+                      marketId={item.market_id}
                       category={item.category}
                       logo={item.image}
                       duration={item.deadline}
                       heading={item.name}
-                      betToken={item.betToken}
                       subHeading={item.description}
                       outcomes={item.outcomes}
-                      moneyInPool={item.moneyInPool}
+                      moneyInPool={item.money_in_pool}
                     />
                   </div>
                 ))}

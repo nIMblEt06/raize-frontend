@@ -19,7 +19,6 @@ interface Props {
   heading: string;
   subHeading: string;
   moneyInPool: number;
-  betToken: string;
 }
 
 const BetDetails: NextPage<Props> = ({
@@ -29,7 +28,6 @@ const BetDetails: NextPage<Props> = ({
   heading,
   subHeading,
   moneyInPool,
-  betToken,
 }) => {
   const [hoursRemaining, setHoursRemaining] = useState(0);
   const [daysRemaining, setDaysRemaining] = useState(0);
@@ -55,7 +53,7 @@ const BetDetails: NextPage<Props> = ({
             {category ? (
               category
             ) : (
-              <Skeleton variant="rectangular" width={100} height={20} />
+              <Skeleton variant='rectangular' width={100} height={20} />
             )}
           </span>
         </Box>
@@ -68,19 +66,19 @@ const BetDetails: NextPage<Props> = ({
           </span>
         </Box>
       </Box>
-      <Box className="BetDetails">
-        <span className="Heading">
+      <Box className='BetDetails'>
+        <span className='Heading'>
           {heading ? (
             heading
           ) : (
-            <Skeleton variant="rectangular" width={100} height={20} />
+            <Skeleton variant='rectangular' width={100} height={20} />
           )}
         </span>
-        <span className="Sub-Heading">
+        <span className='Sub-Heading'>
           {subHeading ? (
             subHeading
           ) : (
-            <Skeleton variant="rectangular" width={100} height={20} />
+            <Skeleton variant='rectangular' width={100} height={20} />
           )}
         </span>
       </Box>
@@ -88,15 +86,7 @@ const BetDetails: NextPage<Props> = ({
         Prize-Pool{" "}
         <span className='Colored'>{getNumber(moneyInPool).slice(0, 7)}</span>{" "}
         <Box className='Starknet-logo'>
-          <CustomLogo
-            src={
-              betToken &&
-              num.toHex(betToken).toString().toLowerCase() ==
-                ETH_ADDRESS.toLowerCase()
-                ? ETH_LOGO
-                : STARKNET_LOGO
-            }
-          />
+          <CustomLogo src={ETH_LOGO} />
         </Box>
       </Box>
     </Box>

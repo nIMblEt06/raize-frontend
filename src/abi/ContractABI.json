@@ -59,7 +59,7 @@
                 "type": "core::felt252"
             },
             {
-                "name": "boughtShares",
+                "name": "bought_shares",
                 "type": "core::integer::u256"
             }
         ]
@@ -87,7 +87,7 @@
                 "type": "core::byte_array::ByteArray"
             },
             {
-                "name": "marketId",
+                "name": "market_id",
                 "type": "core::integer::u256"
             },
             {
@@ -107,11 +107,11 @@
                 "type": "core::byte_array::ByteArray"
             },
             {
-                "name": "isSettled",
+                "name": "is_settled",
                 "type": "core::bool"
             },
             {
-                "name": "isActive",
+                "name": "is_active",
                 "type": "core::bool"
             },
             {
@@ -119,15 +119,11 @@
                 "type": "core::integer::u256"
             },
             {
-                "name": "betToken",
-                "type": "core::starknet::contract_address::ContractAddress"
-            },
-            {
-                "name": "winningOutcome",
+                "name": "winning_outcome",
                 "type": "core::option::Option::<raize_contracts::MarketFactory::Outcome>"
             },
             {
-                "name": "moneyInPool",
+                "name": "money_in_pool",
                 "type": "core::integer::u256"
             }
         ]
@@ -141,8 +137,22 @@
                 "type": "core::integer::u256"
             },
             {
-                "name": "hasClaimed",
+                "name": "has_claimed",
                 "type": "core::bool"
+            }
+        ]
+    },
+    {
+        "type": "struct",
+        "name": "raize_contracts::MarketFactory::UserBet",
+        "members": [
+            {
+                "name": "outcome",
+                "type": "raize_contracts::MarketFactory::Outcome"
+            },
+            {
+                "name": "position",
+                "type": "raize_contracts::MarketFactory::UserPosition"
             }
         ]
     },
@@ -152,7 +162,7 @@
         "items": [
             {
                 "type": "function",
-                "name": "createMarket",
+                "name": "create_market",
                 "inputs": [
                     {
                         "name": "name",
@@ -165,10 +175,6 @@
                     {
                         "name": "outcomes",
                         "type": "(core::felt252, core::felt252)"
-                    },
-                    {
-                        "name": "betToken",
-                        "type": "core::starknet::contract_address::ContractAddress"
                     },
                     {
                         "name": "category",
@@ -188,7 +194,7 @@
             },
             {
                 "type": "function",
-                "name": "getMarketCount",
+                "name": "get_market_count",
                 "inputs": [],
                 "outputs": [
                     {
@@ -199,14 +205,14 @@
             },
             {
                 "type": "function",
-                "name": "buyShares",
+                "name": "buy_shares",
                 "inputs": [
                     {
-                        "name": "marketId",
+                        "name": "market_id",
                         "type": "core::integer::u256"
                     },
                     {
-                        "name": "tokenToMint",
+                        "name": "token_to_mint",
                         "type": "core::integer::u8"
                     },
                     {
@@ -223,14 +229,14 @@
             },
             {
                 "type": "function",
-                "name": "settleMarket",
+                "name": "settle_market",
                 "inputs": [
                     {
-                        "name": "marketId",
+                        "name": "market_id",
                         "type": "core::integer::u256"
                     },
                     {
-                        "name": "winningOutcome",
+                        "name": "winning_outcome",
                         "type": "core::integer::u8"
                     }
                 ],
@@ -239,10 +245,10 @@
             },
             {
                 "type": "function",
-                "name": "toggleMarketStatus",
+                "name": "toggle_market_status",
                 "inputs": [
                     {
-                        "name": "marketId",
+                        "name": "market_id",
                         "type": "core::integer::u256"
                     }
                 ],
@@ -251,15 +257,11 @@
             },
             {
                 "type": "function",
-                "name": "claimWinnings",
+                "name": "claim_winnings",
                 "inputs": [
                     {
-                        "name": "marketId",
+                        "name": "market_id",
                         "type": "core::integer::u256"
-                    },
-                    {
-                        "name": "receiver",
-                        "type": "core::starknet::contract_address::ContractAddress"
                     }
                 ],
                 "outputs": [],
@@ -267,10 +269,10 @@
             },
             {
                 "type": "function",
-                "name": "getMarket",
+                "name": "get_market",
                 "inputs": [
                     {
-                        "name": "marketId",
+                        "name": "market_id",
                         "type": "core::integer::u256"
                     }
                 ],
@@ -283,7 +285,7 @@
             },
             {
                 "type": "function",
-                "name": "getAllMarkets",
+                "name": "get_all_markets",
                 "inputs": [],
                 "outputs": [
                     {
@@ -294,7 +296,7 @@
             },
             {
                 "type": "function",
-                "name": "getMarketByCategory",
+                "name": "get_market_by_category",
                 "inputs": [
                     {
                         "name": "category",
@@ -310,7 +312,7 @@
             },
             {
                 "type": "function",
-                "name": "getUserMarkets",
+                "name": "get_user_markets",
                 "inputs": [
                     {
                         "name": "user",
@@ -326,27 +328,7 @@
             },
             {
                 "type": "function",
-                "name": "checkForApproval",
-                "inputs": [
-                    {
-                        "name": "token",
-                        "type": "core::starknet::contract_address::ContractAddress"
-                    },
-                    {
-                        "name": "amount",
-                        "type": "core::integer::u256"
-                    }
-                ],
-                "outputs": [
-                    {
-                        "type": "core::bool"
-                    }
-                ],
-                "state_mutability": "view"
-            },
-            {
-                "type": "function",
-                "name": "getOwner",
+                "name": "get_owner",
                 "inputs": [],
                 "outputs": [
                     {
@@ -357,7 +339,7 @@
             },
             {
                 "type": "function",
-                "name": "getTreasuryWallet",
+                "name": "get_treasury_wallet",
                 "inputs": [],
                 "outputs": [
                     {
@@ -368,7 +350,7 @@
             },
             {
                 "type": "function",
-                "name": "setTreasuryWallet",
+                "name": "set_treasury_wallet",
                 "inputs": [
                     {
                         "name": "wallet",
@@ -392,27 +374,27 @@
             },
             {
                 "type": "function",
-                "name": "getOutcomeAndBet",
+                "name": "get_outcome_and_bet",
                 "inputs": [
                     {
                         "name": "user",
                         "type": "core::starknet::contract_address::ContractAddress"
                     },
                     {
-                        "name": "marketId",
+                        "name": "market_id",
                         "type": "core::integer::u256"
                     }
                 ],
                 "outputs": [
                     {
-                        "type": "(raize_contracts::MarketFactory::Outcome, raize_contracts::MarketFactory::UserPosition)"
+                        "type": "raize_contracts::MarketFactory::UserBet"
                     }
                 ],
                 "state_mutability": "view"
             },
             {
                 "type": "function",
-                "name": "getUserTotalClaimable",
+                "name": "get_user_total_claimable",
                 "inputs": [
                     {
                         "name": "user",
@@ -428,14 +410,14 @@
             },
             {
                 "type": "function",
-                "name": "hasUserPlacedBet",
+                "name": "has_user_placed_bet",
                 "inputs": [
                     {
                         "name": "user",
                         "type": "core::starknet::contract_address::ContractAddress"
                     },
                     {
-                        "name": "marketId",
+                        "name": "market_id",
                         "type": "core::integer::u256"
                     }
                 ],
@@ -445,6 +427,53 @@
                     }
                 ],
                 "state_mutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "settle_crypto_market",
+                "inputs": [
+                    {
+                        "name": "market_id",
+                        "type": "core::integer::u256"
+                    },
+                    {
+                        "name": "current_timestamp",
+                        "type": "core::integer::u256"
+                    },
+                    {
+                        "name": "price_key",
+                        "type": "core::felt252"
+                    },
+                    {
+                        "name": "conditions",
+                        "type": "core::integer::u8"
+                    },
+                    {
+                        "name": "amount",
+                        "type": "core::integer::u128"
+                    }
+                ],
+                "outputs": [],
+                "state_mutability": "external"
+            },
+            {
+                "type": "function",
+                "name": "add_admin",
+                "inputs": [
+                    {
+                        "name": "admin",
+                        "type": "core::starknet::contract_address::ContractAddress"
+                    }
+                ],
+                "outputs": [],
+                "state_mutability": "external"
+            },
+            {
+                "type": "function",
+                "name": "remove_all_markets",
+                "inputs": [],
+                "outputs": [],
+                "state_mutability": "external"
             }
         ]
     },
