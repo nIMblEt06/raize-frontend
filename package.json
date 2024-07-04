@@ -14,8 +14,8 @@
     "@mui/material": "^5.15.21",
     "@mui/styles": "^5.15.21",
     "@starknet-react/chains": "^0.1.0",
-    "@starknet-react/core": "^2.1.0",
-    "framer-motion": "^11.2.12",
+    "@starknet-react/core": "^2.8.3",
+    "framer-motion": "^11.2.13",
     "get-starknet-core": "^3.2.0",
     "hex-encode-decode": "^1.0.0",
     "next": "14.0.2",
@@ -26,7 +26,7 @@
     "react-icons": "^5.2.1",
     "react-select": "^5.8.0",
     "rsuite": "^5.65.0",
-    "starknet": "^6.10.0"
+    "starknet": "^6.11.0"
   },
   "devDependencies": {
     "@types/node": "^20",
