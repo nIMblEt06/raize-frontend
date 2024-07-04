@@ -47,7 +47,7 @@ const WalletModal: NextPage<Props> = ({ open, handleClose }) => {
                     key={connector.id}
                     logo={connector.icon.dark}
                     name={connector.name}
-                    handleConnectWallet={() => connect({ connector })}
+                    connector={connector}
                   />
                 ))}
             </Box>
