@@ -30,15 +30,26 @@ const BetDetailView: NextPage = () => {
 
   useEffect(() => {
     const getMarket = () => {
+      const categoryName = pathname.split("/")[2];
       if (!contract) {
         return;
       }
       const encoded = pathname.split("/")[3];
       const hexPart = encoded.slice(0, -4);
       const marketId = parseInt(hexPart, 16);
-      contract.get_market(marketId).then((res: any) => {
-        setMarket(res);
-      });
+      if (categoryName === "Sports") {
+        contract.get_sports_market(marketId).then((res: any) => {
+          setMarket(res);
+        });
+      } else if (categoryName === "Crypto-Market") {
+        contract.get_crypto_market(marketId).then((res: any) => {
+          setMarket(res);
+        });
+      } else {
+        contract.get_market(marketId).then((res: any) => {
+          setMarket(res);
+        });
+      }
       if (!address) return;
       contract.has_user_placed_bet(address, marketId).then((res: any) => {
         setUserPlacedBet(res);
@@ -64,8 +75,8 @@ const BetDetailView: NextPage = () => {
   }, [userPlacedBet]);
 
   return (
-    <div className="BetDetailView">
-      <div className="GoBack" onClick={handleBack}>
+    <div className='BetDetailView'>
+      <div className='GoBack' onClick={handleBack}>
         <CustomLogo width={"30px"} height={"20px"} src={BACK_LOGO} />
         <div>Back</div>
       </div>
