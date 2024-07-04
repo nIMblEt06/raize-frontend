@@ -182,7 +182,6 @@ export default function AdminPortal() {
     <main className='Admin'>
       <div className='Heading-Section'>
         <div>Market Dashboard</div>
-        <div>Raize Admin Control</div>
       </div>
       <div className='Content-Section'>
         <Box className='InputContainer'>

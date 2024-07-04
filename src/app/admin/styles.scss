@@ -1,13 +1,13 @@
 .Admin {
-  min-height: calc(100vh - 70px);
+  min-height: calc(100vh - 130px);
   color: #e8e8e8;
   font-family: "GilmerRegular";
   .Heading-Section {
     display: flex;
-    justify-content: space-between;
-    width: 90%;
+    justify-content: center;
+    font-family: "GilmerMedium";
     margin: 50px auto;
-    font-size: 20px;
+    font-size: 32px;
   }
   .Content-Section {
     background-color: #1f1f1f;
