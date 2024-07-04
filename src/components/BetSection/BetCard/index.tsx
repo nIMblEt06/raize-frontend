@@ -84,7 +84,7 @@ const BetCard: NextPage<Props> = ({
   const handleOpen = (outcome: number) => {
     setChoice(outcome);
     const encodedId = stringToHex(marketId);
-    router.push(`/bet-details/${encodedId}`);
+    router.push(`/bet-details/${getString(category)}/${encodedId}`);
   };
 
   return (
@@ -97,54 +97,54 @@ const BetCard: NextPage<Props> = ({
             ? `all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) ${(index % 3) / 10}s`
             : "all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 0.5s",
       }}
-      className='BetCard'
+      className="BetCard"
     >
-      <div className='BetCard-HeadingContainer'>
-        <div className='BetCard-CategoryContainer'>
-          <div className='CategoryLogo'>
+      <div className="BetCard-HeadingContainer">
+        <div className="BetCard-CategoryContainer">
+          <div className="CategoryLogo">
             <CustomLogo src={logo} />
           </div>
-          <div className='CategoryName'>{getString(category)}</div>
+          <div className="CategoryName">{getString(category)}</div>
         </div>
-        <div className='Bet-Duration'>
-          <div className='DurationIcon'>
+        <div className="Bet-Duration">
+          <div className="DurationIcon">
             <CustomLogo src={CLOCK_ICON} />
           </div>
           {daysRemaining}d : {hoursRemaining}h : {minutes}m
         </div>
       </div>
-      <div className='BetCard-DetailsWrapper'>
-        <span className='Heading'>{heading}</span>
-        <span className='Sub-Heading'>{subHeading}</span>
+      <div className="BetCard-DetailsWrapper">
+        <span className="Heading">{heading}</span>
+        <span className="Sub-Heading">{subHeading}</span>
       </div>
-      <div className='BetCard-OptionsContainer'>
+      <div className="BetCard-OptionsContainer">
         <div
           onClick={() => {
             handleOpen(0);
           }}
-          className='BetCard-Option'
+          className="BetCard-Option"
         >
-          <span className='Green-Text'>{getString(outcomes[0].name)}</span>
-          <span className='Bet-Stat'>{percent1.toFixed(2)}%</span>
+          <span className="Green-Text">{getString(outcomes[0].name)}</span>
+          <span className="Bet-Stat">{percent1.toFixed(2)}%</span>
         </div>
         <div
           onClick={() => {
             handleOpen(1);
           }}
-          className='BetCard-Option'
+          className="BetCard-Option"
         >
-          <span className='Red-Text'>{getString(outcomes[1].name)}</span>
-          <span className='Bet-Stat'>{percent2.toFixed(2)}%</span>
+          <span className="Red-Text">{getString(outcomes[1].name)}</span>
+          <span className="Bet-Stat">{percent2.toFixed(2)}%</span>
         </div>
       </div>
-      <div className='Pool-Stats'>
+      <div className="Pool-Stats">
         Prize Pool
-        <span className='Pool-Value'>
+        <span className="Pool-Value">
           {(parseFloat(BigInt(moneyInPool).toString()) / 1e18)
             .toString()
             .slice(0, 7)}
         </span>
-        <div className='Starknet-logo'>
+        <div className="Starknet-logo">
           <CustomLogo src={ETH_LOGO} />
         </div>
       </div>

@@ -1,25 +1,37 @@
 @import "../../../app/mixin.scss";
 
 .HeaderLink {
-    padding: 8px 20px;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 10px;
     border-radius: 40px;
-    color: white;
-    font-size: 14px;
+    color: #F5841F;
+    font-size: 16px;
     letter-spacing: 0.5px;
     font-family: "GilmerRegular";
     text-decoration: none;
-    background-color: #F5841F;
     cursor: pointer;
+    filter: drop-shadow(5px 5px 31px #F5841F);
     transition: all 0.1s ease-in-out;
 
+    @include md {}
+
+    @include lg {
+        font-size: 14px;
+    }
+
+    @include xl {
+        font-size: 14px;
+    }
+
+    @include xxl {
+        font-size: 16px;
+    }
+
     &:hover {
-        background: none;
-        background-color: white;
-        color: #F5841F;
+        filter: none;
+        color: white;
     }
 
     .HeaderLink-Logo {
@@ -30,15 +42,13 @@
 }
 
 .HeaderLink-White {
-    padding: 8px 20px;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 10px;
-    border: 1px solid #c6c6c6;
     border-radius: 40px;
     color: #c6c6c6;
-    font-size: 14px;
+    font-size: 16px;
     letter-spacing: 0.5px;
     font-family: "GilmerRegular";
     text-decoration: none;
@@ -46,11 +56,23 @@
 
     transition: all 0.1s ease-in-out;
 
+    @include md {}
+
+    @include lg {
+        font-size: 14px;
+    }
+
+    @include xl {
+        font-size: 14px;
+    }
+
+    @include xxl {
+        font-size: 16px;
+    }
+
     &:hover {
-        background: none;
-        background-color: white;
-        border: 1px solid white;
         color: #F5841F;
+        filter: drop-shadow(5px 5px 31px #F5841F);
     }
 
     .HeaderLink-Logo {

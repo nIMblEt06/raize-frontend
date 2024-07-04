@@ -76,12 +76,12 @@ const WalletButtons: NextPage<Props> = ({}) => {
     <div className="WalletButtons">
       {address ? (
         <div className="Buttons">
-          <div className="ClaimButton" onClick={goToClaim}>
+          {/* <div className="ClaimButton" onClick={goToClaim}>
             <Image width={20} height={20} alt="StarkNet" src={ETH_LOGO} />
             <span>
               {winnings ? parseFloat(winnings).toFixed(2) : "0"} Claim
             </span>
-          </div>
+          </div> */}
           <motion.div
             whileTap={{ scale: 1.2 }}
             onClick={handleClick}

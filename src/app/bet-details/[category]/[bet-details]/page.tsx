@@ -5,7 +5,7 @@ import React, { useContext, useEffect, useState } from "react";
 import "./styles.scss";
 import { usePathname, useRouter } from "next/navigation";
 import { useAccount, useContract } from "@starknet-react/core";
-import abi from "../../../abi/ContractABI.json";
+import abi from "../../../../abi/ContractABI.json";
 import { CONTRACT_ADDRESS } from "@/components/helpers/constants";
 import { Market } from "@/components/helpers/types";
 import { NextPage } from "next";
@@ -33,7 +33,7 @@ const BetDetailView: NextPage = () => {
       if (!contract) {
         return;
       }
-      const encoded = pathname.split("/")[2];
+      const encoded = pathname.split("/")[3];
       const hexPart = encoded.slice(0, -4);
       const marketId = parseInt(hexPart, 16);
       contract.get_market(marketId).then((res: any) => {
@@ -64,8 +64,8 @@ const BetDetailView: NextPage = () => {
   }, [userPlacedBet]);
 
   return (
-    <div className='BetDetailView'>
-      <div className='GoBack' onClick={handleBack}>
+    <div className="BetDetailView">
+      <div className="GoBack" onClick={handleBack}>
         <CustomLogo width={"30px"} height={"20px"} src={BACK_LOGO} />
         <div>Back</div>
       </div>

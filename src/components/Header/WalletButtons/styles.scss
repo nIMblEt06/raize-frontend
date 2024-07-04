@@ -67,11 +67,19 @@
         font-size: 14px;
       }
 
-      @include lg {}
+      @include lg {
+        padding: 3px 15px;
+        font-size: 12px;
+      }
 
-      @include xl {}
+      @include xl {
+        font-size: 12px;
+      }
 
-      @include xxl {}
+      @include xxl {
+        padding: 5px 15px;
+        font-size: 14px;
+      }
 
       &:hover {
         background-color: #101010;
@@ -84,6 +92,17 @@
       .DropdownIcon {
         font-size: 18px;
         margin-top: 5px;
+        display: none;
+
+        @include md {
+          display: block;
+        }
+
+        @include lg {}
+
+        @include xl {}
+
+        @include xxl {}
       }
 
       .AddressBtn-Logo {

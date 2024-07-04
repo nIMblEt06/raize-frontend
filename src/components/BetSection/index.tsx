@@ -62,35 +62,35 @@ const BetSection: NextPage<Props> = ({}) => {
     setActiveTab(0);
   }, []);
   return (
-    <div className='BetSection'>
-      <div className='BetSection-Hero'>
-        <div className='BetSection-HeroCard'>
+    <div className="BetSection">
+      <div className="BetSection-Hero">
+        <div className="BetSection-HeroCard">
           <BetHeroCard
             setActiveTab={setActiveTab}
             categoryIndex={4}
-            category='Sports'
+            category="Sports"
             categoryLogo={CRICKET_LOGO}
-            categoryName='Cricket World Cup'
-            cardBgColor='linear-gradient(67.58deg, #E20000 -0.96%, #9B3838 78.06%)'
-            image='/assets/images/kohli.svg'
+            categoryName="Cricket World Cup"
+            cardBgColor="linear-gradient(67.58deg, #E20000 -0.96%, #9B3838 78.06%)"
+            image="/assets/images/kohli.svg"
             scrollFn={scrollToElement}
           />
         </div>
-        <div className='BetSection-HeroCard'>
+        <div className="BetSection-HeroCard">
           <BetHeroCard
             setActiveTab={setActiveTab}
             categoryIndex={2}
-            category='Sports'
+            category="Sports"
             categoryLogo={CRICKET_LOGO}
-            categoryName='UEFA Euros 2024'
-            cardBgColor='linear-gradient(90deg, #143CDA 0%, #0D268A 100%)'
-            image='/assets/images/football.svg'
+            categoryName="UEFA Euros 2024"
+            cardBgColor="linear-gradient(90deg, #143CDA 0%, #0D268A 100%)"
+            image="/assets/images/football.svg"
             scrollFn={scrollToElement}
           />
         </div>
       </div>
-      <div ref={betCardWrapperDiv} className='BetSection-CardWrapper'>
-        <div className='Tabs-Section'>
+      <div ref={betCardWrapperDiv} className="BetSection-CardWrapper">
+        <div className="Tabs-Section">
           {tabList.map((item, index) => (
             <div
               key={index}
@@ -103,7 +103,7 @@ const BetSection: NextPage<Props> = ({}) => {
             </div>
           ))}
         </div>
-        <div className='BetCard-Wrapper'>
+        <div className="BetCard-Wrapper">
           {activeTab === 0 && markets.length > 0
             ? markets
                 .sort(
@@ -112,7 +112,7 @@ const BetSection: NextPage<Props> = ({}) => {
                     parseFloat(getNumber(a.money_in_pool))
                 )
                 .map((item, index) => (
-                  <div key={index} className='BetCard-Container'>
+                  <div key={index} className="BetCard-Container">
                     <BetCard
                       index={index}
                       marketId={item.market_id}
@@ -139,7 +139,7 @@ const BetSection: NextPage<Props> = ({}) => {
                     parseFloat(getNumber(a.money_in_pool))
                 )
                 .map((item, index) => (
-                  <div key={index} className='BetCard-Container'>
+                  <div key={index} className="BetCard-Container">
                     <BetCard
                       index={index}
                       marketId={item.market_id}

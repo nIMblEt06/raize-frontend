@@ -29,9 +29,9 @@ const HeaderLink: NextPage<Props> = ({
         onMouseLeave={() => setChangeLogo(false)}
         className={pathname === link ? "HeaderLink" : "HeaderLink-White"}
       >
-        <div className="HeaderLink-Logo">
+        {/* <div className="HeaderLink-Logo">
           <CustomLogo src={changeLogo ? coloredIcon : whiteIcon} />
-        </div>
+        </div> */}
         {linkCTA}
       </div>
     </Link>
