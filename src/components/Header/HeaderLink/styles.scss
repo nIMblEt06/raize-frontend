@@ -5,15 +5,34 @@
     justify-content: center;
     align-items: center;
     gap: 10px;
-    border-radius: 40px;
     color: #F5841F;
     font-size: 16px;
     letter-spacing: 0.5px;
     font-family: "GilmerRegular";
     text-decoration: none;
+    height: 100%;
     cursor: pointer;
     filter: drop-shadow(5px 5px 31px #F5841F);
     transition: all 0.1s ease-in-out;
+
+    &::after {
+        content: '';
+        position: absolute;
+        bottom: -27px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 500px;
+        height: 1px;
+        background: url('/assets/images/line.svg');
+        background-size: contain;
+        background-position: center center;
+        background-repeat: no-repeat;
+        transition: all 0.2s ease;
+    }
+
+    &:hover::after {
+        width: 0px;
+    }
 
     @include md {}
 
@@ -72,7 +91,6 @@
 
     &:hover {
         color: #F5841F;
-        filter: drop-shadow(5px 5px 31px #F5841F);
     }
 
     .HeaderLink-Logo {

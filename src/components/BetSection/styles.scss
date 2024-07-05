@@ -140,6 +140,19 @@
 
       @include xxl {}
 
+      .PlaceholderText {
+        width: 100%;
+        padding-top: 100px;
+        text-align: center;
+        font-family: 'GilmerMedium';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 30px;
+        color: #9C9C9C;
+
+
+      }
+
       .BetCard-Container {
         width: 100%;
 

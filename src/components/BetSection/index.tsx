@@ -10,6 +10,7 @@ import abi from "../../abi/ContractABI.json";
 import { CONTRACT_ADDRESS } from "../helpers/constants";
 import { Market } from "../helpers/types";
 import { getNumber, getString } from "../helpers/functions";
+import { motion } from "framer-motion";
 interface Props {}
 
 const tabList = [
@@ -68,35 +69,35 @@ const BetSection: NextPage<Props> = ({}) => {
     setActiveTab(0);
   }, []);
   return (
-    <div className='BetSection'>
-      <div className='BetSection-Hero'>
-        <div className='BetSection-HeroCard'>
+    <div className="BetSection">
+      <div className="BetSection-Hero">
+        <div className="BetSection-HeroCard">
           <BetHeroCard
             setActiveTab={setActiveTab}
             categoryIndex={2}
-            category='Sports'
+            category="Sports"
             categoryLogo={CRICKET_LOGO}
-            categoryName='Cricket World Cup'
-            cardBgColor='linear-gradient(67.58deg, #E20000 -0.96%, #9B3838 78.06%)'
-            image='/assets/images/kohli.svg'
+            categoryName="Cricket World Cup"
+            cardBgColor="linear-gradient(67.58deg, #E20000 -0.96%, #9B3838 78.06%)"
+            image="/assets/images/kohli.svg"
             scrollFn={scrollToElement}
           />
         </div>
-        <div className='BetSection-HeroCard'>
+        <div className="BetSection-HeroCard">
           <BetHeroCard
             setActiveTab={setActiveTab}
             categoryIndex={2}
-            category='Sports'
+            category="Sports"
             categoryLogo={CRICKET_LOGO}
-            categoryName='UEFA Euros 2024'
-            cardBgColor='linear-gradient(90deg, #143CDA 0%, #0D268A 100%)'
-            image='/assets/images/football.svg'
+            categoryName="UEFA Euros 2024"
+            cardBgColor="linear-gradient(90deg, #143CDA 0%, #0D268A 100%)"
+            image="/assets/images/football.svg"
             scrollFn={scrollToElement}
           />
         </div>
       </div>
-      <div ref={betCardWrapperDiv} className='BetSection-CardWrapper'>
-        <div className='Tabs-Section'>
+      <div ref={betCardWrapperDiv} className="BetSection-CardWrapper">
+        <div className="Tabs-Section">
           {tabList.map((item, index) => (
             <div
               key={index}
@@ -109,56 +110,67 @@ const BetSection: NextPage<Props> = ({}) => {
             </div>
           ))}
         </div>
-        <div className='BetCard-Wrapper'>
-          {activeTab === 0 && markets.length > 0
-            ? markets
-                .sort(
-                  (a, b) =>
-                    parseFloat(getNumber(b.money_in_pool)) -
-                    parseFloat(getNumber(a.money_in_pool))
-                )
-                .map((item, index) => (
-                  <div key={index} className='BetCard-Container'>
-                    <BetCard
-                      index={index}
-                      marketId={item.market_id}
-                      category={item.category}
-                      logo={item.image}
-                      duration={item.deadline}
-                      heading={item.name}
-                      subHeading={item.description}
-                      outcomes={item.outcomes}
-                      moneyInPool={item.money_in_pool}
-                    />
-                  </div>
-                ))
-            : markets.length > 0 &&
-              markets
-                .filter((market) =>
-                  tabList[activeTab].tabName.includes(
-                    getString(market.category)
-                  )
-                )
-                .sort(
-                  (a, b) =>
-                    parseFloat(getNumber(b.money_in_pool)) -
-                    parseFloat(getNumber(a.money_in_pool))
-                )
-                .map((item, index) => (
-                  <div key={index} className='BetCard-Container'>
-                    <BetCard
-                      index={index}
-                      marketId={item.market_id}
-                      category={item.category}
-                      logo={item.image}
-                      duration={item.deadline}
-                      heading={item.name}
-                      subHeading={item.description}
-                      outcomes={item.outcomes}
-                      moneyInPool={item.money_in_pool}
-                    />
-                  </div>
-                ))}
+        <div className="BetCard-Wrapper">
+          {activeTab === 0 && markets.length > 0 ? (
+            markets
+              .sort(
+                (a, b) =>
+                  parseFloat(getNumber(b.money_in_pool)) -
+                  parseFloat(getNumber(a.money_in_pool))
+              )
+              .map((item, index) => (
+                <div key={index} className="BetCard-Container">
+                  <BetCard
+                    index={index}
+                    marketId={item.market_id}
+                    category={item.category}
+                    logo={item.image}
+                    duration={item.deadline}
+                    heading={item.name}
+                    subHeading={item.description}
+                    outcomes={item.outcomes}
+                    moneyInPool={item.money_in_pool}
+                  />
+                </div>
+              ))
+          ) : markets.length > 0 &&
+            markets.filter((market) =>
+              tabList[activeTab].tabName.includes(getString(market.category))
+            ).length > 0 ? (
+            markets
+              .filter((market) =>
+                tabList[activeTab].tabName.includes(getString(market.category))
+              )
+              .sort(
+                (a, b) =>
+                  parseFloat(getNumber(b.money_in_pool)) -
+                  parseFloat(getNumber(a.money_in_pool))
+              )
+              .map((item, index) => (
+                <div key={index} className="BetCard-Container">
+                  <BetCard
+                    index={index}
+                    marketId={item.market_id}
+                    category={item.category}
+                    logo={item.image}
+                    duration={item.deadline}
+                    heading={item.name}
+                    subHeading={item.description}
+                    outcomes={item.outcomes}
+                    moneyInPool={item.money_in_pool}
+                  />
+                </div>
+              ))
+          ) : (
+            <motion.span
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ ease: "easeInOut", duration: 0.25 }}
+              className="PlaceholderText"
+            >
+              No Active Events
+            </motion.span>
+          )}
         </div>
       </div>
     </div>
