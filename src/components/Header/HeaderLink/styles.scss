@@ -28,6 +28,20 @@
         background-position: center center;
         background-repeat: no-repeat;
         transition: all 0.2s ease;
+
+        @include md {}
+
+        @include lg {
+            width: 300px;
+        }
+
+        @include xl {
+            width: 400px;
+        }
+
+        @include xxl {
+            width: 500px;
+        }
     }
 
     &:hover::after {

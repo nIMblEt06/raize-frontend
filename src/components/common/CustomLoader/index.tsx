@@ -1,7 +1,6 @@
 import { NextPage } from "next";
 import { infinity } from "ldrs";
-
-infinity.register();
+import { useEffect, useState } from "react";
 
 interface Props {
   color: string;
@@ -9,6 +8,19 @@ interface Props {
 }
 
 const CustomLoader: NextPage<Props> = ({ color, size }) => {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      infinity.register();
+      setIsClient(true);
+    }
+  }, []);
+
+  if (!isClient) {
+    return null; // Or a fallback/loading indicator
+  }
+
   return (
     <l-infinity
       size={size}

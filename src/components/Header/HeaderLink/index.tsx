@@ -4,7 +4,6 @@ import "./styles.scss";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 
-import CustomLogo from "@/components/common/CustomIcons";
 import Link from "next/link";
 
 interface Props {
@@ -29,9 +28,6 @@ const HeaderLink: NextPage<Props> = ({
         onMouseLeave={() => setChangeLogo(false)}
         className={pathname === link ? "HeaderLink" : "HeaderLink-White"}
       >
-        {/* <div className="HeaderLink-Logo">
-          <CustomLogo src={changeLogo ? coloredIcon : whiteIcon} />
-        </div> */}
         {linkCTA}
       </div>
     </Link>
