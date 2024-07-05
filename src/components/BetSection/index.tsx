@@ -11,6 +11,7 @@ import { CONTRACT_ADDRESS } from "../helpers/constants";
 import { Market } from "../helpers/types";
 import { getNumber, getString } from "../helpers/functions";
 import { motion } from "framer-motion";
+import CustomLoader from "../common/CustomLoader";
 interface Props {}
 
 const tabList = [
@@ -34,6 +35,7 @@ const tabList = [
 const BetSection: NextPage<Props> = ({}) => {
   const [activeTab, setActiveTab] = useState<number>(0);
   const [markets, setMarkets] = useState<Market[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
   const betCardWrapperDiv = useRef<HTMLDivElement | null>(null);
 
   const scrollToElement = () => {
@@ -49,7 +51,9 @@ const BetSection: NextPage<Props> = ({}) => {
 
   useEffect(() => {
     const getAllMarkets = () => {
+      setLoading(true);
       if (!contract) {
+        setLoading(false);
         return;
       }
       contract.get_all_markets().then((res: any) => {
@@ -61,6 +65,7 @@ const BetSection: NextPage<Props> = ({}) => {
       contract.get_all_sports_markets().then((res: any) => {
         setMarkets((prev) => prev.concat(res));
       });
+      setLoading(false);
     };
     getAllMarkets();
   }, []);
@@ -111,7 +116,11 @@ const BetSection: NextPage<Props> = ({}) => {
           ))}
         </div>
         <div className="BetCard-Wrapper">
-          {activeTab === 0 && markets.length > 0 ? (
+          {loading ? (
+            <div className="LoaderDiv">
+              <CustomLoader size={"55"} color="#9C9C9C" />
+            </div>
+          ) : activeTab === 0 && markets.length > 0 ? (
             markets
               .sort(
                 (a, b) =>
