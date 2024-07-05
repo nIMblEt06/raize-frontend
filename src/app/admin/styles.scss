@@ -38,6 +38,16 @@
         }
       }
     }
+    input::-webkit-file-upload-button {
+      background-color: #f5a623;
+      color: #fff;
+      font-family: "GilmerMedium";
+      outline: none;
+      border: none;
+      padding: 8px 12px;
+      margin-right: 20px;
+      border-radius: 4px;
+    }
     input {
       margin-top: 8px;
       margin-bottom: 16px;

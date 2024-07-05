@@ -7,6 +7,8 @@ import Select from "react-select";
 import { DatePicker } from "rsuite";
 import { colorStyles } from "@/components/helpers/menuStyles";
 import useCreateMarket from "@/components/hooks/useCreateMarket";
+import { initializeApp } from "firebase/app";
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 
 const categories = [
   {
@@ -37,6 +39,18 @@ export default function AdminPortal() {
   const [priceKey, setPriceKey] = useState("");
   const [condition, setCondition] = useState("");
   const [canCreate, setCanCreate] = useState(false);
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAIowr5sia66ujQ8MHEAGdaytEhV3z5SAs",
+    authDomain: "raizeicons.firebaseapp.com",
+    projectId: "raizeicons",
+    storageBucket: "raizeicons.appspot.com",
+    messagingSenderId: "145845814420",
+    appId: "1:145845814420:web:6266360ba7c20dacafe081",
+    measurementId: "G-9L9PWBPWMT",
+  };
+
+  const app = initializeApp(firebaseConfig);
 
   const cryptoSelection = () => {
     return (
@@ -178,6 +192,18 @@ export default function AdminPortal() {
     priceKey,
   ]);
 
+  const handleImageUpload = (e: any) => {
+    const storage = getStorage();
+    const file = e.target.files[0];
+    const storageRef = ref(storage, `market_icons/${file.name}`);
+    uploadBytes(storageRef, file).then((snapshot) => {
+      getDownloadURL(snapshot.ref).then((downloadURL) => {
+        setImage(downloadURL);
+        console.log(downloadURL);
+      });
+    });
+  };
+
   return (
     <main className='Admin'>
       <div className='Heading-Section'>
@@ -269,14 +295,24 @@ export default function AdminPortal() {
         <Box className='InputContainer'>
           <span className='Label'>Image</span>
           <Box className='Input'>
-            <input
-              className='InputField'
-              type='string'
-              value={image}
-              onChange={(e) => setImage(e.target.value)}
-              placeholder='https://cdn.discordapp.com/2131423'
-              required
-            />
+            {image == "" ? (
+              <input
+                className='InputField'
+                type='file'
+                value={image}
+                onChange={(e) => handleImageUpload(e)}
+                required
+              />
+            ) : (
+              <input
+                className='InputField'
+                type='string'
+                id='numberInput'
+                name='numberInput'
+                value={image}
+                disabled
+              />
+            )}
           </Box>
         </Box>
         {category == "Crypto Market" && cryptoSelection()}

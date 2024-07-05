@@ -20,13 +20,13 @@ const tabList = [
     tabName: "Crypto Market",
   },
   {
-    tabName: "UEFA Euros 2024",
+    tabName: "Sports",
   },
   {
     tabName: "Global Politics",
   },
   {
-    tabName: "Cricket World Cup",
+    tabName: "Pop Culture",
   },
 ];
 
@@ -73,7 +73,7 @@ const BetSection: NextPage<Props> = ({}) => {
         <div className='BetSection-HeroCard'>
           <BetHeroCard
             setActiveTab={setActiveTab}
-            categoryIndex={4}
+            categoryIndex={2}
             category='Sports'
             categoryLogo={CRICKET_LOGO}
             categoryName='Cricket World Cup'

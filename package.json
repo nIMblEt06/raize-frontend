@@ -15,6 +15,7 @@
     "@mui/styles": "^5.15.21",
     "@starknet-react/chains": "^0.1.0",
     "@starknet-react/core": "^2.8.3",
+    "firebase": "^10.12.3",
     "framer-motion": "^11.2.13",
     "get-starknet-core": "^3.2.0",
     "hex-encode-decode": "^1.0.0",
