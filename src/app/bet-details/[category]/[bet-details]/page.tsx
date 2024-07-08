@@ -99,6 +99,7 @@ const BetDetailView: NextPage = () => {
         betPlaced={userPlacedBet}
         moneyInPool={market?.money_in_pool!}
         outcomes={market?.outcomes!}
+        category={market?.category!}
       />
     </div>
   );

@@ -7,6 +7,7 @@ import { Market, Outcome, UserBet } from "../helpers/types";
 import { useAccount, useContract } from "@starknet-react/core";
 import { CONTRACT_ADDRESS } from "../helpers/constants";
 import abi from "../../abi/ContractABI.json";
+import { getMarketType } from "../helpers/functions";
 
 function MyBets() {
   const { address } = useAccount();
@@ -27,13 +28,15 @@ function MyBets() {
         return;
       }
       if (openMarkets.length > 0 || closedMarkets.length > 0) return;
-      const res = await contract.get_user_markets(address);
-      console.log(res);
+      const normal_res = await contract.get_user_markets(address);
+      const crypto_res = await contract.get_user_sports_markets(address);
+      const sports_res = await contract.get_user_crypto_markets(address);
       const openMarketsRes: Market[] = [];
       const closedMarketsRes: Market[] = [];
       const openBets: any[] = [];
       const closedBets: any[] = [];
-      for (const market of res) {
+      const all_markets = normal_res.concat(crypto_res, sports_res);
+      for (const market of all_markets) {
         if (market.is_active) {
           openMarketsRes.push(market);
         } else {
@@ -41,7 +44,8 @@ function MyBets() {
         }
         const outcomeAndBet: UserBet = await contract.get_outcome_and_bet(
           address,
-          market.market_id
+          market.market_id,
+          getMarketType(market.category)
         );
         if (market.is_active) {
           openBets.push(outcomeAndBet);

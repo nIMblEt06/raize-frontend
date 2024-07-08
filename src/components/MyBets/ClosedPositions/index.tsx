@@ -1,9 +1,12 @@
 import React, { useEffect, useMemo, useState } from "react";
 import "./styles.scss";
 import Image from "next/image";
-import StarknetLogo from "../../../../public/assets/logos/starknet.svg";
 import { Market, UserBet } from "@/components/helpers/types";
-import { getNumber, getString } from "@/components/helpers/functions";
+import {
+  getMarketType,
+  getNumber,
+  getString,
+} from "@/components/helpers/functions";
 import {
   useAccount,
   useContract,
@@ -12,10 +15,8 @@ import {
 } from "@starknet-react/core";
 import { CONTRACT_ADDRESS } from "@/components/helpers/constants";
 import abi from "../../../abi/ContractABI.json";
-import { num } from "starknet";
-import { ETH_LOGO, STARKNET_LOGO, USDC_LOGO } from "@/components/helpers/icons";
+import { USDC_LOGO } from "@/components/helpers/icons";
 import { enqueueSnackbar } from "notistack";
-import { useRouter } from "next/navigation";
 
 interface Props {
   closedMarkets: Market[];
@@ -30,8 +31,8 @@ enum WinStatus {
 
 function ClosedPositions({ closedMarkets, closedBets }: Props) {
   const { address } = useAccount();
-  const router = useRouter();
   const [marketId, setMarketId] = useState<any>(null);
+  const [categoryId, setCategoryId] = useState<any>(null);
   const [winStatus, setWinStatus] = useState<WinStatus[]>([]);
 
   useEffect(() => {
@@ -56,9 +57,12 @@ function ClosedPositions({ closedMarkets, closedBets }: Props) {
   });
 
   const calls = useMemo(() => {
-    if (!address || !contract || !marketId) return [];
-    return contract.populateTransaction["claim_winnings"]!(marketId, address);
-  }, [marketId, contract, address]);
+    if (!address || !contract || !marketId || !categoryId) return [];
+    return contract.populateTransaction["claim_winnings"]!(
+      marketId,
+      categoryId
+    );
+  }, [marketId, contract, categoryId, address]);
 
   const { writeAsync, data, error, isSuccess, isPending } = useContractWrite({
     calls,
@@ -71,10 +75,12 @@ function ClosedPositions({ closedMarkets, closedBets }: Props) {
   useEffect(() => {
     marketId && writeAsync();
     setMarketId(null);
+    setCategoryId(null);
   }, [marketId]);
 
-  const storeMarket = (marketId: number) => {
+  const storeMarket = (marketId: number, category: string) => {
     setMarketId(marketId);
+    setCategoryId(getMarketType(category));
   };
 
   useEffect(() => {
@@ -118,7 +124,7 @@ function ClosedPositions({ closedMarkets, closedBets }: Props) {
     const isClaimable = winStatus[index] === WinStatus.Claimable;
     const statusClass = isClaimable ? "Claim" : "";
     const onClickHandler = isClaimable
-      ? () => storeMarket(market.market_id)
+      ? () => storeMarket(market.market_id, market.category)
       : () => {};
 
     return (

@@ -17,13 +17,14 @@ import { useContext, useEffect, useMemo, useState } from "react";
 import { MarketContext } from "@/app/context/MarketProvider";
 import { Outcome } from "@/components/helpers/types";
 import { num } from "starknet";
-import {
-  CONTRACT_ADDRESS,
-  USDC_ADDRESS,
-} from "@/components/helpers/constants";
+import { CONTRACT_ADDRESS, USDC_ADDRESS } from "@/components/helpers/constants";
 import abi from "../../../abi/ContractABI.json";
 import tokenABI from "../../../abi/ERC20ABI.json";
-import { getProbabilites, getString } from "@/components/helpers/functions";
+import {
+  getMarketType,
+  getProbabilites,
+  getString,
+} from "@/components/helpers/functions";
 import { enqueueSnackbar } from "notistack";
 import { usePathname, useRouter } from "next/navigation";
 
@@ -31,9 +32,15 @@ interface Props {
   outcomes: Outcome[];
   moneyInPool: number;
   betPlaced: boolean;
+  category: string;
 }
 
-const BetActions: NextPage<Props> = ({ outcomes, moneyInPool, betPlaced }) => {
+const BetActions: NextPage<Props> = ({
+  outcomes,
+  moneyInPool,
+  betPlaced,
+  category,
+}) => {
   const { address } = useAccount();
   const router = useRouter();
   const pathname = usePathname();
@@ -97,7 +104,7 @@ const BetActions: NextPage<Props> = ({ outcomes, moneyInPool, betPlaced }) => {
   });
 
   const calls = useMemo(() => {
-    const encoded = pathname.split("/")[2];
+    const encoded = pathname.split("/")[3];
     const hexPart = encoded.slice(0, -4);
     const marketId = parseInt(hexPart, 16);
     if (!address || !contract || betAmount == "" || !tokenContract) return [];
@@ -109,7 +116,8 @@ const BetActions: NextPage<Props> = ({ outcomes, moneyInPool, betPlaced }) => {
       contract.populateTransaction["buy_shares"]!(
         marketId,
         choice,
-        BigInt(parseFloat(betAmount) * 1e18)
+        BigInt(parseFloat(betAmount) * 1e18),
+        getMarketType(category)
       ),
     ];
   }, [contract, address, choice, betAmount, tokenContract]);
