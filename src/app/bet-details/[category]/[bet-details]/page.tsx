@@ -12,6 +12,7 @@ import { NextPage } from "next";
 import { enqueueSnackbar } from "notistack";
 import CustomLogo from "@/components/common/CustomIcons";
 import { BACK_LOGO } from "@/components/helpers/icons";
+import { getMarketType } from "@/components/helpers/functions";
 
 const BetDetailView: NextPage = () => {
   const router = useRouter();
@@ -37,8 +38,11 @@ const BetDetailView: NextPage = () => {
       const encoded = pathname.split("/")[3];
       const hexPart = encoded.slice(0, -4);
       const marketId = parseInt(hexPart, 16);
+
       if (categoryName === "Sports") {
         await contract.get_sports_market(marketId).then((res: any) => {
+          console.log(res);
+
           setMarket(res);
         });
       } else if (categoryName === "Crypto-Market") {
@@ -51,9 +55,11 @@ const BetDetailView: NextPage = () => {
         });
       }
       if (!address) return;
-      await contract.has_user_placed_bet(address, marketId).then((res: any) => {
-        setUserPlacedBet(res);
-      });
+      await contract
+        .has_user_placed_bet(address, marketId, getMarketType(categoryName))
+        .then((res: any) => {
+          setUserPlacedBet(res);
+        });
     };
     getMarket();
   }, [contract, address, pathname]);

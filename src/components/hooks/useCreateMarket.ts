@@ -121,7 +121,7 @@ function useCreateMarket(marketData: Data) {
       calls:
         marketData.category == "Crypto Market"
           ? createCryptoMarketCalls
-          : marketData.category == "Sports Market"
+          : marketData.category == "Sports"
           ? createSportsMarketCalls
           : createNormalMarketCalls,
     });
