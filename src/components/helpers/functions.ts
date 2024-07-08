@@ -1,5 +1,6 @@
 import { enqueueSnackbar } from "notistack";
 import { shortString } from "starknet";
+import { MARKET_TYPES } from "./constants";
 
 export const getProbabilites = (shares1: any, shares2: any) => {
   if (shares1 == "0" && shares2 == "0") {
@@ -58,4 +59,14 @@ export const handleToast = (
       horizontal: "right",
     },
   });
+};
+
+export const getMarketType = (category: string) => {
+  if (category === "Sports") {
+    return MARKET_TYPES.Sports;
+  } else if (category === "Crypto-Market") {
+    return MARKET_TYPES.Crypto;
+  } else {
+    return MARKET_TYPES.General;
+  }
 };

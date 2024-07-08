@@ -50,19 +50,19 @@ const BetSection: NextPage<Props> = ({}) => {
   });
 
   useEffect(() => {
-    const getAllMarkets = () => {
+    const getAllMarkets = async () => {
       setLoading(true);
       if (!contract) {
         setLoading(false);
         return;
       }
-      contract.get_all_markets().then((res: any) => {
+      await contract.get_all_markets().then((res: any) => {
         setMarkets(res);
       });
-      contract.get_all_crypto_markets().then((res: any) => {
+      await contract.get_all_crypto_markets().then((res: any) => {
         setMarkets((prev) => prev.concat(res));
       });
-      contract.get_all_sports_markets().then((res: any) => {
+      await contract.get_all_sports_markets().then((res: any) => {
         setMarkets((prev) => prev.concat(res));
       });
       setLoading(false);

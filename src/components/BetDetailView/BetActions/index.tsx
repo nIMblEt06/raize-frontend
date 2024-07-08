@@ -12,15 +12,14 @@ import {
 import { Box } from "@mui/material";
 import "./styles.scss";
 import CustomLogo from "@/components/common/CustomIcons";
-import { ETH_LOGO, STARKNET_LOGO } from "@/components/helpers/icons";
+import { ETH_LOGO, STARKNET_LOGO, USDC_LOGO } from "@/components/helpers/icons";
 import { useContext, useEffect, useMemo, useState } from "react";
 import { MarketContext } from "@/app/context/MarketProvider";
 import { Outcome } from "@/components/helpers/types";
 import { num } from "starknet";
 import {
   CONTRACT_ADDRESS,
-  ETH_ADDRESS,
-  STARK_ADDRESS,
+  USDC_ADDRESS,
 } from "@/components/helpers/constants";
 import abi from "../../../abi/ContractABI.json";
 import tokenABI from "../../../abi/ERC20ABI.json";
@@ -93,7 +92,7 @@ const BetActions: NextPage<Props> = ({ outcomes, moneyInPool, betPlaced }) => {
   });
 
   const { contract: tokenContract } = useContract({
-    address: ETH_ADDRESS,
+    address: USDC_ADDRESS,
     abi: tokenABI,
   });
 
@@ -213,7 +212,7 @@ const BetActions: NextPage<Props> = ({ outcomes, moneyInPool, betPlaced }) => {
         <Box className='InputWrapper'>
           <Box className='Input-Left'>
             <Box className='Starknet-logo'>
-              <CustomLogo src={ETH_LOGO} />
+              <CustomLogo src={USDC_LOGO} />
             </Box>
             <input
               className='InputField'
@@ -238,7 +237,7 @@ const BetActions: NextPage<Props> = ({ outcomes, moneyInPool, betPlaced }) => {
             {potentialWinnings ? potentialWinnings.toFixed(5) : 0}
           </span>
           <Box className='Starknet-logo'>
-            <CustomLogo src={ETH_LOGO} />
+            <CustomLogo src={USDC_LOGO} />
           </Box>
         </Box>
       </Box>

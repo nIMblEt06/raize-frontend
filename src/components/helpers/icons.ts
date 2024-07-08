@@ -6,5 +6,6 @@ export const CLOCK_ICON = "/assets/icons/clock.svg";
 export const CROSS_ICON = "/assets/icons/cross.svg";
 export const STARKNET_LOGO = "/assets/logos/starknet.svg";
 export const ETH_LOGO = "/assets/logos/eth.svg";
+export const USDC_LOGO = "/assets/logos/usdc.svg";
 export const UEFA_LOGO = "/assets/logos/uefalogo.svg";
 export const BACK_LOGO = "/assets/icons/arrow.svg";

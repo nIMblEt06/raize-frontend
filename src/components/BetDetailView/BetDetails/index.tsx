@@ -5,11 +5,9 @@ import CustomLogo from "@/components/common/CustomIcons";
 import {
   CLOCK_ICON,
   ETH_LOGO,
-  STARKNET_LOGO,
+  USDC_LOGO,
 } from "@/components/helpers/icons";
 import { useEffect, useState } from "react";
-import { num } from "starknet";
-import { ETH_ADDRESS } from "@/components/helpers/constants";
 import { getNumber, getTimeBetween } from "@/components/helpers/functions";
 
 interface Props {
@@ -86,7 +84,7 @@ const BetDetails: NextPage<Props> = ({
         Prize-Pool{" "}
         <span className='Colored'>{getNumber(moneyInPool).slice(0, 7)}</span>{" "}
         <Box className='Starknet-logo'>
-          <CustomLogo src={ETH_LOGO} />
+          <CustomLogo src={USDC_LOGO} />
         </Box>
       </Box>
     </Box>

@@ -10,10 +10,10 @@ import {
   useContractWrite,
   useWaitForTransaction,
 } from "@starknet-react/core";
-import { CONTRACT_ADDRESS, ETH_ADDRESS } from "@/components/helpers/constants";
+import { CONTRACT_ADDRESS } from "@/components/helpers/constants";
 import abi from "../../../abi/ContractABI.json";
 import { num } from "starknet";
-import { ETH_LOGO, STARKNET_LOGO } from "@/components/helpers/icons";
+import { ETH_LOGO, STARKNET_LOGO, USDC_LOGO } from "@/components/helpers/icons";
 import { enqueueSnackbar } from "notistack";
 import { useRouter } from "next/navigation";
 
@@ -131,7 +131,7 @@ function ClosedPositions({ closedMarkets, closedBets }: Props) {
           {new Date(parseInt(market.deadline)).toString().split("GMT")[0]}
         </p>
         <p className='BetToken StakedAmount'>
-          <Image src={ETH_LOGO} width={15} height={15} alt={"tokenImage"} />{" "}
+          <Image src={USDC_LOGO} width={15} height={15} alt={"tokenImage"} />{" "}
           {getNumber(closedBets[index]?.position.amount || "0")}
         </p>
         <p className='Yes Prediction'>

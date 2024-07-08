@@ -10,10 +10,8 @@ import {
   ETH_LOGO,
   STARKNET_LOGO,
   US_LOGO,
+  USDC_LOGO,
 } from "@/components/helpers/icons";
-
-import { num } from "starknet";
-import { ETH_ADDRESS } from "@/components/helpers/constants";
 import { MarketContext } from "@/app/context/MarketProvider";
 import { Outcome } from "@/components/helpers/types";
 import {
@@ -147,7 +145,7 @@ const BetCard: NextPage<Props> = ({
             .slice(0, 7)}
         </span>
         <div className='Starknet-logo'>
-          <CustomLogo src={ETH_LOGO} />
+          <CustomLogo src={USDC_LOGO} />
         </div>
       </div>
     </div>

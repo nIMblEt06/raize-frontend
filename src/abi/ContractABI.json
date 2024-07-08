@@ -422,6 +422,10 @@
                     {
                         "name": "amount",
                         "type": "core::integer::u256"
+                    },
+                    {
+                        "name": "market_type",
+                        "type": "core::integer::u8"
                     }
                 ],
                 "outputs": [
@@ -449,11 +453,47 @@
             },
             {
                 "type": "function",
+                "name": "settle_crypto_market_manually",
+                "inputs": [
+                    {
+                        "name": "market_id",
+                        "type": "core::integer::u256"
+                    },
+                    {
+                        "name": "winning_outcome",
+                        "type": "core::integer::u8"
+                    }
+                ],
+                "outputs": [],
+                "state_mutability": "external"
+            },
+            {
+                "type": "function",
+                "name": "settle_sports_market_manually",
+                "inputs": [
+                    {
+                        "name": "market_id",
+                        "type": "core::integer::u256"
+                    },
+                    {
+                        "name": "winning_outcome",
+                        "type": "core::integer::u8"
+                    }
+                ],
+                "outputs": [],
+                "state_mutability": "external"
+            },
+            {
+                "type": "function",
                 "name": "toggle_market_status",
                 "inputs": [
                     {
                         "name": "market_id",
                         "type": "core::integer::u256"
+                    },
+                    {
+                        "name": "market_type",
+                        "type": "core::integer::u8"
                     }
                 ],
                 "outputs": [],
@@ -466,6 +506,10 @@
                     {
                         "name": "market_id",
                         "type": "core::integer::u256"
+                    },
+                    {
+                        "name": "market_type",
+                        "type": "core::integer::u8"
                     }
                 ],
                 "outputs": [],
@@ -570,22 +614,6 @@
             },
             {
                 "type": "function",
-                "name": "get_market_by_category",
-                "inputs": [
-                    {
-                        "name": "category",
-                        "type": "core::felt252"
-                    }
-                ],
-                "outputs": [
-                    {
-                        "type": "core::array::Array::<raize_contracts::MarketFactory::Market>"
-                    }
-                ],
-                "state_mutability": "view"
-            },
-            {
-                "type": "function",
                 "name": "get_user_markets",
                 "inputs": [
                     {
@@ -657,6 +685,10 @@
                     {
                         "name": "market_id",
                         "type": "core::integer::u256"
+                    },
+                    {
+                        "name": "market_type",
+                        "type": "core::integer::u8"
                     }
                 ],
                 "outputs": [
@@ -684,6 +716,22 @@
             },
             {
                 "type": "function",
+                "name": "disable_market",
+                "inputs": [
+                    {
+                        "name": "market_id",
+                        "type": "core::integer::u256"
+                    },
+                    {
+                        "name": "market_type",
+                        "type": "core::integer::u8"
+                    }
+                ],
+                "outputs": [],
+                "state_mutability": "external"
+            },
+            {
+                "type": "function",
                 "name": "has_user_placed_bet",
                 "inputs": [
                     {
@@ -693,6 +741,10 @@
                     {
                         "name": "market_id",
                         "type": "core::integer::u256"
+                    },
+                    {
+                        "name": "market_type",
+                        "type": "core::integer::u8"
                     }
                 ],
                 "outputs": [
@@ -732,6 +784,38 @@
                 "inputs": [],
                 "outputs": [],
                 "state_mutability": "external"
+            },
+            {
+                "type": "function",
+                "name": "get_user_crypto_markets",
+                "inputs": [
+                    {
+                        "name": "user",
+                        "type": "core::starknet::contract_address::ContractAddress"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "type": "core::array::Array::<raize_contracts::MarketFactory::CryptoMarket>"
+                    }
+                ],
+                "state_mutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "get_user_sports_markets",
+                "inputs": [
+                    {
+                        "name": "user",
+                        "type": "core::starknet::contract_address::ContractAddress"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "type": "core::array::Array::<raize_contracts::MarketFactory::SportsMarket>"
+                    }
+                ],
+                "state_mutability": "view"
             }
         ]
     },
@@ -798,12 +882,90 @@
     },
     {
         "type": "event",
+        "name": "raize_contracts::MarketFactory::MarketFactory::SportsShareBought",
+        "kind": "struct",
+        "members": [
+            {
+                "name": "user",
+                "type": "core::starknet::contract_address::ContractAddress",
+                "kind": "data"
+            },
+            {
+                "name": "market",
+                "type": "raize_contracts::MarketFactory::SportsMarket",
+                "kind": "data"
+            },
+            {
+                "name": "outcome",
+                "type": "raize_contracts::MarketFactory::Outcome",
+                "kind": "data"
+            },
+            {
+                "name": "amount",
+                "type": "core::integer::u256",
+                "kind": "data"
+            }
+        ]
+    },
+    {
+        "type": "event",
+        "name": "raize_contracts::MarketFactory::MarketFactory::CryptoShareBought",
+        "kind": "struct",
+        "members": [
+            {
+                "name": "user",
+                "type": "core::starknet::contract_address::ContractAddress",
+                "kind": "data"
+            },
+            {
+                "name": "market",
+                "type": "raize_contracts::MarketFactory::CryptoMarket",
+                "kind": "data"
+            },
+            {
+                "name": "outcome",
+                "type": "raize_contracts::MarketFactory::Outcome",
+                "kind": "data"
+            },
+            {
+                "name": "amount",
+                "type": "core::integer::u256",
+                "kind": "data"
+            }
+        ]
+    },
+    {
+        "type": "event",
         "name": "raize_contracts::MarketFactory::MarketFactory::MarketSettled",
         "kind": "struct",
         "members": [
             {
                 "name": "market",
                 "type": "raize_contracts::MarketFactory::Market",
+                "kind": "data"
+            }
+        ]
+    },
+    {
+        "type": "event",
+        "name": "raize_contracts::MarketFactory::MarketFactory::SportsMarketSettled",
+        "kind": "struct",
+        "members": [
+            {
+                "name": "market",
+                "type": "raize_contracts::MarketFactory::SportsMarket",
+                "kind": "data"
+            }
+        ]
+    },
+    {
+        "type": "event",
+        "name": "raize_contracts::MarketFactory::MarketFactory::CryptoMarketSettled",
+        "kind": "struct",
+        "members": [
+            {
+                "name": "market",
+                "type": "raize_contracts::MarketFactory::CryptoMarket",
                 "kind": "data"
             }
         ]
@@ -849,6 +1011,60 @@
     },
     {
         "type": "event",
+        "name": "raize_contracts::MarketFactory::MarketFactory::SportsWinningsClaimed",
+        "kind": "struct",
+        "members": [
+            {
+                "name": "user",
+                "type": "core::starknet::contract_address::ContractAddress",
+                "kind": "data"
+            },
+            {
+                "name": "market",
+                "type": "raize_contracts::MarketFactory::SportsMarket",
+                "kind": "data"
+            },
+            {
+                "name": "outcome",
+                "type": "raize_contracts::MarketFactory::Outcome",
+                "kind": "data"
+            },
+            {
+                "name": "amount",
+                "type": "core::integer::u256",
+                "kind": "data"
+            }
+        ]
+    },
+    {
+        "type": "event",
+        "name": "raize_contracts::MarketFactory::MarketFactory::CryptoWinningsClaimed",
+        "kind": "struct",
+        "members": [
+            {
+                "name": "user",
+                "type": "core::starknet::contract_address::ContractAddress",
+                "kind": "data"
+            },
+            {
+                "name": "market",
+                "type": "raize_contracts::MarketFactory::CryptoMarket",
+                "kind": "data"
+            },
+            {
+                "name": "outcome",
+                "type": "raize_contracts::MarketFactory::Outcome",
+                "kind": "data"
+            },
+            {
+                "name": "amount",
+                "type": "core::integer::u256",
+                "kind": "data"
+            }
+        ]
+    },
+    {
+        "type": "event",
         "name": "raize_contracts::MarketFactory::MarketFactory::Upgraded",
         "kind": "struct",
         "members": [
@@ -867,6 +1083,30 @@
             {
                 "name": "market",
                 "type": "raize_contracts::MarketFactory::SportsMarket",
+                "kind": "data"
+            }
+        ]
+    },
+    {
+        "type": "event",
+        "name": "raize_contracts::MarketFactory::MarketFactory::SportsMarketToggled",
+        "kind": "struct",
+        "members": [
+            {
+                "name": "market",
+                "type": "raize_contracts::MarketFactory::SportsMarket",
+                "kind": "data"
+            }
+        ]
+    },
+    {
+        "type": "event",
+        "name": "raize_contracts::MarketFactory::MarketFactory::CryptoMarketToggled",
+        "kind": "struct",
+        "members": [
+            {
+                "name": "market",
+                "type": "raize_contracts::MarketFactory::CryptoMarket",
                 "kind": "data"
             }
         ]
@@ -892,8 +1132,28 @@
                 "kind": "nested"
             },
             {
+                "name": "SportsShareBought",
+                "type": "raize_contracts::MarketFactory::MarketFactory::SportsShareBought",
+                "kind": "nested"
+            },
+            {
+                "name": "CryptoShareBought",
+                "type": "raize_contracts::MarketFactory::MarketFactory::CryptoShareBought",
+                "kind": "nested"
+            },
+            {
                 "name": "MarketSettled",
                 "type": "raize_contracts::MarketFactory::MarketFactory::MarketSettled",
+                "kind": "nested"
+            },
+            {
+                "name": "SportsMarketSettled",
+                "type": "raize_contracts::MarketFactory::MarketFactory::SportsMarketSettled",
+                "kind": "nested"
+            },
+            {
+                "name": "CryptoMarketSettled",
+                "type": "raize_contracts::MarketFactory::MarketFactory::CryptoMarketSettled",
                 "kind": "nested"
             },
             {
@@ -907,6 +1167,16 @@
                 "kind": "nested"
             },
             {
+                "name": "SportsWinningsClaimed",
+                "type": "raize_contracts::MarketFactory::MarketFactory::SportsWinningsClaimed",
+                "kind": "nested"
+            },
+            {
+                "name": "CryptoWinningsClaimed",
+                "type": "raize_contracts::MarketFactory::MarketFactory::CryptoWinningsClaimed",
+                "kind": "nested"
+            },
+            {
                 "name": "Upgraded",
                 "type": "raize_contracts::MarketFactory::MarketFactory::Upgraded",
                 "kind": "nested"
@@ -914,6 +1184,16 @@
             {
                 "name": "SportsMarketCreated",
                 "type": "raize_contracts::MarketFactory::MarketFactory::SportsMarketCreated",
+                "kind": "nested"
+            },
+            {
+                "name": "SportsMarketToggled",
+                "type": "raize_contracts::MarketFactory::MarketFactory::SportsMarketToggled",
+                "kind": "nested"
+            },
+            {
+                "name": "CryptoMarketToggled",
+                "type": "raize_contracts::MarketFactory::MarketFactory::CryptoMarketToggled",
                 "kind": "nested"
             }
         ]

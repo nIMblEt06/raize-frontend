@@ -20,6 +20,10 @@ const categories = [
     label: "Politics",
   },
   {
+    value: "Pop Culture",
+    label: "Pop Culture",
+  },
+  {
     value: "Sports",
     label: "Sports",
   },
