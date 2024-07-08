@@ -21,7 +21,7 @@ export interface Outcome {
 
 export interface UserPosition {
   amount: number;
-  hasClaimed: boolean;
+  has_claimed: boolean;
 }
 export interface UserBet {
   outcome: Outcome;
