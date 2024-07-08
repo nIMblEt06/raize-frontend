@@ -73,34 +73,34 @@ const WalletButtons: NextPage<Props> = ({}) => {
   }, [address, contract]);
 
   return (
-    <div className="WalletButtons">
+    <div className='WalletButtons'>
       {address ? (
-        <div className="Buttons">
-          <div className="ClaimButton" onClick={goToClaim}>
+        <div className='Buttons'>
+          <div className='ClaimButton' onClick={goToClaim}>
             <span>
               Claim{" "}
-              <span className="Bold">
+              <span className='Bold'>
                 {winnings &&
                   Number(winnings) > 0 &&
-                  parseFloat(winnings).toFixed(0)}
+                  parseFloat(winnings).toFixed(3)}
               </span>
             </span>
-            <div className="ClaimButtonLogo">
+            <div className='ClaimButtonLogo'>
               <CustomLogo src={USDC_LOGO} />
             </div>
           </div>
           <motion.div
             whileTap={{ scale: 1.2 }}
             onClick={handleClick}
-            className="AddressBtn"
+            className='AddressBtn'
           >
-            <div className="AddressBtn-Logo">
+            <div className='AddressBtn-Logo'>
               {connector?.icon.dark && (
                 <CustomLogo src={connector?.icon.dark} />
               )}
             </div>
             <span>{shortenedAddress}</span>
-            <span className="DropdownIcon">
+            <span className='DropdownIcon'>
               <IoIosArrowDropdown />
             </span>
           </motion.div>
