@@ -93,7 +93,7 @@ export default function AdminPortal() {
               type='string'
               value={condition}
               onChange={(e) => setCondition(e.target.value)}
-              placeholder='Condition to check in Pragma (e.g. > 1000), 0 for greater than, 1 for less than'
+              placeholder='Condition to check in Pragma (e.g. > 1000), 0 for lesser than, 1 for greater than'
               required
             />
           </Box>
