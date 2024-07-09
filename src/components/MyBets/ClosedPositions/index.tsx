@@ -38,12 +38,13 @@ function ClosedPositions({ closedMarkets, closedBets }: Props) {
   useEffect(() => {
     const newWinStatus = closedMarkets.map((market, index) => {
       const bet = closedBets[index];
+      
       if (!bet) return WinStatus.Lost; // Default or error state
       if (
         market.winning_outcome.Some &&
         market.winning_outcome.Some.name === bet.outcome.name
       ) {
-        return bet.position.hasClaimed ? WinStatus.Won : WinStatus.Claimable;
+        return bet.position.has_claimed ? WinStatus.Won : WinStatus.Claimable;
       } else {
         return WinStatus.Lost;
       }

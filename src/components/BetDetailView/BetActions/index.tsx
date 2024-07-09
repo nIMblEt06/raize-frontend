@@ -17,7 +17,7 @@ import { useContext, useEffect, useMemo, useState } from "react";
 import { MarketContext } from "@/app/context/MarketProvider";
 import { Outcome } from "@/components/helpers/types";
 import { num } from "starknet";
-import { CONTRACT_ADDRESS, USDC_ADDRESS } from "@/components/helpers/constants";
+import { CONTRACT_ADDRESS, ETH_ADDRESS, USDC_ADDRESS } from "@/components/helpers/constants";
 import abi from "../../../abi/ContractABI.json";
 import tokenABI from "../../../abi/ERC20ABI.json";
 import {
@@ -99,7 +99,7 @@ const BetActions: NextPage<Props> = ({
   });
 
   const { contract: tokenContract } = useContract({
-    address: USDC_ADDRESS,
+    address: ETH_ADDRESS,
     abi: tokenABI,
   });
 
