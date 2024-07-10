@@ -32,15 +32,15 @@
         @include md {}
 
         @include lg {
-            width: 300px;
+            width: 100px;
         }
 
         @include xl {
-            width: 400px;
+            width: 200px;
         }
 
         @include xxl {
-            width: 500px;
+            width: 200px;
         }
     }
 
