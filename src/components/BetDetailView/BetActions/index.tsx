@@ -99,7 +99,7 @@ const BetActions: NextPage<Props> = ({
   });
 
   const { contract: tokenContract } = useContract({
-    address: ETH_ADDRESS,
+    address: USDC_ADDRESS,
     abi: tokenABI,
   });
 
