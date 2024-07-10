@@ -19,6 +19,7 @@ import {
   getString,
   getTimeBetween,
 } from "@/components/helpers/functions";
+import Image from "next/image";
 
 interface Props {
   category: string;
@@ -102,7 +103,7 @@ const BetCard: NextPage<Props> = ({
       <div className='BetCard-HeadingContainer'>
         <div className='BetCard-CategoryContainer'>
           <div className='CategoryLogo'>
-            <CustomLogo src={logo} />
+            <Image src={logo} alt='Logo' width={30} height={30} />
           </div>
           <div className='CategoryName'>{getString(category)}</div>
         </div>

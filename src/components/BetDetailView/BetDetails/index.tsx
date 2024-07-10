@@ -2,13 +2,10 @@ import { NextPage } from "next";
 import "./styles.scss";
 import { Box, Skeleton } from "@mui/material";
 import CustomLogo from "@/components/common/CustomIcons";
-import {
-  CLOCK_ICON,
-  ETH_LOGO,
-  USDC_LOGO,
-} from "@/components/helpers/icons";
+import { CLOCK_ICON, ETH_LOGO, USDC_LOGO } from "@/components/helpers/icons";
 import { useEffect, useState } from "react";
 import { getNumber, getTimeBetween } from "@/components/helpers/functions";
+import Image from "next/image";
 
 interface Props {
   category: string;
@@ -45,7 +42,7 @@ const BetDetails: NextPage<Props> = ({
       <Box className='HeadingContainer'>
         <Box className='BetName'>
           <Box className='BetDetails-Logo'>
-            <CustomLogo src={logo} width={"30px"} height={"30px"} />
+            <Image src={logo} alt='CategoryLogo' width={30} height={30} />
           </Box>
           <span>
             {category ? (

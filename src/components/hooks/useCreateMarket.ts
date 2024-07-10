@@ -4,7 +4,7 @@ import {
   useContractWrite,
 } from "@starknet-react/core";
 import { useMemo } from "react";
-import { CallData, byteArray, cairo } from "starknet";
+import { cairo } from "starknet";
 import { CONTRACT_ADDRESS } from "../helpers/constants";
 import abi from "../../abi/ContractABI.json";
 
