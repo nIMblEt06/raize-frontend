@@ -17,7 +17,11 @@ import { useContext, useEffect, useMemo, useState } from "react";
 import { MarketContext } from "@/app/context/MarketProvider";
 import { Outcome } from "@/components/helpers/types";
 import { num } from "starknet";
-import { CONTRACT_ADDRESS, ETH_ADDRESS, USDC_ADDRESS } from "@/components/helpers/constants";
+import {
+  CONTRACT_ADDRESS,
+  ETH_ADDRESS,
+  USDC_ADDRESS,
+} from "@/components/helpers/constants";
 import abi from "../../../abi/ContractABI.json";
 import tokenABI from "../../../abi/ERC20ABI.json";
 import {
@@ -31,16 +35,10 @@ import { usePathname, useRouter } from "next/navigation";
 interface Props {
   outcomes: Outcome[];
   moneyInPool: number;
-  betPlaced: boolean;
   category: string;
 }
 
-const BetActions: NextPage<Props> = ({
-  outcomes,
-  moneyInPool,
-  betPlaced,
-  category,
-}) => {
+const BetActions: NextPage<Props> = ({ outcomes, moneyInPool, category }) => {
   const { address } = useAccount();
   const router = useRouter();
   const pathname = usePathname();
@@ -99,7 +97,7 @@ const BetActions: NextPage<Props> = ({
   });
 
   const { contract: tokenContract } = useContract({
-    address: USDC_ADDRESS,
+    address: ETH_ADDRESS,
     abi: tokenABI,
   });
 
@@ -250,15 +248,8 @@ const BetActions: NextPage<Props> = ({
         </Box>
       </Box>
       {address ? (
-        <Box
-          onClick={() => writeAsync()}
-          className={`ActionBtn ${betPlaced ? "BetPlaced" : ""}`}
-        >
-          {betPlaced
-            ? "Awaiting an Outcome!"
-            : betAmount == ""
-            ? "Enter Amount"
-            : "Place Order"}
+        <Box onClick={() => writeAsync()} className={`ActionBtn`}>
+          {betAmount == "" ? "Enter Amount" : "Place Order"}
         </Box>
       ) : (
         <Box
