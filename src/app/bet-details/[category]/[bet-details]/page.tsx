@@ -18,7 +18,6 @@ const BetDetailView: NextPage = () => {
   const router = useRouter();
   const { address } = useAccount();
   const [market, setMarket] = useState<Market | null>(null);
-  const [userPlacedBet, setUserPlacedBet] = useState(false);
   const handleBack = () => {
     router.push("/");
   };
@@ -54,31 +53,9 @@ const BetDetailView: NextPage = () => {
           setMarket(res);
         });
       }
-      if (!address) return;
-      await contract
-        .has_user_placed_bet(address, marketId, getMarketType(categoryName))
-        .then((res: any) => {
-          setUserPlacedBet(res);
-        });
     };
     getMarket();
   }, [contract, address, pathname]);
-
-  useEffect(() => {
-    if (userPlacedBet) {
-      enqueueSnackbar("Bet already placed!", {
-        //@ts-ignore
-        variant: "custom",
-        subHeading:
-          "You have already placed a bet on this market. Please wait for the outcome, we hope you win as well!",
-        type: "danger",
-        anchorOrigin: {
-          vertical: "top",
-          horizontal: "right",
-        },
-      });
-    }
-  }, [userPlacedBet]);
 
   return (
     <div className='BetDetailView'>
@@ -96,7 +73,6 @@ const BetDetailView: NextPage = () => {
       />
 
       <BetActions
-        betPlaced={userPlacedBet}
         moneyInPool={market?.money_in_pool!}
         outcomes={market?.outcomes!}
         category={market?.category!}
