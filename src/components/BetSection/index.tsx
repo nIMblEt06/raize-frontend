@@ -79,10 +79,10 @@ const BetSection: NextPage<Props> = ({}) => {
         <div className="BetSection-HeroCard">
           <BetHeroCard
             setActiveTab={setActiveTab}
-            categoryIndex={2}
+            categoryIndex={3}
             category="Politics"
-            categoryLogo={CRICKET_LOGO}
-            categoryName="Cricket World Cup"
+            categoryLogo={US_LOGO}
+            categoryName="US Elections"
             cardBgColor="linear-gradient(67.58deg, #E20000 -0.96%, #9B3838 78.06%)"
             image="/assets/images/pol.svg"
             scrollFn={scrollToElement}

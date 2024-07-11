@@ -13,7 +13,9 @@
     gap: 20px;
     transition: all 0.2s ease-in;
 
-    @include md {}
+    @include md {
+      flex-direction: row;
+    }
 
     @include lg {
       flex-direction: row;
@@ -88,6 +90,7 @@
         justify-content: center;
         flex-wrap: wrap;
         letter-spacing: 0.5px;
+        border-radius: 8px;
 
         @include md {}
 
@@ -163,7 +166,6 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding-bottom: 60px;
       flex-direction: row;
       gap: 20px;
 
@@ -220,7 +222,9 @@
           width: 350px;
         }
 
-        @include lg {}
+        @include lg {
+          width: 300px;
+        }
 
         @include xl {
           width: 350px;

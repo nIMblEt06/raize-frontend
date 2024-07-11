@@ -86,6 +86,7 @@
 
 
                  @include md {
+                     padding: 1px 10px;
                      line-height: 24px;
                      letter-spacing: 0.5px;
                  }
@@ -133,10 +134,13 @@
                      letter-spacing: 0px;
 
                      @include md {
-                         letter-spacing: 0.5px;
+                         font-size: 13px;
                      }
 
-                     @include lg {}
+                     @include lg {
+                         letter-spacing: 0.5px;
+
+                     }
 
                      @include xl {
                          font-size: 15px;

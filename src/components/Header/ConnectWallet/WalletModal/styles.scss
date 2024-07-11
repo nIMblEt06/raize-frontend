@@ -1,9 +1,18 @@
+@import "../../../../app/mixin.scss";
+
 .WalletModal-Container {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     outline: none;
+    display: none;
+
+    @include md {
+        display: block
+    }
+
+    ;
 
     .WalletModal-Wrapper {
         width: 400px;
@@ -75,4 +84,68 @@
             gap: 10px;
         }
     }
+}
+
+.WalletModal-MobileContainer {
+    position: absolute;
+    bottom: 0%;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    outline: none;
+    display: block;
+    width: 100%;
+
+    @include md {
+        display: none
+    }
+
+    .WalletModal-Wrapper {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 20px;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        background-color: #0F0F0F;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        flex-direction: column;
+        gap: 20px;
+
+        .LogoContainer {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #292929;
+            font-family: 'GilmerMedium';
+            font-weight: 700;
+            font-size: 18px;
+            color: #FFFFFF;
+
+            span {
+                margin-top: 4px;
+            }
+
+            .Logo {
+                width: 30px;
+                height: 30px;
+            }
+        }
+
+        .WalletModal-ButtonContainer {
+            width: 100%;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+    }
+
+
 }

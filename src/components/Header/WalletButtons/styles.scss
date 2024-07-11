@@ -15,13 +15,13 @@
       box-sizing: border-box;
       font-style: normal;
       font-weight: 300;
-      font-size: 20px;
+      font-size: 14px;
       letter-spacing: 1px;
       cursor: pointer;
       display: flex;
       justify-content: space-around;
       align-items: center;
-      gap: 10px;
+      gap: 5px;
       color: #FE993F;
       position: relative;
       transition: all 0.2s ease-in-out;
@@ -29,7 +29,7 @@
       &::after {
         content: '';
         position: absolute;
-        bottom: -25px;
+        bottom: -18px;
         left: 50%;
         transform: translateX(-50%);
         width: 150px;
@@ -40,6 +40,20 @@
         background-repeat: no-repeat;
         filter: drop-shadow(5px 5px 31px #F5841F);
         transition: all 0.3s ease;
+
+        @include md {
+          bottom: -23px;
+          left: 50%;
+        }
+
+        @include lg {}
+
+        @include xl {
+          bottom: -25px;
+          left: 50%;
+        }
+
+        @include xxl {}
       }
 
       &:hover {
@@ -56,7 +70,17 @@
       }
 
       span {
-        margin-top: 5px;
+        margin-top: 3px;
+
+        @include md {
+          margin-top: 5px;
+        }
+
+        @include lg {}
+
+        @include xl {}
+
+        @include xxl {}
 
         .Bold {
           font-family: 'GilmerMedium';

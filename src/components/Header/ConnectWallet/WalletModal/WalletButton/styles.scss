@@ -1,6 +1,8 @@
+@import "../../../../../app/mixin.scss";
+
 .WalletButton {
-    width: 70%;
-    padding: 10px 20px;
+    width: 80%;
+    padding: 15px 30px;
     display: flex;
     align-items: center;
     gap: 10px;
@@ -8,6 +10,17 @@
     border-radius: 5px;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
+
+    @include md {
+        padding: 10px 20px;
+        width: 70%;
+    }
+
+    @include lg {}
+
+    @include xl {}
+
+    @include xxl {}
 
     &:hover {
         background-color: #151515;
