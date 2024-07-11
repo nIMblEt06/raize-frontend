@@ -24,7 +24,8 @@ export function StarknetProvider({ children }: { children: ReactNode }) {
 
   function rpc() {
     return {
-      nodeUrl: "https://starknet-mainnet.public.blastapi.io",
+      nodeUrl: "https://starknet-sepolia.public.blastapi.io", // testnet
+      // nodeUrl: "https://starknet-mainnet.public.blastapi.io", // mainnet
     };
   }
 
@@ -32,7 +33,7 @@ export function StarknetProvider({ children }: { children: ReactNode }) {
 
   return (
     <StarknetConfig
-      chains={[sepolia]}
+      chains={[mainnet, sepolia]}
       provider={provider}
       connectors={connectors}
       explorer={voyager}

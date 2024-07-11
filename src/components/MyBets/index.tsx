@@ -42,16 +42,21 @@ function MyBets() {
         } else {
           closedMarketsRes.push(market);
         }
-        const outcomeAndBet: UserBet = await contract.get_outcome_and_bet(
-          address,
-          market.market_id,
-          getMarketType(market.category)
-        );
-        if (market.is_active) {
-          openBets.push(outcomeAndBet);
-        } else {
-          closedBets.push(outcomeAndBet);
+        const getBetCount = await contract.get_num_bets_in_market(address, market.market_id, getMarketType(market.category));
+        for (let i = 0; i < getBetCount; i++) {
+          const outcomeAndBet: UserBet = await contract.get_outcome_and_bet(
+            address,
+            market.market_id,
+            getMarketType(market.category),
+            i + 1
+          );
+          if (market.is_active) {
+            openBets.push(outcomeAndBet);
+          } else {
+            closedBets.push(outcomeAndBet);
+          }
         }
+        
       }
       setOpenMarkets(openMarketsRes);
       setClosedMarkets(closedMarketsRes);
