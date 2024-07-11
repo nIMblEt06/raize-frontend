@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { motion } from "framer-motion";
 import { NextPage } from "next";
 import "./styles.scss";
 import HeaderLink from "../HeaderLink";
@@ -7,7 +7,11 @@ interface Props {}
 
 const HeaderMobile: NextPage<Props> = ({}) => {
   return (
-    <div className="HeaderMobile">
+    <motion.div
+      initial={{ y: -100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      className="HeaderMobile"
+    >
       <HeaderLink
         link="/"
         whiteIcon="/assets/icons/homeicon-white.svg"
@@ -20,7 +24,7 @@ const HeaderMobile: NextPage<Props> = ({}) => {
         coloredIcon="/assets/icons/bets.svg"
         linkCTA="My Bets"
       />
-    </div>
+    </motion.div>
   );
 };
 

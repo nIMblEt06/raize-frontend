@@ -2,13 +2,13 @@
 
 .Home {
     margin: 0 auto;
-    width: 90%;
+    width: 85%;
     max-width: 1300px;
     height: auto;
     display: flex;
     justify-content: start;
     flex-direction: column;
-    gap: 40px;
+    gap: 30px;
     box-sizing: border-box;
     padding-top: 30px;
     padding-bottom: 40px;
@@ -18,7 +18,9 @@
         // height: 100%;
     }
 
-    @include lg {}
+    @include lg {
+        gap: 20px;
+    }
 
     @include xl {
         justify-content: center;
@@ -29,6 +31,7 @@
     .Heading-Section {
         display: flex;
         flex-direction: column;
+        gap: 10px;
 
 
         @include md {}
@@ -43,22 +46,29 @@
             font-family: 'GilmerBold';
             font-style: normal;
             font-weight: 700;
-            font-size: 32px;
+            font-size: 30px;
             background: linear-gradient(270deg, #FAF9F9 0%, #CDCDCC 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             text-fill-color: transparent;
-            letter-spacing: 1px;
+            letter-spacing: 0px;
 
-            @include md {}
+            @include md {
+                letter-spacing: 1px;
+                font-size: 32px;
+            }
 
-            @include lg {}
+            @include lg {
+                font-size: 25px;
+            }
 
-            @include xl {}
+            @include xl {
+                font-size: 40px;
+            }
 
             @include xxl {
-                font-size: 52px;
+                font-size: 48px;
             }
         }
 
@@ -72,9 +82,11 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
             text-fill-color: transparent;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.3px;
 
-            @include md {}
+            @include md {
+                letter-spacing: 0.5px;
+            }
 
             @include lg {}
 

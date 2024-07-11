@@ -1,5 +1,4 @@
 import { NextPage } from "next";
-import Image from "next/image";
 
 interface Props {
   src: string;
@@ -10,7 +9,7 @@ interface Props {
 const CustomLogo: NextPage<Props> = ({ src, width, height }) => {
   return (
     <>
-      <Image
+      <img
         style={{
           width: width ? width : "100%",
           height: height ? height : "100%",
@@ -19,7 +18,7 @@ const CustomLogo: NextPage<Props> = ({ src, width, height }) => {
         width={0}
         height={0}
         src={src}
-        alt='raize'
+        alt="raize"
       />
     </>
   );

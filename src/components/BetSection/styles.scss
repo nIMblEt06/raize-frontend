@@ -71,11 +71,11 @@
 
       .Tab {
         flex: 0 0 auto;
-        padding: 8px 20px;
+        padding: 5px 10px;
         font-family: "GilmerMedium";
         font-style: normal;
         font-weight: 700;
-        font-size: 14px;
+        font-size: 11px;
         line-height: 24px;
         background: linear-gradient(270deg, #faf9f9 0%, #d7d7d7 100%);
         -webkit-background-clip: text;
@@ -89,6 +89,20 @@
         flex-wrap: wrap;
         letter-spacing: 0.5px;
 
+        @include md {}
+
+        @include lg {
+          padding: 5px 20px;
+          font-size: 12px;
+        }
+
+        @include xl {}
+
+        @include xxl {
+          padding: 8px 20px;
+          font-size: 14px;
+        }
+
         &:hover {
           opacity: 0.8;
         }
@@ -96,7 +110,7 @@
 
       .Tab-Active {
         flex: 0 0 auto;
-        padding: 8px 20px;
+        padding: 5px 10px;
         box-sizing: border-box;
         background: linear-gradient(90deg,
             #f5841f 0%,
@@ -104,20 +118,41 @@
             #e57b1d 50%,
             #d5731b 75%,
             #c66b19 100%);
-        border-radius: 10px;
+        border-radius: 8px;
         font-family: "GilmerMedium";
         font-style: normal;
         font-weight: 700;
-        font-size: 14px;
+        font-size: 11px;
         display: flex;
         justify-content: center;
         line-height: 24px;
         width: fit-content;
         color: white;
         cursor: pointer;
-        letter-spacing: 0.5px;
+        letter-spacing: 0.2px;
         animation: fadeIn 0.2s ease-in-out forwards;
 
+        @include md {
+          letter-spacing: 0.5px;
+        }
+
+        @include lg {
+          padding: 5px 20px;
+          font-size: 12px;
+          border-radius: 8px;
+        }
+
+        @include xl {
+          padding: 6px 18px;
+          font-size: 13px;
+          border-radius: 8px;
+        }
+
+        @include xxl {
+          padding: 8px 20px;
+          font-size: 14px;
+          border-radius: 10px;
+        }
       }
     }
 
@@ -155,9 +190,26 @@
         font-family: 'GilmerMedium';
         font-style: normal;
         font-weight: 600;
-        font-size: 30px;
+        font-size: 16px;
+        padding-top: 40px;
         color: #9C9C9C;
 
+        @include md {}
+
+        @include lg {
+          font-size: 20px;
+          padding-top: 40px;
+        }
+
+        @include xl {
+          font-size: 25px;
+          padding-top: 80px;
+        }
+
+        @include xxl {
+          font-size: 30px;
+          padding-top: 100px;
+        }
 
       }
 

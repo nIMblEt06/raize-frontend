@@ -80,11 +80,11 @@ const BetSection: NextPage<Props> = ({}) => {
           <BetHeroCard
             setActiveTab={setActiveTab}
             categoryIndex={2}
-            category="Sports"
+            category="Politics"
             categoryLogo={CRICKET_LOGO}
             categoryName="Cricket World Cup"
             cardBgColor="linear-gradient(67.58deg, #E20000 -0.96%, #9B3838 78.06%)"
-            image="/assets/images/kohli.svg"
+            image="/assets/images/pol.svg"
             scrollFn={scrollToElement}
           />
         </div>

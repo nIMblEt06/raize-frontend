@@ -6,7 +6,7 @@
     align-items: center;
     gap: 10px;
     color: #F5841F;
-    font-size: 16px;
+    font-size: 14px;
     letter-spacing: 0.5px;
     font-family: "GilmerRegular";
     text-decoration: none;
@@ -28,18 +28,23 @@
         background-position: center center;
         background-repeat: no-repeat;
         transition: all 0.2s ease;
+        display: none;
 
         @include md {}
 
         @include lg {
+            display: block;
+            bottom: -17px;
             width: 100px;
         }
 
         @include xl {
+            bottom: -24px;
             width: 200px;
         }
 
         @include xxl {
+            bottom: -25px;
             width: 200px;
         }
     }
@@ -55,7 +60,7 @@
     }
 
     @include xl {
-        font-size: 14px;
+        font-size: 15px;
     }
 
     @include xxl {
@@ -81,7 +86,7 @@
     gap: 10px;
     border-radius: 40px;
     color: #c6c6c6;
-    font-size: 16px;
+    font-size: 14px;
     letter-spacing: 0.5px;
     font-family: "GilmerRegular";
     text-decoration: none;
@@ -96,7 +101,7 @@
     }
 
     @include xl {
-        font-size: 14px;
+        font-size: 15px;
     }
 
     @include xxl {

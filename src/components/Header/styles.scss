@@ -11,9 +11,13 @@
         padding: 15px 30px;
     }
 
-    @include lg {}
+    @include lg {
+        padding: 10px 30px;
+    }
 
-    @include xl {}
+    @include xl {
+        padding: 15px 30px;
+    }
 
     @include xxl {
         padding: 15px 150px;
