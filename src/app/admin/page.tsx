@@ -128,7 +128,6 @@ export default function AdminPortal() {
                 type="checkbox"
                 checked={isHome}
                 onChange={() => setIsHome(!isHome)}
-                required
               />
             </label>
           </Box>

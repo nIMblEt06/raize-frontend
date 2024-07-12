@@ -66,7 +66,6 @@ function useCreateMarket(marketData: Data) {
       !marketData.category ||
       !marketData.deadline ||
       !marketData.image ||
-      !marketData.isHome ||
       !marketData.eventId
     )
       return [];
@@ -79,7 +78,7 @@ function useCreateMarket(marketData: Data) {
         marketData.image,
         marketData.deadline.getTime(),
         marketData.eventId,
-        marketData.isHome
+        marketData.isHome ? true : false
       ),
     ];
   }, [contract, address, marketData]);
