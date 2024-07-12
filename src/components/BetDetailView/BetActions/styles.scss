@@ -413,6 +413,7 @@
                 border: none;
                 color: #FFF;
                 font-size: 12px;
+                margin-top: 4px;
 
                 @include md {
                     font-size: 13px;
@@ -467,9 +468,9 @@
                 font-style: normal;
                 font-weight: 700;
                 font-size: 15px;
-                line-height: 34px;
                 text-align: right;
                 color: #00FF67;
+                margin-top: 5px;
 
 
                 @include md {
@@ -559,6 +560,7 @@
             }
         }
     }
+
     .BetPlaced {
         pointer-events: none;
     }

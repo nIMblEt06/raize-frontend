@@ -47,6 +47,7 @@ const BetActions: NextPage<Props> = ({ outcomes, moneyInPool, category }) => {
   const [betAmount, setBetAmount] = useState("");
   const [potentialWinnings, setPotentialWinnings] = useState(0);
   const [balance, setBalance] = useState("");
+  const [decimals, setDecimals] = useState(0);
   const [percent1, setPercent1] = useState(0);
   const [percent2, setPercent2] = useState(0);
 
@@ -109,12 +110,12 @@ const BetActions: NextPage<Props> = ({ outcomes, moneyInPool, category }) => {
     return [
       tokenContract.populateTransaction["approve"]!(
         CONTRACT_ADDRESS,
-        BigInt(parseFloat(betAmount) * 1e18)
+        BigInt(parseFloat(betAmount) * 10 ** decimals)
       ),
       contract.populateTransaction["buy_shares"]!(
         marketId,
         choice,
-        BigInt(parseFloat(betAmount) * 1e18),
+        BigInt(parseFloat(betAmount) * 10 ** decimals),
         getMarketType(category)
       ),
     ];
@@ -128,7 +129,11 @@ const BetActions: NextPage<Props> = ({ outcomes, moneyInPool, category }) => {
   useEffect(() => {
     if (!tokenContract || !address) return;
     tokenContract.balance_of(address).then((res: any) => {
-      setBalance(res.toString());
+      tokenContract.decimals().then((resp: any) => {
+        const balance = Number(res) / 10 ** Number(resp);
+        setBalance(balance.toString());
+        setDecimals(Number(resp));
+      });
     });
   }, [tokenContract, address, betAmount]);
 
@@ -140,14 +145,16 @@ const BetActions: NextPage<Props> = ({ outcomes, moneyInPool, category }) => {
     if (data && pending) {
       handleToast(
         "Transaction Pending",
-        "Your transaction is being processed, please wait for a few seconds."
+        "Your transaction is being processed, please wait for a few seconds.",
+        "info"
       );
     }
     if (data || success) {
       handleToast(
         "Prediction Placed Successfully!",
         "Watch out for the results in “My bets” section. PS - All the best for this and your next prediction.",
-        data!.transaction_hash
+        data!.transaction_hash,
+        "success"
       );
       setTimeout(() => {
         router.push("/");
@@ -156,18 +163,24 @@ const BetActions: NextPage<Props> = ({ outcomes, moneyInPool, category }) => {
     if (isError) {
       handleToast(
         "Oh shoot!",
-        "Something unexpected happened, check everything from your side while we check what happened on our end and try again."
+        "Something unexpected happened, check everything from your side while we check what happened on our end and try again.",
+        "info"
       );
     }
   }, [data, isError, isPending, isSuccess, success]);
 
-  const handleToast = (message: string, subHeading: string, hash?: string) => {
+  const handleToast = (
+    message: string,
+    subHeading: string,
+    type: string,
+    hash?: string
+  ) => {
     enqueueSnackbar(message, {
       //@ts-ignore
       variant: "custom",
       subHeading: subHeading,
       hash: hash,
-      type: "danger",
+      type: type,
       anchorOrigin: {
         vertical: "top",
         horizontal: "right",
@@ -176,23 +189,23 @@ const BetActions: NextPage<Props> = ({ outcomes, moneyInPool, category }) => {
   };
 
   return (
-    <Box className='BetActions'>
-      <span className='BetActions-Label'>Your Prediction</span>
-      <Box className='BetOptionsContainer'>
-        <span className='BetOptionsLabel'>Choose your option</span>
+    <Box className="BetActions">
+      <span className="BetActions-Label">Your Prediction</span>
+      <Box className="BetOptionsContainer">
+        <span className="BetOptionsLabel">Choose your option</span>
         <Box
           onClick={() => {
             setChoice(0);
           }}
           className={choice === 0 ? "BetOptionActive" : "BetOption"}
         >
-          <span className='Green'>
+          <span className="Green">
             {outcomes ? getString(outcomes[0].name) : "Yes"}
           </span>
-          <Box className='RadioButtonContainer'>
-            <span className='RadioLabel'>{percent1.toFixed(2)}%</span>
-            <Box className='RadioButton'>
-              <Box className='RadioButtonInner'></Box>
+          <Box className="RadioButtonContainer">
+            <span className="RadioLabel">{percent1.toFixed(2)}%</span>
+            <Box className="RadioButton">
+              <Box className="RadioButtonInner"></Box>
             </Box>
           </Box>
         </Box>
@@ -202,47 +215,45 @@ const BetActions: NextPage<Props> = ({ outcomes, moneyInPool, category }) => {
           }}
           className={choice === 1 ? "BetOptionActive" : "BetOption"}
         >
-          <span className='Red'>
+          <span className="Red">
             {outcomes ? getString(outcomes[1].name) : "No"}
           </span>
-          <Box className='RadioButtonContainer'>
-            <span className='RadioLabel'>{percent2.toFixed(2)}%</span>
-            <Box className='RadioButton'>
-              <Box className='RadioButtonInner'></Box>
+          <Box className="RadioButtonContainer">
+            <span className="RadioLabel">{percent2.toFixed(2)}%</span>
+            <Box className="RadioButton">
+              <Box className="RadioButtonInner"></Box>
             </Box>
           </Box>
         </Box>
       </Box>
-      <Box className='InputContainer'>
-        <span className='Label'>Order Value</span>
-        <Box className='InputWrapper'>
-          <Box className='Input-Left'>
-            <Box className='Starknet-logo'>
+      <Box className="InputContainer">
+        <span className="Label">Order Value</span>
+        <Box className="InputWrapper">
+          <Box className="Input-Left">
+            <Box className="Starknet-logo">
               <CustomLogo src={USDC_LOGO} />
             </Box>
             <input
-              className='InputField'
-              type='number'
-              id='numberInput'
-              name='numberInput'
+              className="InputField"
+              type="number"
+              id="numberInput"
+              name="numberInput"
               value={betAmount}
               onChange={(e) => getPotentialWinnings(e.target.value)}
-              placeholder='0.00'
+              placeholder="0.00"
               required
             />
           </Box>
-          <span className='InputField'>
-            Balance: {(parseFloat(balance) / 1e18).toString().slice(0, 7)}{" "}
-          </span>
+          <span className="InputField">Balance: {parseFloat(balance)} </span>
         </Box>
       </Box>
-      <Box className='ReturnStats'>
-        <span className='ReturnLabel'>Potential Winning</span>
-        <Box className='ReturnValue'>
+      <Box className="ReturnStats">
+        <span className="ReturnLabel">Potential Winning</span>
+        <Box className="ReturnValue">
           <span className={betAmount == "" ? "Gray" : "Green"}>
             {potentialWinnings ? potentialWinnings.toFixed(5) : 0}
           </span>
-          <Box className='Starknet-logo'>
+          <Box className="Starknet-logo">
             <CustomLogo src={USDC_LOGO} />
           </Box>
         </Box>
@@ -254,7 +265,7 @@ const BetActions: NextPage<Props> = ({ outcomes, moneyInPool, category }) => {
       ) : (
         <Box
           onClick={() => connect({ connector: connectors[0] })}
-          className='ActionBtn'
+          className="ActionBtn"
         >
           Connect Wallet
         </Box>
