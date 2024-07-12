@@ -1,6 +1,7 @@
 "use client";
 import { StarknetProvider } from "@/components/starknet-provider";
 import "./globals.css";
+import NextTopLoader from "nextjs-toploader";
 import Header from "@/components/Header";
 import { MarketProvider } from "./context/MarketProvider";
 import { SnackbarProvider } from "notistack";
@@ -13,15 +14,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang='en'>
+    <html lang="en">
       <head>
         <title>Raize Club | Turn Insights into Income</title>
         <meta
-          name='RaizeClub'
-          content='On-chain prediction market on the Starknet ecosystem.'
+          name="RaizeClub"
+          content="On-chain prediction market on the Starknet ecosystem."
         />
       </head>
       <body>
+        <NextTopLoader showSpinner={false} color="#F5841F" />
         <StarknetProvider>
           <Header />
           <HeaderMobile />

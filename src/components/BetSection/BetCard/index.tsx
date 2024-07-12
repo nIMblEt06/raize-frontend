@@ -5,13 +5,7 @@ import { useRouter } from "next/navigation";
 
 import "./styles.scss";
 import CustomLogo from "@/components/common/CustomIcons";
-import {
-  CLOCK_ICON,
-  ETH_LOGO,
-  STARKNET_LOGO,
-  US_LOGO,
-  USDC_LOGO,
-} from "@/components/helpers/icons";
+import { CLOCK_ICON, USDC_LOGO } from "@/components/helpers/icons";
 import { MarketContext } from "@/app/context/MarketProvider";
 import { Outcome } from "@/components/helpers/types";
 import {
@@ -158,7 +152,7 @@ const BetCard: NextPage<Props> = ({
       <div className="Pool-Stats">
         Prize Pool
         <span className="Pool-Value">
-          {(parseFloat(BigInt(moneyInPool).toString()) / 1e18)
+          {(parseFloat(BigInt(moneyInPool).toString()) / 10 ** 6)
             .toString()
             .slice(0, 7)}
         </span>

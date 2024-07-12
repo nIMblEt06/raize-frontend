@@ -28,8 +28,8 @@ export const getString = (string: any) => {
   return shortString.decodeShortString(string);
 };
 
-export const getNumber = (num: any) => {
-  return (parseFloat(BigInt(num).toString()) / 1e18).toString();
+export const getNumber = (num: any, decimals: number = 6) => {
+  return (parseFloat(BigInt(num).toString()) / 10 ** decimals).toString();
 };
 
 export const getTimeBetween = (dateFuture: number, dateNow: number) => {
