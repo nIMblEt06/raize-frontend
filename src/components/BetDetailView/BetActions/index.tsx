@@ -142,7 +142,9 @@ const BetActions: NextPage<Props> = ({ outcomes, moneyInPool, category }) => {
   });
 
   useEffect(() => {
+    console.log(data);
     if (data && pending) {
+      console.log("Pending");
       handleToast(
         "Transaction Pending",
         "Your transaction is being processed, please wait for a few seconds.",
@@ -153,8 +155,8 @@ const BetActions: NextPage<Props> = ({ outcomes, moneyInPool, category }) => {
       handleToast(
         "Prediction Placed Successfully!",
         "Watch out for the results in “My bets” section. PS - All the best for this and your next prediction.",
-        data!.transaction_hash,
-        "success"
+        "success",
+        data!.transaction_hash
       );
       setTimeout(() => {
         router.push("/");
