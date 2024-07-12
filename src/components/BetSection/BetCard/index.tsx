@@ -20,6 +20,8 @@ import {
   getTimeBetween,
 } from "@/components/helpers/functions";
 import Image from "next/image";
+import { Box } from "@mui/material";
+import { HiLockClosed } from "react-icons/hi2";
 
 interface Props {
   category: string;
@@ -30,6 +32,7 @@ interface Props {
   outcomes: Outcome[];
   moneyInPool: number;
   marketId: number;
+  isActive: boolean;
   index?: number;
 }
 
@@ -42,6 +45,7 @@ const BetCard: NextPage<Props> = ({
   outcomes,
   moneyInPool,
   marketId,
+  isActive,
   index,
 }) => {
   const router = useRouter();
@@ -88,6 +92,12 @@ const BetCard: NextPage<Props> = ({
     );
   };
 
+  const checkDeadline = (): boolean => {
+    const currentTime = new Date().getTime();
+    const deadline = new Date(parseInt(duration)).getTime();
+    return currentTime > deadline;
+  };
+
   return (
     <div
       ref={ref}
@@ -98,54 +108,61 @@ const BetCard: NextPage<Props> = ({
             ? `all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) ${(index % 3) / 10}s`
             : "all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 0.5s",
       }}
-      className='BetCard'
+      className="BetCard"
     >
-      <div className='BetCard-HeadingContainer'>
-        <div className='BetCard-CategoryContainer'>
-          <div className='CategoryLogo'>
-            <Image src={logo} alt='Logo' width={30} height={30} />
+      {(!isActive || checkDeadline()) && (
+        <Box className="MarketClosed">
+          <HiLockClosed />
+          <span>Market Closed</span>
+        </Box>
+      )}
+
+      <div className="BetCard-HeadingContainer">
+        <div className="BetCard-CategoryContainer">
+          <div className="CategoryLogo">
+            <Image src={logo} alt="Logo" width={30} height={30} />
           </div>
-          <div className='CategoryName'>{getString(category)}</div>
+          <div className="CategoryName">{getString(category)}</div>
         </div>
-        <div className='Bet-Duration'>
-          <div className='DurationIcon'>
+        <div className="Bet-Duration">
+          <div className="DurationIcon">
             <CustomLogo src={CLOCK_ICON} />
           </div>
           {daysRemaining}d : {hoursRemaining}h : {minutes}m
         </div>
       </div>
-      <div className='BetCard-DetailsWrapper'>
-        <span className='Heading'>{heading}</span>
-        <span className='Sub-Heading'>{subHeading}</span>
+      <div className="BetCard-DetailsWrapper">
+        <span className="Heading">{heading}</span>
+        <span className="Sub-Heading">{subHeading}</span>
       </div>
-      <div className='BetCard-OptionsContainer'>
+      <div className="BetCard-OptionsContainer">
         <div
           onClick={() => {
             handleOpen(0);
           }}
-          className='BetCard-Option'
+          className="BetCard-Option"
         >
-          <span className='Green-Text'>{getString(outcomes[0].name)}</span>
-          <span className='Bet-Stat'>{percent1.toFixed(2)}%</span>
+          <span className="Green-Text">{getString(outcomes[0].name)}</span>
+          <span className="Bet-Stat">{percent1.toFixed(2)}%</span>
         </div>
         <div
           onClick={() => {
             handleOpen(1);
           }}
-          className='BetCard-Option'
+          className="BetCard-Option"
         >
-          <span className='Red-Text'>{getString(outcomes[1].name)}</span>
-          <span className='Bet-Stat'>{percent2.toFixed(2)}%</span>
+          <span className="Red-Text">{getString(outcomes[1].name)}</span>
+          <span className="Bet-Stat">{percent2.toFixed(2)}%</span>
         </div>
       </div>
-      <div className='Pool-Stats'>
+      <div className="Pool-Stats">
         Prize Pool
-        <span className='Pool-Value'>
+        <span className="Pool-Value">
           {(parseFloat(BigInt(moneyInPool).toString()) / 1e18)
             .toString()
             .slice(0, 7)}
         </span>
-        <div className='Starknet-logo'>
+        <div className="Starknet-logo">
           <CustomLogo src={USDC_LOGO} />
         </div>
       </div>

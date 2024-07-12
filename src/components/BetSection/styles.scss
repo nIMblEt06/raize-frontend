@@ -164,7 +164,7 @@
       height: auto;
       flex-wrap: wrap;
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       align-items: center;
       flex-direction: row;
       gap: 20px;
@@ -217,21 +217,27 @@
 
       .BetCard-Container {
         width: 100%;
+        height: auto;
 
         @include md {
           width: 350px;
+          height: auto;
         }
 
         @include lg {
-          width: 300px;
+          width: 30%;
+          height: 280px;
         }
 
         @include xl {
-          width: 350px;
+          width: 30%;
+          height: 310px;
         }
 
         @include xxl {
-          width: 400px;
+          width: 33%;
+          max-width: 400px;
+          height: 310px;
         }
       }
     }

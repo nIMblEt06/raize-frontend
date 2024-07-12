@@ -139,6 +139,7 @@ const BetSection: NextPage<Props> = ({}) => {
                     subHeading={item.description}
                     outcomes={item.outcomes}
                     moneyInPool={item.money_in_pool}
+                    isActive={item.is_active}
                   />
                 </div>
               ))
@@ -167,6 +168,7 @@ const BetSection: NextPage<Props> = ({}) => {
                     subHeading={item.description}
                     outcomes={item.outcomes}
                     moneyInPool={item.money_in_pool}
+                    isActive={item.is_active}
                   />
                 </div>
               ))
