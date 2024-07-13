@@ -1,46 +1,91 @@
 import React from "react";
 import "./styles.scss";
-import Image from "next/image";
 import { Market, UserBet } from "@/components/helpers/types";
 import { getNumber, getString } from "@/components/helpers/functions";
-import { ETH_LOGO, STARKNET_LOGO, USDC_LOGO } from "@/components/helpers/icons";
+import { USDC_LOGO } from "@/components/helpers/icons";
+import { Box } from "@mui/material";
+import { motion } from "framer-motion";
+import CustomLogo from "@/components/common/CustomIcons";
+import LoaderComponent from "../LoaderComponent";
+import EmptyBetComponent from "../EmptyBetComponent";
+import DetailsButton from "./DetailsButton";
+import { options } from "@/components/helpers/constants";
 
 interface Props {
   openMarkets: Market[];
   openBets: UserBet[];
+  loading: boolean;
 }
-function OpenPositions({ openMarkets, openBets }: Props) {
+
+function OpenPositions({ openMarkets, openBets, loading }: Props) {
   return (
-    <div className='OpenPositions'>
-      <div className='Heading'>Open Positions</div>
-      <div className='Container'>
-        <div className='Headings'>
-          <p className='Status'>Status</p>
-          <p className='Event'>Event</p>
-          <p className='DatePlaced'>Bet Deadline</p>
-          <p className='StakedAmount'>Staked Amount</p>
-          <p className='Prediction'>Prediction</p>
-        </div>
-        {openMarkets.map((market, index) => (
-          <div className='Data' key={index}>
-            <p className='Status'>Open</p>
-            <p className='Event'>{market.name}</p>
-            <p className='DatePlaced'>
-              {new Date(parseInt(market.deadline)).toString().split("GMT")[0]}
-            </p>
-            <p className='BetToken StakedAmount'>
-              <Image src={USDC_LOGO} width={15} height={15} alt={"tokenImage"} />{" "}
-              {openBets.length > 0 && openBets[index]
-                ? getNumber(openBets[index].position.amount)
-                : "0"}
-            </p>
-            <p className='Yes Prediction'>
-              {openBets.length > 0 && openBets[index]
-                ? getString(openBets[index].outcome.name)
-                : "0"}
-            </p>
-          </div>
-        ))}
+    <div className="OpenPositions">
+      <div className="Heading">Open Positions</div>
+      <div className="Container">
+        {loading ? (
+          <LoaderComponent />
+        ) : openMarkets.length > 0 ? (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ ease: "easeInOut", duration: 0.35 }}
+              className="Headings"
+            >
+              <span className="Status">Status</span>
+              <span className="Event">Event</span>
+              <span className="DatePlaced">Bet Deadline</span>
+              <span className="StakedAmount">Staked Amount</span>
+              <span className="Prediction">Prediction</span>
+              <span className="Details"></span>
+            </motion.div>
+            {openMarkets.map((market, index) => (
+              <div className="Data" key={index}>
+                <span className="Status">Open</span>
+                <span className="Event">{market.name}</span>
+                <span className="DatePlaced">
+                  {
+                    new Date(parseInt(market.deadline))
+                      .toString()
+                      .split("GMT")[0]
+                  }
+                </span>
+                <span className="BetToken StakedAmount">
+                  <Box className="TokenLogo">
+                    <CustomLogo src={USDC_LOGO} />
+                  </Box>
+                  {openBets.length > 0 && openBets[index]
+                    ? getNumber(openBets[index].position.amount)
+                    : "0"}
+                </span>
+                <span className="Yes Prediction">
+                  {openBets.length > 0 && openBets[index]
+                    ? getString(openBets[index].outcome.name)
+                    : "0"}
+                </span>
+                <DetailsButton
+                  name={market.name}
+                  date={new Date(parseInt(market.deadline)).toLocaleDateString(
+                    "en-US",
+                    options
+                  )}
+                  amount={
+                    openBets.length > 0 && openBets[index]
+                      ? getNumber(openBets[index].position.amount)
+                      : "0"
+                  }
+                  prediction={
+                    openBets.length > 0 && openBets[index]
+                      ? getString(openBets[index].outcome.name)
+                      : "0"
+                  }
+                />
+              </div>
+            ))}
+          </>
+        ) : (
+          <EmptyBetComponent text="You have no open positions" />
+        )}
       </div>
     </div>
   );

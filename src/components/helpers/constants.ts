@@ -1,7 +1,7 @@
 export const CONTRACT_ADDRESS =
   "0x01d787b1e421bac2b912673883bb057f5a7ae36454298fce7375848340e99ff2"; // mainnet
 // export const CONTRACT_ADDRESS =
-  // "0x0619b19a4408751b5950814bc37937ff133cb5fb3e0d60b14ab3b203928d0de1"; // testnet
+// "0x0619b19a4408751b5950814bc37937ff133cb5fb3e0d60b14ab3b203928d0de1"; // testnet
 export const ETH_ADDRESS =
   "0x49d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7";
 export const USDC_ADDRESS =
@@ -13,4 +13,11 @@ export const MARKET_TYPES = {
   Sports: 0,
   Crypto: 1,
   General: 2,
+};
+
+export const options = {
+  weekday: "short" as "short",
+  year: "numeric" as "numeric",
+  month: "short" as "short",
+  day: "numeric" as "numeric",
 };

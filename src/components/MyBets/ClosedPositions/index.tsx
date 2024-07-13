@@ -13,14 +13,21 @@ import {
   useContractWrite,
   useWaitForTransaction,
 } from "@starknet-react/core";
-import { CONTRACT_ADDRESS } from "@/components/helpers/constants";
+import { CONTRACT_ADDRESS, options } from "@/components/helpers/constants";
 import abi from "../../../abi/ContractABI.json";
 import { USDC_LOGO } from "@/components/helpers/icons";
 import { enqueueSnackbar } from "notistack";
+import LoaderComponent from "../LoaderComponent";
+import EmptyBetComponent from "../EmptyBetComponent";
+import { motion } from "framer-motion";
+import { Box } from "@mui/material";
+import CustomLogo from "@/components/common/CustomIcons";
+import DetailsButton from "../OpenPositions/DetailsButton";
 
 interface Props {
   closedMarkets: Market[];
   closedBets: UserBet[];
+  loading: boolean;
 }
 
 enum WinStatus {
@@ -29,7 +36,7 @@ enum WinStatus {
   Claimable = "Claim",
 }
 
-function ClosedPositions({ closedMarkets, closedBets }: Props) {
+function ClosedPositions({ closedMarkets, closedBets, loading }: Props) {
   const { address } = useAccount();
   const [marketId, setMarketId] = useState<any>(null);
   const [categoryId, setCategoryId] = useState<any>(null);
@@ -38,7 +45,7 @@ function ClosedPositions({ closedMarkets, closedBets }: Props) {
   useEffect(() => {
     const newWinStatus = closedMarkets.map((market, index) => {
       const bet = closedBets[index];
-      
+
       if (!bet) return WinStatus.Lost; // Default or error state
       if (
         market.winning_outcome.Some &&
@@ -129,37 +136,62 @@ function ClosedPositions({ closedMarkets, closedBets }: Props) {
       : () => {};
 
     return (
-      <div className='Data' key={market.market_id}>
-        <p onClick={onClickHandler} className={`Status ${statusClass}`}>
-          {winStatus[index]}
-        </p>
-        <p className='Event'>{market.name}</p>
-        <p className='DatePlaced'>
+      <div className="Data" key={market.market_id}>
+        <span onClick={onClickHandler} className={`Status`}>
+          <span className={`${statusClass}`}>{winStatus[index]}</span>
+        </span>
+        <span className="Event">{market.name}</span>
+        <span className="DatePlaced">
           {new Date(parseInt(market.deadline)).toString().split("GMT")[0]}
-        </p>
-        <p className='BetToken StakedAmount'>
-          <Image src={USDC_LOGO} width={15} height={15} alt={"tokenImage"} />{" "}
+        </span>
+        <span className="BetToken StakedAmount">
+          <Box className="TokenLogo">
+            <CustomLogo src={USDC_LOGO} />
+          </Box>{" "}
           {getNumber(closedBets[index]?.position.amount || "0")}
-        </p>
-        <p className='Yes Prediction'>
+        </span>
+        <span className="Yes Prediction">
           {getString(closedBets[index]?.outcome.name || "0")}
-        </p>
+        </span>
+        <DetailsButton
+          name={market.name}
+          date={new Date(parseInt(market.deadline)).toLocaleDateString(
+            "en-US",
+            options
+          )}
+          amount={getNumber(closedBets[index]?.position.amount || "0")}
+          prediction={getString(closedBets[index]?.outcome.name || "0")}
+        />
       </div>
     );
   };
 
   return (
-    <div className='ClosedPositions'>
-      <div className='Heading'>Closed Positions</div>
-      <div className='Container'>
-        <div className='Headings'>
-          <p className='Status'>Status</p>
-          <p className='Event'>Event</p>
-          <p className='DatePlaced'>End Time</p>
-          <p className='StakedAmount'>Staked Amount</p>
-          <p className='Prediction'>Prediction</p>
-        </div>
-        {closedMarkets.map(renderMarket)}
+    <div className="ClosedPositions">
+      <div className="Heading">Closed Positions</div>
+      <div className="Container">
+        {loading ? (
+          <LoaderComponent />
+        ) : closedMarkets.length > 0 ? (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ ease: "easeInOut", duration: 0.35 }}
+              className="Headings"
+            >
+              <span className="Status">Status</span>
+              <span className="Event">Event</span>
+              <span className="DatePlaced">Bet Deadline</span>
+              <span className="StakedAmount">Staked Amount</span>
+              <span className="Prediction">Prediction</span>
+              <span className="Details"></span>
+            </motion.div>
+            {closedMarkets.map(renderMarket)}
+          </>
+        ) : (
+          <EmptyBetComponent text="You have no closed positions" />
+        )}
       </div>
     </div>
   );

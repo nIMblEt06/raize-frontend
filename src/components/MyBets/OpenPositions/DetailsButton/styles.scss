@@ -1,0 +1,26 @@
+@import "../../../../app/mixin.scss";
+
+.Details {
+    width: 30%;
+    display: block;
+    text-align: center;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 14px;
+    text-decoration-line: underline;
+
+    color: #FFEFE1;
+
+
+
+    @include md {
+        display: none;
+    }
+
+    @include lg {}
+
+    @include xl {
+        @include xxl {}
+    }
+
+}
