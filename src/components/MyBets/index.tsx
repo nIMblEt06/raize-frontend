@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import OpenPositions from "./OpenPositions";
 import ClosedPositions from "./ClosedPositions";
 import "./styles.scss";
-import { Market, Outcome, UserBet } from "../helpers/types";
+import { Market, UserBet } from "../helpers/types";
 import { useAccount, useContract } from "@starknet-react/core";
 import { CONTRACT_ADDRESS } from "../helpers/constants";
 import abi from "../../abi/ContractABI.json";
@@ -40,16 +40,12 @@ function MyBets() {
       const closedBets: any[] = [];
       const all_markets = normal_res.concat(crypto_res, sports_res);
       for (const market of all_markets) {
-        if (market.is_active) {
-          openMarketsRes.push(market);
-        } else {
-          closedMarketsRes.push(market);
-        }
         const getBetCount = await contract.get_num_bets_in_market(
           address,
           market.market_id,
           getMarketType(market.category)
         );
+        console.log(getBetCount, "getBetCount");
         for (let i = 0; i < getBetCount; i++) {
           const outcomeAndBet: UserBet = await contract.get_outcome_and_bet(
             address,
@@ -58,9 +54,11 @@ function MyBets() {
             i + 1
           );
           if (market.is_active) {
+            openMarketsRes.push(market);
             openBets.push(outcomeAndBet);
           } else {
             closedBets.push(outcomeAndBet);
+            closedMarketsRes.push(market);
           }
         }
       }
@@ -72,6 +70,8 @@ function MyBets() {
     };
     getAllMarkets();
   }, [address, contract]);
+
+  console.log(openMarkets, "openMarkets");
 
   return (
     <div className="MyBets">
