@@ -16,6 +16,7 @@ function MyBets() {
   const [openBets, setOpenBets] = useState<any>([]);
   const [closedMarkets, setClosedMarkets] = useState<Market[]>([]);
   const [closedBets, setClosedBets] = useState<any>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const { contract } = useContract({
     address: CONTRACT_ADDRESS,
@@ -24,7 +25,9 @@ function MyBets() {
 
   useEffect(() => {
     const getAllMarkets = async () => {
+      setLoading(true);
       if (!contract || !address) {
+        setLoading(false);
         return;
       }
       if (openMarkets.length > 0 || closedMarkets.length > 0) return;
@@ -63,14 +66,23 @@ function MyBets() {
       setClosedMarkets(closedMarketsRes);
       setOpenBets(openBets);
       setClosedBets(closedBets);
+      setLoading(false);
     };
     getAllMarkets();
   }, [address, contract]);
 
   return (
-    <div className='MyBets'>
-      <OpenPositions openMarkets={openMarkets} openBets={openBets} />
-      <ClosedPositions closedMarkets={closedMarkets} closedBets={closedBets} />
+    <div className="MyBets">
+      <OpenPositions
+        loading={loading}
+        openMarkets={openMarkets}
+        openBets={openBets}
+      />
+      <ClosedPositions
+        loading={loading}
+        closedMarkets={closedMarkets}
+        closedBets={closedBets}
+      />
     </div>
   );
 }

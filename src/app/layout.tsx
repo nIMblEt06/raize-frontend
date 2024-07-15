@@ -35,7 +35,14 @@ export default function RootLayout({
                 custom: CustomToastWrapper,
               }}
             >
-              <main style={{ flex: "1", width: "100%", overflowY: "scroll" }}>
+              <main
+                style={{
+                  flex: "1",
+                  width: "100%",
+                  height: "100%",
+                  overflowY: "scroll",
+                }}
+              >
                 {children}
               </main>
             </SnackbarProvider>

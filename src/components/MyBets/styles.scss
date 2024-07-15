@@ -1,4 +1,25 @@
+@import "../../app/mixin.scss";
+
 .MyBets {
   width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding-top: 30px;
   font-family: 'GilmerRegular';
+  overflow: auto;
+
+  @include md {}
+
+  @include lg {
+    padding-top: 30px;
+  }
+
+  @include xl {
+    padding-top: 40px;
+  }
+
+  @include xxl {
+    padding-top: 60px;
+  }
+
 }
