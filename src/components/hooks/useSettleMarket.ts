@@ -65,7 +65,6 @@ function useSettleMarket(marketData: Data) {
     });
 
   const settleMarket = async () => {
-    console.log(marketData);
     await writeAsync();
   };
 

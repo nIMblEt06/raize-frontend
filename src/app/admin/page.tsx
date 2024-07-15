@@ -152,8 +152,6 @@ export default function AdminPortal() {
       isHome,
     });
 
-  console.log("tx details", data);
-
   useEffect(() => {
     const validateMarket = () => {
       if (category == "Crypto Market") {
@@ -203,7 +201,6 @@ export default function AdminPortal() {
     uploadBytes(storageRef, file).then((snapshot) => {
       getDownloadURL(snapshot.ref).then((downloadURL) => {
         setImage(downloadURL);
-        console.log(downloadURL);
       });
     });
   };

@@ -20,7 +20,10 @@ import { enqueueSnackbar } from "notistack";
 
 interface Props {
   closedMarkets: Market[];
-  closedBets: UserBet[];
+  closedBets: {
+    outcomeAndBet: UserBet;
+    betNumber: number;
+  }[];
 }
 
 enum WinStatus {
@@ -34,11 +37,12 @@ function ClosedPositions({ closedMarkets, closedBets }: Props) {
   const [marketId, setMarketId] = useState<any>(null);
   const [categoryId, setCategoryId] = useState<any>(null);
   const [winStatus, setWinStatus] = useState<WinStatus[]>([]);
+  const [betNumber, setBetNumber] = useState<number>(0);
 
   useEffect(() => {
     const newWinStatus = closedMarkets.map((market, index) => {
-      const bet = closedBets[index];
-      
+      const bet = closedBets[index].outcomeAndBet;
+
       if (!bet) return WinStatus.Lost; // Default or error state
       if (
         market.winning_outcome.Some &&
@@ -61,7 +65,8 @@ function ClosedPositions({ closedMarkets, closedBets }: Props) {
     if (!address || !contract || !marketId || !categoryId) return [];
     return contract.populateTransaction["claim_winnings"]!(
       marketId,
-      categoryId
+      categoryId,
+      betNumber
     );
   }, [marketId, contract, categoryId, address]);
 
@@ -79,9 +84,14 @@ function ClosedPositions({ closedMarkets, closedBets }: Props) {
     setCategoryId(null);
   }, [marketId]);
 
-  const storeMarket = (marketId: number, category: string) => {
+  const storeMarket = (
+    marketId: number,
+    category: string,
+    betNumber: number
+  ) => {
     setMarketId(marketId);
     setCategoryId(getMarketType(category));
+    setBetNumber(betNumber);
   };
 
   useEffect(() => {
@@ -124,8 +134,9 @@ function ClosedPositions({ closedMarkets, closedBets }: Props) {
   const renderMarket = (market: Market, index: number) => {
     const isClaimable = winStatus[index] === WinStatus.Claimable;
     const statusClass = isClaimable ? "Claim" : "";
+    const betNumber = closedBets[index].betNumber;
     const onClickHandler = isClaimable
-      ? () => storeMarket(market.market_id, market.category)
+      ? () => storeMarket(market.market_id, market.category, betNumber)
       : () => {};
 
     return (
@@ -139,10 +150,10 @@ function ClosedPositions({ closedMarkets, closedBets }: Props) {
         </p>
         <p className='BetToken StakedAmount'>
           <Image src={USDC_LOGO} width={15} height={15} alt={"tokenImage"} />{" "}
-          {getNumber(closedBets[index]?.position.amount || "0")}
+          {getNumber(closedBets[index]?.outcomeAndBet.position.amount || "0")}
         </p>
         <p className='Yes Prediction'>
-          {getString(closedBets[index]?.outcome.name || "0")}
+          {getString(closedBets[index]?.outcomeAndBet.outcome.name || "0")}
         </p>
       </div>
     );

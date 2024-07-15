@@ -142,9 +142,7 @@ const BetActions: NextPage<Props> = ({ outcomes, moneyInPool, category }) => {
   });
 
   useEffect(() => {
-    console.log(data);
     if (data && pending) {
-      console.log("Pending");
       handleToast(
         "Transaction Pending",
         "Your transaction is being processed, please wait for a few seconds.",

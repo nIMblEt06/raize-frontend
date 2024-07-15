@@ -42,8 +42,8 @@ function MyBets() {
           market.market_id,
           getMarketType(market.category)
         );
-        console.log(getBetCount, "getBetCount");
         for (let i = 0; i < getBetCount; i++) {
+          let betNumber = i + 1;
           const outcomeAndBet: UserBet = await contract.get_outcome_and_bet(
             address,
             market.market_id,
@@ -54,7 +54,7 @@ function MyBets() {
             openMarketsRes.push(market);
             openBets.push(outcomeAndBet);
           } else {
-            closedBets.push(outcomeAndBet);
+            closedBets.push({ outcomeAndBet, betNumber });
             closedMarketsRes.push(market);
           }
         }
@@ -66,8 +66,6 @@ function MyBets() {
     };
     getAllMarkets();
   }, [address, contract]);
-
-  console.log(openMarkets, "openMarkets");
 
   return (
     <div className='MyBets'>

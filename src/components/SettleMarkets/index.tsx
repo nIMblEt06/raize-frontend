@@ -64,7 +64,6 @@ const SettleMarkets: NextPage<Props> = ({}) => {
             styles={colorStyles}
             options={select_markets}
             onChange={(id: any) => {
-              console.log(id.value);
               setMarketId(id.value);
             }}
           />
@@ -93,7 +92,6 @@ const SettleMarkets: NextPage<Props> = ({}) => {
             styles={colorStyles}
             options={select_markets}
             onChange={(id: any) => {
-              console.log(id.value);
               setMarketId(id.value);
             }}
           />
@@ -122,7 +120,6 @@ const SettleMarkets: NextPage<Props> = ({}) => {
             styles={colorStyles}
             options={select_markets}
             onChange={(id: any) => {
-              console.log(id.value);
               setMarketId(id.value);
             }}
           />

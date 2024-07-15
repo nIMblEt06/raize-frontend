@@ -40,8 +40,6 @@ const BetDetailView: NextPage = () => {
 
       if (categoryName === "Sports") {
         await contract.get_sports_market(marketId).then((res: any) => {
-          console.log(res);
-
           setMarket(res);
         });
       } else if (categoryName === "Crypto-Market") {
