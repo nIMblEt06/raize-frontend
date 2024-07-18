@@ -63,7 +63,7 @@ function MyBets() {
       setLoading(false);
     };
     getAllMarkets();
-  }, [address, contract]);
+  }, [address]);
 
   return (
     <div className='MyBets'>
