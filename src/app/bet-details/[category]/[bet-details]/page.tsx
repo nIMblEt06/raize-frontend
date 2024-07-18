@@ -6,13 +6,12 @@ import "./styles.scss";
 import { usePathname, useRouter } from "next/navigation";
 import { useAccount, useContract } from "@starknet-react/core";
 import abi from "../../../../abi/ContractABI.json";
-import { CONTRACT_ADDRESS, MARKET_TYPES } from "@/components/helpers/constants";
+import { CONTRACT_ADDRESS } from "@/components/helpers/constants";
 import { Market } from "@/components/helpers/types";
 import { NextPage } from "next";
 import { enqueueSnackbar } from "notistack";
 import CustomLogo from "@/components/common/CustomIcons";
 import { BACK_LOGO } from "@/components/helpers/icons";
-import { getMarketType } from "@/components/helpers/functions";
 
 const BetDetailView: NextPage = () => {
   const router = useRouter();
@@ -30,27 +29,15 @@ const BetDetailView: NextPage = () => {
 
   useEffect(() => {
     const getMarket = async () => {
-      const categoryName = pathname.split("/")[2];
       if (!contract) {
         return;
       }
       const encoded = pathname.split("/")[3];
       const hexPart = encoded.slice(0, -4);
       const marketId = parseInt(hexPart, 16);
-
-      if (categoryName === "Sports") {
-        await contract.get_sports_market(marketId).then((res: any) => {
-          setMarket(res);
-        });
-      } else if (categoryName === "Crypto-Market") {
-        await contract.get_crypto_market(marketId).then((res: any) => {
-          setMarket(res);
-        });
-      } else {
-        await contract.get_market(marketId).then((res: any) => {
-          setMarket(res);
-        });
-      }
+      await contract.get_market(marketId).then((res: any) => {
+        setMarket(res);
+      });
     };
     getMarket();
   }, [contract, address, pathname]);

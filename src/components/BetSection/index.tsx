@@ -59,12 +59,6 @@ const BetSection: NextPage<Props> = ({}) => {
       await contract.get_all_markets().then((res: any) => {
         setMarkets(res);
       });
-      await contract.get_all_crypto_markets().then((res: any) => {
-        setMarkets((prev) => prev.concat(res));
-      });
-      await contract.get_all_sports_markets().then((res: any) => {
-        setMarkets((prev) => prev.concat(res));
-      });
       setLoading(false);
     };
     getAllMarkets();

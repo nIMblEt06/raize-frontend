@@ -25,7 +25,6 @@ import {
 import abi from "../../../abi/ContractABI.json";
 import tokenABI from "../../../abi/ERC20ABI.json";
 import {
-  getMarketType,
   getProbabilites,
   getString,
 } from "@/components/helpers/functions";
@@ -98,7 +97,7 @@ const BetActions: NextPage<Props> = ({ outcomes, moneyInPool, category }) => {
   });
 
   const { contract: tokenContract } = useContract({
-    address: USDC_ADDRESS,
+    address: ETH_ADDRESS,
     abi: tokenABI,
   });
 
@@ -116,7 +115,6 @@ const BetActions: NextPage<Props> = ({ outcomes, moneyInPool, category }) => {
         marketId,
         choice,
         BigInt(parseFloat(betAmount) * 10 ** decimals),
-        getMarketType(category)
       ),
     ];
   }, [contract, address, choice, betAmount, tokenContract]);

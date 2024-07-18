@@ -3,7 +3,6 @@ import "./styles.scss";
 import Image from "next/image";
 import { Market, UserBet } from "@/components/helpers/types";
 import {
-  getMarketType,
   getNumber,
   getString,
 } from "@/components/helpers/functions";
@@ -42,15 +41,14 @@ enum WinStatus {
 function ClosedPositions({ closedMarkets, closedBets, loading }: Props) {
   const { address } = useAccount();
   const [marketId, setMarketId] = useState<any>(null);
-  const [categoryId, setCategoryId] = useState<any>(null);
   const [winStatus, setWinStatus] = useState<WinStatus[]>([]);
   const [betNumber, setBetNumber] = useState<number>(0);
 
   useEffect(() => {
     const newWinStatus = closedMarkets.map((market, index) => {
       const bet = closedBets[index].outcomeAndBet;
-
-      if (!bet) return WinStatus.Lost; // Default or error state
+      
+      if (!bet) return WinStatus.Lost;
       if (
         market.winning_outcome.Some &&
         market.winning_outcome.Some.name === bet.outcome.name
@@ -69,13 +67,12 @@ function ClosedPositions({ closedMarkets, closedBets, loading }: Props) {
   });
 
   const calls = useMemo(() => {
-    if (!address || !contract || !marketId || !categoryId) return [];
+    if (!address || !contract || !marketId ) return [];
     return contract.populateTransaction["claim_winnings"]!(
       marketId,
-      categoryId,
       betNumber
     );
-  }, [marketId, contract, categoryId, address]);
+  }, [marketId, contract, address]);
 
   const { writeAsync, data, error, isSuccess, isPending } = useContractWrite({
     calls,
@@ -88,7 +85,6 @@ function ClosedPositions({ closedMarkets, closedBets, loading }: Props) {
   useEffect(() => {
     marketId && writeAsync();
     setMarketId(null);
-    setCategoryId(null);
   }, [marketId]);
 
   const storeMarket = (
@@ -97,7 +93,6 @@ function ClosedPositions({ closedMarkets, closedBets, loading }: Props) {
     betNumber: number
   ) => {
     setMarketId(marketId);
-    setCategoryId(getMarketType(category));
     setBetNumber(betNumber);
   };
 
