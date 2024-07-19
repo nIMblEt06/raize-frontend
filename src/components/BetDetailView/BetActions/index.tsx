@@ -154,9 +154,6 @@ const BetActions: NextPage<Props> = ({ outcomes, moneyInPool, category }) => {
         "success",
         data!.transaction_hash
       );
-      setTimeout(() => {
-        router.push("/");
-      }, 5000);
     }
     if (isError) {
       handleToast(
