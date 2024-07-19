@@ -7,7 +7,8 @@
   justify-content: flex-start;
   margin-inline: auto;
 
-  @include md {}
+  @include md {
+  }
 
   @include lg {
     width: 80%;
@@ -18,15 +19,15 @@
     max-width: 1200px;
   }
 
-  @include xxl {}
-
-
+  @include xxl {
+  }
 
   .Heading {
     font-size: 22px;
     text-align: start;
 
-    @include md {}
+    @include md {
+    }
 
     @include lg {
       font-size: 25px;
@@ -83,7 +84,8 @@
       color: #818181;
       margin-bottom: 20px;
 
-      @include md {}
+      @include md {
+      }
 
       @include lg {
         font-size: 13px;
@@ -93,8 +95,6 @@
       @include xl {
         font-size: 14px;
       }
-
-
 
       .Status {
         width: 30%;
@@ -115,7 +115,6 @@
         @include xxl {
           width: 20%;
         }
-
       }
 
       .Event {
@@ -137,11 +136,9 @@
         @include xxl {
           width: 30%;
         }
-
       }
 
       .DatePlaced {
-
         text-align: left;
         display: none;
 
@@ -161,15 +158,11 @@
         @include xxl {
           width: 30%;
         }
-
       }
 
-
       .StakedAmount {
-
         text-align: end;
         display: none;
-
 
         @include md {
           display: block;
@@ -187,11 +180,9 @@
         @include xxl {
           width: 20%;
         }
-
       }
 
       .Prediction {
-
         text-align: end;
         display: none;
 
@@ -211,7 +202,6 @@
         @include xxl {
           width: 20%;
         }
-
       }
     }
 
@@ -224,8 +214,8 @@
       color: #fff;
       margin-top: 20px;
 
-
-      @include md {}
+      @include md {
+      }
 
       @include lg {
         font-size: 16px;
@@ -270,7 +260,8 @@
           width: 20%;
         }
 
-        @include xxl {}
+        @include xxl {
+        }
 
         .Claim {
           background-color: #d5741c;
@@ -288,17 +279,25 @@
             color: #d5741c;
           }
 
-          @include md {}
+          @include md {
+          }
 
-          @include lg {}
+          @include lg {
+          }
 
-          @include xl {}
+          @include xl {
+          }
 
-          @include xxl {}
+          @include xxl {
+          }
+        }
+
+        .Claim.Claimed {
+          color: #d5741c;
+          background-color: white;
+          pointer-events: none;
         }
       }
-
-
 
       .Event {
         width: 50%;
@@ -319,12 +318,11 @@
           width: 30%;
         }
 
-        @include xxl {}
-
+        @include xxl {
+        }
       }
 
       .DatePlaced {
-
         text-align: left;
         display: none;
         overflow: hidden;
@@ -344,8 +342,8 @@
           width: 30%;
         }
 
-        @include xxl {}
-
+        @include xxl {
+        }
       }
 
       .StakedAmount {
@@ -360,9 +358,11 @@
           height: 16px;
           margin-bottom: 3px;
 
-          @include md {}
+          @include md {
+          }
 
-          @include lg {}
+          @include lg {
+          }
 
           @include xl {
             width: 18px;
@@ -391,10 +391,9 @@
           width: 20%;
         }
 
-        @include xxl {}
-
+        @include xxl {
+        }
       }
-
 
       .Prediction {
         text-align: end;
@@ -413,8 +412,8 @@
           width: 20%;
         }
 
-        @include xxl {}
-
+        @include xxl {
+        }
       }
     }
   }

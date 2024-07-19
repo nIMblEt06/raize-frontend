@@ -4,9 +4,10 @@ interface Props {
   src: string;
   width?: string;
   height?: string;
+  radius?: string;
 }
 
-const CustomLogo: NextPage<Props> = ({ src, width, height }) => {
+const CustomLogo: NextPage<Props> = ({ src, width, height, radius }) => {
   return (
     <>
       <img
@@ -14,6 +15,7 @@ const CustomLogo: NextPage<Props> = ({ src, width, height }) => {
           width: width ? width : "100%",
           height: height ? height : "100%",
           objectFit: "cover",
+          borderRadius: radius ? radius : "0",
         }}
         width={0}
         height={0}

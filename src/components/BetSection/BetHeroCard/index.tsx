@@ -33,30 +33,30 @@ const BetHeroCard: NextPage<Props> = ({
     <div
       onMouseEnter={() => setStartAnimation(true)}
       onMouseLeave={() => setStartAnimation(false)}
-      className="BetHeroCard"
+      className='BetHeroCard'
       style={{ background: cardBgColor }}
     >
       <div
         style={{
           transform: startAnimation ? "scale(1.2)" : "scale(1)",
         }}
-        className="Background-Card"
+        className='Background-Card'
       ></div>
-      <div className="BetHeroCard-HeadingWrapper">
-        <div className="BetHeroCard-HeadingContainer">
-          <div className="Category">{category}</div>
-          <div className="Bet-Details">
-            <div className="Bet-Logo">
-              <CustomLogo src={categoryLogo} />
+      <div className='BetHeroCard-HeadingWrapper'>
+        <div className='BetHeroCard-HeadingContainer'>
+          <div className='Category'>{category}</div>
+          <div className='Bet-Details'>
+            <div className='Bet-Logo'>
+              <CustomLogo radius='4px' src={categoryLogo} />
             </div>
-            <span className="Bet-Name">{categoryName}</span>
+            <span className='Bet-Name'>{categoryName}</span>
           </div>
         </div>
-        <div className="Bet-Heading">{categoryName}</div>
+        <div className='Bet-Heading'>{categoryName}</div>
       </div>
       <motion.div
         whileTap={{ scale: 1.2 }}
-        className="Predict-Btn"
+        className='Predict-Btn'
         onClick={() => {
           setActiveTab(categoryIndex);
           if (scrollFn) {
@@ -69,7 +69,7 @@ const BetHeroCard: NextPage<Props> = ({
       <motion.div
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.8 }}
-        className="Card-Image"
+        className='Card-Image'
       >
         <CustomLogo src={image} />
       </motion.div>

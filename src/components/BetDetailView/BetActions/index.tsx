@@ -24,10 +24,7 @@ import {
 } from "@/components/helpers/constants";
 import abi from "../../../abi/ContractABI.json";
 import tokenABI from "../../../abi/ERC20ABI.json";
-import {
-  getProbabilites,
-  getString,
-} from "@/components/helpers/functions";
+import { getProbabilites, getString } from "@/components/helpers/functions";
 import { enqueueSnackbar } from "notistack";
 import { usePathname, useRouter } from "next/navigation";
 
@@ -114,15 +111,14 @@ const BetActions: NextPage<Props> = ({ outcomes, moneyInPool, category }) => {
       contract.populateTransaction["buy_shares"]!(
         marketId,
         choice,
-        BigInt(parseFloat(betAmount) * 10 ** decimals),
+        BigInt(parseFloat(betAmount) * 10 ** decimals)
       ),
     ];
   }, [contract, address, choice, betAmount, tokenContract]);
 
-  const { writeAsync, data, error, isError, isSuccess, isPending } =
-    useContractWrite({
-      calls,
-    });
+  const { writeAsync, data, isError } = useContractWrite({
+    calls,
+  });
 
   useEffect(() => {
     if (!tokenContract || !address) return;
@@ -147,7 +143,7 @@ const BetActions: NextPage<Props> = ({ outcomes, moneyInPool, category }) => {
         "info"
       );
     }
-    if (data || success) {
+    if (data && success) {
       handleToast(
         "Prediction Placed Successfully!",
         "Watch out for the results in “My bets” section. PS - All the best for this and your next prediction.",
@@ -162,7 +158,7 @@ const BetActions: NextPage<Props> = ({ outcomes, moneyInPool, category }) => {
         "info"
       );
     }
-  }, [data, isError, isPending, isSuccess, success]);
+  }, [data, isError, pending, success]);
 
   const handleToast = (
     message: string,
@@ -184,23 +180,23 @@ const BetActions: NextPage<Props> = ({ outcomes, moneyInPool, category }) => {
   };
 
   return (
-    <Box className="BetActions">
-      <span className="BetActions-Label">Your Prediction</span>
-      <Box className="BetOptionsContainer">
-        <span className="BetOptionsLabel">Choose your option</span>
+    <Box className='BetActions'>
+      <span className='BetActions-Label'>Your Prediction</span>
+      <Box className='BetOptionsContainer'>
+        <span className='BetOptionsLabel'>Choose your option</span>
         <Box
           onClick={() => {
             setChoice(0);
           }}
           className={choice === 0 ? "BetOptionActive" : "BetOption"}
         >
-          <span className="Green">
+          <span className='Green'>
             {outcomes ? getString(outcomes[0].name) : "Yes"}
           </span>
-          <Box className="RadioButtonContainer">
-            <span className="RadioLabel">{percent1.toFixed(2)}%</span>
-            <Box className="RadioButton">
-              <Box className="RadioButtonInner"></Box>
+          <Box className='RadioButtonContainer'>
+            <span className='RadioLabel'>{percent1.toFixed(2)}%</span>
+            <Box className='RadioButton'>
+              <Box className='RadioButtonInner'></Box>
             </Box>
           </Box>
         </Box>
@@ -210,45 +206,45 @@ const BetActions: NextPage<Props> = ({ outcomes, moneyInPool, category }) => {
           }}
           className={choice === 1 ? "BetOptionActive" : "BetOption"}
         >
-          <span className="Red">
+          <span className='Red'>
             {outcomes ? getString(outcomes[1].name) : "No"}
           </span>
-          <Box className="RadioButtonContainer">
-            <span className="RadioLabel">{percent2.toFixed(2)}%</span>
-            <Box className="RadioButton">
-              <Box className="RadioButtonInner"></Box>
+          <Box className='RadioButtonContainer'>
+            <span className='RadioLabel'>{percent2.toFixed(2)}%</span>
+            <Box className='RadioButton'>
+              <Box className='RadioButtonInner'></Box>
             </Box>
           </Box>
         </Box>
       </Box>
-      <Box className="InputContainer">
-        <span className="Label">Order Value</span>
-        <Box className="InputWrapper">
-          <Box className="Input-Left">
-            <Box className="Starknet-logo">
+      <Box className='InputContainer'>
+        <span className='Label'>Order Value</span>
+        <Box className='InputWrapper'>
+          <Box className='Input-Left'>
+            <Box className='Starknet-logo'>
               <CustomLogo src={USDC_LOGO} />
             </Box>
             <input
-              className="InputField"
-              type="number"
-              id="numberInput"
-              name="numberInput"
+              className='InputField'
+              type='number'
+              id='numberInput'
+              name='numberInput'
               value={betAmount}
               onChange={(e) => getPotentialWinnings(e.target.value)}
-              placeholder="0.00"
+              placeholder='0.00'
               required
             />
           </Box>
-          <span className="InputField">Balance: {parseFloat(balance)} </span>
+          <span className='InputField'>Balance: {parseFloat(balance)} </span>
         </Box>
       </Box>
-      <Box className="ReturnStats">
-        <span className="ReturnLabel">Potential Winning</span>
-        <Box className="ReturnValue">
+      <Box className='ReturnStats'>
+        <span className='ReturnLabel'>Potential Winning</span>
+        <Box className='ReturnValue'>
           <span className={betAmount == "" ? "Gray" : "Green"}>
             {potentialWinnings ? potentialWinnings.toFixed(5) : 0}
           </span>
-          <Box className="Starknet-logo">
+          <Box className='Starknet-logo'>
             <CustomLogo src={USDC_LOGO} />
           </Box>
         </Box>
@@ -260,7 +256,7 @@ const BetActions: NextPage<Props> = ({ outcomes, moneyInPool, category }) => {
       ) : (
         <Box
           onClick={() => connect({ connector: connectors[0] })}
-          className="ActionBtn"
+          className='ActionBtn'
         >
           Connect Wallet
         </Box>

@@ -2,10 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import "./styles.scss";
 import Image from "next/image";
 import { Market, UserBet } from "@/components/helpers/types";
-import {
-  getNumber,
-  getString,
-} from "@/components/helpers/functions";
+import { getNumber, getString } from "@/components/helpers/functions";
 import {
   useAccount,
   useContract,
@@ -39,15 +36,12 @@ enum WinStatus {
 }
 
 function ClosedPositions({ closedMarkets, closedBets, loading }: Props) {
-  const { address } = useAccount();
-  const [marketId, setMarketId] = useState<any>(null);
   const [winStatus, setWinStatus] = useState<WinStatus[]>([]);
-  const [betNumber, setBetNumber] = useState<number>(0);
 
   useEffect(() => {
     const newWinStatus = closedMarkets.map((market, index) => {
       const bet = closedBets[index].outcomeAndBet;
-      
+
       if (!bet) return WinStatus.Lost;
       if (
         market.winning_outcome.Some &&
@@ -66,66 +60,60 @@ function ClosedPositions({ closedMarkets, closedBets, loading }: Props) {
     abi: abi,
   });
 
-  const calls = useMemo(() => {
-    if (!address || !contract || !marketId ) return [];
-    return contract.populateTransaction["claim_winnings"]!(
-      marketId,
-      betNumber
-    );
-  }, [marketId, contract, address]);
-
-  const { writeAsync, data, error, isSuccess, isPending } = useContractWrite({
-    calls,
-  });
+  const { writeAsync, data, isError } = useContractWrite({});
 
   const { isPending: pending, isSuccess: success } = useWaitForTransaction({
     hash: data?.transaction_hash,
   });
 
-  useEffect(() => {
-    marketId && writeAsync();
-    setMarketId(null);
-  }, [marketId]);
+  console.log(data);
 
-  const storeMarket = (
-    marketId: number,
-    category: string,
-    betNumber: number
-  ) => {
-    setMarketId(marketId);
-    setBetNumber(betNumber);
+  const storeMarket = (marketId: number, betNumber: number) => {
+    writeAsync({
+      calls: contract!.populateTransaction["claim_winnings"]!(
+        marketId,
+        betNumber
+      ),
+    });
   };
 
   useEffect(() => {
-    if (pending && data) {
+    if (data && pending) {
       handleToast(
         "Transaction Pending",
-        "Your transaction is being processed, please wait for a few seconds."
+        "Your transaction is being processed, please wait for a few seconds.",
+        "info"
       );
     }
-    if (data || success) {
+    if (data && success) {
       handleToast(
         "Claim Successful!",
         "Money is credited in your wallet, all the best for your next prediction. We’ll let you in on a secret - it’s fun.",
+        "success",
         data!.transaction_hash
       );
-      setWinStatus([...winStatus!, (winStatus![marketId] = WinStatus.Won)]);
     }
-    if (error) {
+    if (isError) {
       handleToast(
         "Oh shoot!",
-        "Something unexpected happened, check everything from your side while we check what happened on our end and try again."
+        "Something unexpected happened, check everything from your side while we check what happened on our end and try again.",
+        "info"
       );
     }
-  }, [data, error, isPending, isSuccess, success, pending]);
+  }, [data, isError, pending, success]);
 
-  const handleToast = (message: string, subHeading: string, hash?: string) => {
+  const handleToast = (
+    message: string,
+    subHeading: string,
+    type: string,
+    hash?: string
+  ) => {
     enqueueSnackbar(message, {
       //@ts-ignore
       variant: "custom",
       subHeading: subHeading,
       hash: hash,
-      type: "danger",
+      type: type,
       anchorOrigin: {
         vertical: "top",
         horizontal: "right",
@@ -138,25 +126,29 @@ function ClosedPositions({ closedMarkets, closedBets, loading }: Props) {
     const statusClass = isClaimable ? "Claim" : "";
     const betNumber = closedBets[index].betNumber;
     const onClickHandler = isClaimable
-      ? () => storeMarket(market.market_id, market.category, betNumber)
+      ? () => storeMarket(market.market_id, betNumber)
       : () => {};
 
     return (
-      <div className="Data" key={market.market_id}>
+      <div className='Data' key={market.market_id}>
         <span onClick={onClickHandler} className={`Status`}>
-          <span className={`${statusClass}`}>{winStatus[index]}</span>
+          <span
+            className={`${statusClass} ${data && pending ? "Claimed" : ""}`}
+          >
+            {winStatus[index]}
+          </span>
         </span>
-        <span className="Event">{market.name}</span>
-        <span className="DatePlaced">
+        <span className='Event'>{market.name}</span>
+        <span className='DatePlaced'>
           {new Date(parseInt(market.deadline)).toString().split("GMT")[0]}
         </span>
-        <span className="BetToken StakedAmount">
-          <Box className="TokenLogo">
+        <span className='BetToken StakedAmount'>
+          <Box className='TokenLogo'>
             <CustomLogo src={USDC_LOGO} />
           </Box>{" "}
           {getNumber(closedBets[index]?.outcomeAndBet.position.amount || "0")}
         </span>
-        <span className="Yes Prediction">
+        <span className='Yes Prediction'>
           {getString(closedBets[index]?.outcomeAndBet.outcome.name || "0")}
         </span>
         <DetailsButton
@@ -165,17 +157,21 @@ function ClosedPositions({ closedMarkets, closedBets, loading }: Props) {
             "en-US",
             options
           )}
-          amount={getNumber(closedBets[index]?.outcomeAndBet.position.amount || "0")}
-          prediction={getString(closedBets[index]?.outcomeAndBet.outcome.name || "0")}
+          amount={getNumber(
+            closedBets[index]?.outcomeAndBet.position.amount || "0"
+          )}
+          prediction={getString(
+            closedBets[index]?.outcomeAndBet.outcome.name || "0"
+          )}
         />
       </div>
     );
   };
 
   return (
-    <div className="ClosedPositions">
-      <div className="Heading">Closed Positions</div>
-      <div className="Container">
+    <div className='ClosedPositions'>
+      <div className='Heading'>Closed Positions</div>
+      <div className='Container'>
         {loading ? (
           <LoaderComponent />
         ) : closedMarkets.length > 0 ? (
@@ -184,19 +180,19 @@ function ClosedPositions({ closedMarkets, closedBets, loading }: Props) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ ease: "easeInOut", duration: 0.35 }}
-              className="Headings"
+              className='Headings'
             >
-              <span className="Status">Status</span>
-              <span className="Event">Event</span>
-              <span className="DatePlaced">Bet Deadline</span>
-              <span className="StakedAmount">Staked Amount</span>
-              <span className="Prediction">Prediction</span>
-              <span className="Details"></span>
+              <span className='Status'>Status</span>
+              <span className='Event'>Event</span>
+              <span className='DatePlaced'>Bet Deadline</span>
+              <span className='StakedAmount'>Staked Amount</span>
+              <span className='Prediction'>Prediction</span>
+              <span className='Details'></span>
             </motion.div>
             {closedMarkets.map(renderMarket)}
           </>
         ) : (
-          <EmptyBetComponent text="You have no closed positions" />
+          <EmptyBetComponent text='You have no closed positions' />
         )}
       </div>
     </div>

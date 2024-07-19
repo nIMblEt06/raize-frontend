@@ -12,7 +12,7 @@ interface Props {
 }
 
 const getExplorerLinkForAddress = (hash: string) => {
-  return `https://sepolia.voyager.online/tx/${hash}`;
+  return `https://voyager.online/tx/${hash}`;
 };
 
 const CustomToast: NextPage<Props> = ({ message, subHeading, hash }) => {

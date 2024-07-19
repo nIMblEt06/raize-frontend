@@ -1,6 +1,7 @@
 export const ARGENT_LOGO = "/assets/logos/argentlogo.svg";
 export const RAIZE_LOGO = "/assets/logos/raizelogo.svg";
 export const CRICKET_LOGO = "/assets/logos/cricketlogo.svg";
+export const F1_LOGO = "/assets/logos/f1.svg";
 export const US_LOGO = "/assets/logos/uslogo.svg";
 export const CLOCK_ICON = "/assets/icons/clock.svg";
 export const CROSS_ICON = "/assets/icons/cross.svg";

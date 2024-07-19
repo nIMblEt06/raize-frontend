@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 
 import "./styles.scss";
 import BetHeroCard from "./BetHeroCard";
-import { CRICKET_LOGO, US_LOGO } from "../helpers/icons";
+import { F1_LOGO, US_LOGO } from "../helpers/icons";
 import BetCard from "./BetCard";
 import { useContract } from "@starknet-react/core";
 import abi from "../../abi/ContractABI.json";
@@ -68,35 +68,35 @@ const BetSection: NextPage<Props> = ({}) => {
     setActiveTab(0);
   }, []);
   return (
-    <div className="BetSection">
-      <div className="BetSection-Hero">
-        <div className="BetSection-HeroCard">
+    <div className='BetSection'>
+      <div className='BetSection-Hero'>
+        <div className='BetSection-HeroCard'>
           <BetHeroCard
             setActiveTab={setActiveTab}
             categoryIndex={3}
-            category="Politics"
+            category='Politics'
             categoryLogo={US_LOGO}
-            categoryName="US Elections"
-            cardBgColor="linear-gradient(67.58deg, #E20000 -0.96%, #9B3838 78.06%)"
-            image="/assets/images/pol.svg"
+            categoryName='US Elections'
+            cardBgColor='linear-gradient(67.58deg, #E20000 -0.96%, #9B3838 78.06%)'
+            image='/assets/images/pol.svg'
             scrollFn={scrollToElement}
           />
         </div>
-        <div className="BetSection-HeroCard">
+        <div className='BetSection-HeroCard'>
           <BetHeroCard
             setActiveTab={setActiveTab}
             categoryIndex={2}
-            category="Sports"
-            categoryLogo={CRICKET_LOGO}
-            categoryName="UEFA Euros 2024"
-            cardBgColor="linear-gradient(90deg, #143CDA 0%, #0D268A 100%)"
-            image="/assets/images/football.svg"
+            category='Sports'
+            categoryLogo={F1_LOGO}
+            categoryName='F1 World Champion'
+            cardBgColor='linear-gradient(90deg, #143CDA 0%, #0D268A 100%)'
+            image='/assets/images/f1.svg'
             scrollFn={scrollToElement}
           />
         </div>
       </div>
-      <div ref={betCardWrapperDiv} className="BetSection-CardWrapper">
-        <div className="Tabs-Section">
+      <div ref={betCardWrapperDiv} className='BetSection-CardWrapper'>
+        <div className='Tabs-Section'>
           {tabList.map((item, index) => (
             <div
               key={index}
@@ -109,10 +109,10 @@ const BetSection: NextPage<Props> = ({}) => {
             </div>
           ))}
         </div>
-        <div className="BetCard-Wrapper">
+        <div className='BetCard-Wrapper'>
           {loading ? (
-            <div className="LoaderDiv">
-              <CustomLoader size={"55"} color="#9C9C9C" />
+            <div className='LoaderDiv'>
+              <CustomLoader size={"55"} color='#9C9C9C' />
             </div>
           ) : activeTab === 0 && markets.length > 0 ? (
             markets
@@ -122,7 +122,7 @@ const BetSection: NextPage<Props> = ({}) => {
                   parseFloat(getNumber(a.money_in_pool))
               )
               .map((item, index) => (
-                <div key={index} className="BetCard-Container">
+                <div key={index} className='BetCard-Container'>
                   <BetCard
                     index={index}
                     marketId={item.market_id}
@@ -151,7 +151,7 @@ const BetSection: NextPage<Props> = ({}) => {
                   parseFloat(getNumber(a.money_in_pool))
               )
               .map((item, index) => (
-                <div key={index} className="BetCard-Container">
+                <div key={index} className='BetCard-Container'>
                   <BetCard
                     index={index}
                     marketId={item.market_id}
@@ -171,7 +171,7 @@ const BetSection: NextPage<Props> = ({}) => {
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ ease: "easeInOut", duration: 0.25 }}
-              className="PlaceholderText"
+              className='PlaceholderText'
             >
               No Active Events
             </motion.span>
