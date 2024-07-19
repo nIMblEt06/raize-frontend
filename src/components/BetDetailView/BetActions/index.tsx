@@ -97,7 +97,7 @@ const BetActions: NextPage<Props> = ({ outcomes, moneyInPool, category }) => {
   });
 
   const { contract: tokenContract } = useContract({
-    address: ETH_ADDRESS,
+    address: USDC_ADDRESS,
     abi: tokenABI,
   });
 
