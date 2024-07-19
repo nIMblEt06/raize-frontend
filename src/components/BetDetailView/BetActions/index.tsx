@@ -116,7 +116,7 @@ const BetActions: NextPage<Props> = ({ outcomes, moneyInPool, category }) => {
     ];
   }, [contract, address, choice, betAmount, tokenContract]);
 
-  const { writeAsync, data, isError } = useContractWrite({
+  const { writeAsync, data, isError, isSuccess } = useContractWrite({
     calls,
   });
 
@@ -143,14 +143,6 @@ const BetActions: NextPage<Props> = ({ outcomes, moneyInPool, category }) => {
         "info"
       );
     }
-    if (data && success) {
-      handleToast(
-        "Prediction Placed Successfully!",
-        "Watch out for the results in “My bets” section. PS - All the best for this and your next prediction.",
-        "success",
-        data!.transaction_hash
-      );
-    }
     if (isError) {
       handleToast(
         "Oh shoot!",
@@ -159,6 +151,17 @@ const BetActions: NextPage<Props> = ({ outcomes, moneyInPool, category }) => {
       );
     }
   }, [data, isError, pending, success]);
+
+  useEffect(() => {
+    if (data && success) {
+      handleToast(
+        "Prediction Placed Successfully!",
+        "Watch out for the results in “My bets” section. PS - All the best for this and your next prediction.",
+        "success",
+        data!.transaction_hash
+      );
+    }
+  }, [data, success, isSuccess]);
 
   const handleToast = (
     message: string,
