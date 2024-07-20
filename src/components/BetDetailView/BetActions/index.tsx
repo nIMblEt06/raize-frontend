@@ -140,7 +140,8 @@ const BetActions: NextPage<Props> = ({ outcomes, moneyInPool, category }) => {
       handleToast(
         "Transaction Pending",
         "Your transaction is being processed, please wait for a few seconds.",
-        "info"
+        "info",
+        data!.transaction_hash
       );
     }
     if (isError) {
@@ -150,10 +151,7 @@ const BetActions: NextPage<Props> = ({ outcomes, moneyInPool, category }) => {
         "info"
       );
     }
-  }, [data, isError, pending, success]);
-
-  useEffect(() => {
-    if (data && success) {
+    if (data && success || data && !pending) {
       handleToast(
         "Prediction Placed Successfully!",
         "Watch out for the results in “My bets” section. PS - All the best for this and your next prediction.",
@@ -161,7 +159,7 @@ const BetActions: NextPage<Props> = ({ outcomes, moneyInPool, category }) => {
         data!.transaction_hash
       );
     }
-  }, [data, success, isSuccess]);
+  }, [data, isError, pending, success]);
 
   const handleToast = (
     message: string,

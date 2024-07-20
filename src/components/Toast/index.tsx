@@ -1,5 +1,4 @@
 import { NextPage } from "next";
-import Image from "next/image";
 import "./styles.scss";
 
 import { Box } from "@mui/material";

@@ -82,10 +82,11 @@ function ClosedPositions({ closedMarkets, closedBets, loading }: Props) {
       handleToast(
         "Transaction Pending",
         "Your transaction is being processed, please wait for a few seconds.",
-        "info"
+        "info",
+        data!.transaction_hash
       );
     }
-    if (data && success) {
+    if (data && success || data && !pending) {
       handleToast(
         "Claim Successful!",
         "Money is credited in your wallet, all the best for your next prediction. We’ll let you in on a secret - it’s fun.",
@@ -133,7 +134,7 @@ function ClosedPositions({ closedMarkets, closedBets, loading }: Props) {
       <div className='Data' key={market.market_id}>
         <span onClick={onClickHandler} className={`Status`}>
           <span
-            className={`${statusClass} ${data && pending ? "Claimed" : ""}`}
+            className={`${statusClass}`}
           >
             {winStatus[index]}
           </span>
