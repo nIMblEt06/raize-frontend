@@ -86,7 +86,7 @@ function ClosedPositions({ closedMarkets, closedBets, loading }: Props) {
         data!.transaction_hash
       );
     }
-    if (data && success || data && !pending) {
+    if ((data && success) || (data && !pending)) {
       handleToast(
         "Claim Successful!",
         "Money is credited in your wallet, all the best for your next prediction. We’ll let you in on a secret - it’s fun.",
@@ -124,7 +124,8 @@ function ClosedPositions({ closedMarkets, closedBets, loading }: Props) {
 
   const renderMarket = (market: Market, index: number) => {
     const isClaimable = winStatus[index] === WinStatus.Claimable;
-    const statusClass = isClaimable ? "Claim" : "";
+    const hasWon = winStatus[index] === WinStatus.Won;
+    const statusClass = isClaimable ? "Claim" : hasWon ? "Won" : "Lost";
     const betNumber = closedBets[index].betNumber;
     const onClickHandler = isClaimable
       ? () => storeMarket(market.market_id, betNumber)
@@ -133,11 +134,7 @@ function ClosedPositions({ closedMarkets, closedBets, loading }: Props) {
     return (
       <div className='Data' key={market.market_id}>
         <span onClick={onClickHandler} className={`Status`}>
-          <span
-            className={`${statusClass}`}
-          >
-            {winStatus[index]}
-          </span>
+          <span className={`${statusClass}`}>{winStatus[index]}</span>
         </span>
         <span className='Event'>{market.name}</span>
         <span className='DatePlaced'>

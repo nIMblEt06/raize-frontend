@@ -240,10 +240,6 @@
         }
       }
 
-      .Yes {
-        color: #3dd179;
-      }
-
       .Status {
         width: 30%;
         text-align: left;
@@ -290,6 +286,12 @@
 
           @include xxl {
           }
+        }
+        .Won {
+          color: #3dd179;
+        }
+        .Lost {
+          color: #dd7168;
         }
       }
 
