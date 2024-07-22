@@ -73,17 +73,17 @@ const BetActions: NextPage<Props> = ({ outcomes, moneyInPool, category }) => {
         setPotentialWinnings(
           (parseFloat(value) *
             (parseFloat(value) +
-              parseFloat(BigInt(moneyInPool).toString()) / 1e18)) /
+              parseFloat(BigInt(moneyInPool).toString()) / 1e6)) /
             (parseFloat(value) +
-              parseFloat(outcomes[0].bought_shares.toString()) / 1e18)
+              parseFloat(outcomes[0].bought_shares.toString()) / 1e6)
         );
       } else {
         setPotentialWinnings(
           (parseFloat(value) *
             (parseFloat(value) +
-              parseFloat(BigInt(moneyInPool).toString()) / 1e18)) /
+              parseFloat(BigInt(moneyInPool).toString()) / 1e6)) /
             (parseFloat(value) +
-              parseFloat(outcomes[1].bought_shares.toString()) / 1e18)
+              parseFloat(outcomes[1].bought_shares.toString()) / 1e6)
         );
       }
     }
