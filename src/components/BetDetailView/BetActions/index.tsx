@@ -1,14 +1,8 @@
 "use client";
 import { NextPage } from "next";
 
-import {
-  useAccount,
-  useConnect,
-  useContract,
-  useContractWrite,
-  useWaitForTransaction,
-} from "@starknet-react/core";
-
+import { useAccount, useConnect } from "@starknet-react/core";
+import { MenuItem, Select } from "@mui/material";
 import { Box } from "@mui/material";
 import "./styles.scss";
 import CustomLogo from "@/components/common/CustomIcons";
@@ -16,17 +10,16 @@ import { ETH_LOGO, STARKNET_LOGO, USDC_LOGO } from "@/components/helpers/icons";
 import { useContext, useEffect, useMemo, useState } from "react";
 import { MarketContext } from "@/app/context/MarketProvider";
 import { Outcome } from "@/components/helpers/types";
-import { num } from "starknet";
 import {
-  CONTRACT_ADDRESS,
   ETH_ADDRESS,
+  STARK_ADDRESS,
   USDC_ADDRESS,
 } from "@/components/helpers/constants";
-import abi from "../../../abi/ContractABI.json";
-import tokenABI from "../../../abi/ERC20ABI.json";
 import { getProbabilites, getString } from "@/components/helpers/functions";
+import { usePathname } from "next/navigation";
+import usePlaceBet from "@/components/hooks/usePlaceBet";
+import useSwapTrade from "@/components/hooks/useSwapTrade";
 import { enqueueSnackbar } from "notistack";
-import { usePathname, useRouter } from "next/navigation";
 
 interface Props {
   outcomes: Outcome[];
@@ -36,16 +29,23 @@ interface Props {
 
 const BetActions: NextPage<Props> = ({ outcomes, moneyInPool, category }) => {
   const { address } = useAccount();
-  const router = useRouter();
   const pathname = usePathname();
   const { connectors, connect } = useConnect();
   const { choice, setChoice } = useContext(MarketContext);
   const [betAmount, setBetAmount] = useState("");
+  const [marketId, setMarketId] = useState(0);
   const [potentialWinnings, setPotentialWinnings] = useState(0);
-  const [balance, setBalance] = useState("");
-  const [decimals, setDecimals] = useState(0);
   const [percent1, setPercent1] = useState(0);
   const [percent2, setPercent2] = useState(0);
+  const [currentToken, setCurrentToken] = useState<string>(USDC_ADDRESS);
+  const [swapHash, setSwapHash] = useState<string>("");
+  const [swapError, setSwapError] = useState<boolean>(false);
+
+  const logoOptions = [
+    { value: ETH_ADDRESS, label: "ETH", src: ETH_LOGO },
+    { value: STARK_ADDRESS, label: "STRK", src: STARKNET_LOGO },
+    { value: USDC_ADDRESS, label: "USDC", src: USDC_LOGO },
+  ];
 
   useEffect(() => {
     if (!outcomes) return;
@@ -58,108 +58,77 @@ const BetActions: NextPage<Props> = ({ outcomes, moneyInPool, category }) => {
   }, [outcomes]);
 
   useEffect(() => {
-    if (moneyInPool && betAmount != "") {
-      getPotentialWinnings(betAmount);
-    }
-  }, [choice]);
+    const encoded = pathname.split("/")[3];
+    const hexPart = encoded.slice(0, -4);
+    const marketId = parseInt(hexPart, 16);
+    setMarketId(marketId);
+  }, [pathname]);
 
-  function getPotentialWinnings(value: string) {
+  const { balance, writeAsync, decimals } = usePlaceBet(
+    marketId,
+    betAmount,
+    choice,
+    currentToken
+  );
+
+  const { quote, executeTrade } = useSwapTrade(
+    currentToken,
+    betAmount,
+    decimals
+  );
+
+  function handleBetAmount(value: string) {
     if (value == "") {
       setBetAmount("");
       setPotentialWinnings(0);
     } else {
       setBetAmount(value);
-      if (choice == 0) {
-        setPotentialWinnings(
-          (parseFloat(value) *
-            (parseFloat(value) +
-              parseFloat(BigInt(moneyInPool).toString()) / 1e6)) /
-            (parseFloat(value) +
-              parseFloat(outcomes[0].bought_shares.toString()) / 1e6)
-        );
-      } else {
-        setPotentialWinnings(
-          (parseFloat(value) *
-            (parseFloat(value) +
-              parseFloat(BigInt(moneyInPool).toString()) / 1e6)) /
-            (parseFloat(value) +
-              parseFloat(outcomes[1].bought_shares.toString()) / 1e6)
-        );
-      }
     }
   }
-  const { contract } = useContract({
-    address: CONTRACT_ADDRESS,
-    abi: abi,
-  });
-
-  const { contract: tokenContract } = useContract({
-    address: USDC_ADDRESS,
-    abi: tokenABI,
-  });
-
-  const calls = useMemo(() => {
-    const encoded = pathname.split("/")[3];
-    const hexPart = encoded.slice(0, -4);
-    const marketId = parseInt(hexPart, 16);
-    if (!address || !contract || betAmount == "" || !tokenContract) return [];
-    return [
-      tokenContract.populateTransaction["approve"]!(
-        CONTRACT_ADDRESS,
-        BigInt(parseFloat(betAmount) * 10 ** decimals)
-      ),
-      contract.populateTransaction["buy_shares"]!(
-        marketId,
-        choice,
-        BigInt(parseFloat(betAmount) * 10 ** decimals)
-      ),
-    ];
-  }, [contract, address, choice, betAmount, tokenContract]);
-
-  const { writeAsync, data, isError, isSuccess } = useContractWrite({
-    calls,
-  });
 
   useEffect(() => {
-    if (!tokenContract || !address) return;
-    tokenContract.balance_of(address).then((res: any) => {
-      tokenContract.decimals().then((resp: any) => {
-        const balance = Number(res) / 10 ** Number(resp);
-        setBalance(balance.toString());
-        setDecimals(Number(resp));
-      });
-    });
-  }, [tokenContract, address, betAmount]);
-
-  const { isPending: pending, isSuccess: success } = useWaitForTransaction({
-    hash: data?.transaction_hash,
-  });
-
-  useEffect(() => {
-    if (data && pending) {
-      handleToast(
-        "Transaction Pending",
-        "Your transaction is being processed, please wait for a few seconds.",
-        "info",
-        data!.transaction_hash
-      );
+    if (currentToken == USDC_ADDRESS) {
+      if (moneyInPool && betAmount != "") {
+        if (choice == 0) {
+          setPotentialWinnings(
+            (parseFloat(betAmount) *
+              (parseFloat(betAmount) +
+                parseFloat(BigInt(moneyInPool).toString()) / 1e6)) /
+              (parseFloat(betAmount) +
+                parseFloat(outcomes[0].bought_shares.toString()) / 1e6)
+          );
+        } else {
+          setPotentialWinnings(
+            (parseFloat(betAmount) *
+              (parseFloat(betAmount) +
+                parseFloat(BigInt(moneyInPool).toString()) / 1e6)) /
+              (parseFloat(betAmount) +
+                parseFloat(outcomes[1].bought_shares.toString()) / 1e6)
+          );
+        }
+      }
+    } else {
+      if (moneyInPool && betAmount != "" && quote) {
+        if (choice == 0) {
+          setPotentialWinnings(
+            (quote?.buyAmountInUsd *
+              (quote?.buyAmountInUsd +
+                parseFloat(BigInt(moneyInPool).toString()) / 1e6)) /
+              (quote?.buyAmountInUsd +
+                parseFloat(outcomes[0].bought_shares.toString()) / 1e6)
+          );
+        } else {
+          setPotentialWinnings(
+            (quote?.buyAmountInUsd *
+              (quote?.buyAmountInUsd +
+                parseFloat(BigInt(moneyInPool).toString()) / 1e6)) /
+              (quote?.buyAmountInUsd +
+                parseFloat(outcomes[1].bought_shares.toString()) / 1e6)
+          );
+        }
+      }
     }
-    if (isError) {
-      handleToast(
-        "Oh shoot!",
-        "Something unexpected happened, check everything from your side while we check what happened on our end and try again.",
-        "info"
-      );
-    }
-    if (data && success || data && !pending) {
-      handleToast(
-        "Prediction Placed Successfully!",
-        "Watch out for the results in “My bets” section. PS - All the best for this and your next prediction.",
-        "success",
-        data!.transaction_hash
-      );
-    }
-  }, [data, isError, pending, success]);
+  }, [choice, betAmount, quote, moneyInPool, currentToken]);
 
   const handleToast = (
     message: string,
@@ -179,6 +148,32 @@ const BetActions: NextPage<Props> = ({ outcomes, moneyInPool, category }) => {
       },
     });
   };
+
+  useEffect(() => {
+    if (swapHash) {
+      handleToast(
+        "Transaction Pending",
+        "Your transaction is being processed, please wait for a few seconds.",
+        "info",
+        swapHash
+      );
+      setTimeout(() => {
+        handleToast(
+          "Successfully swapped to USDC!",
+          "Please place a bet using the USDC obtained!",
+          "success",
+          swapHash
+        );
+      }, 2000);
+    }
+    if (swapError) {
+      handleToast(
+        "Oh shoot!",
+        "Something unexpected happened, check everything from your side while we check what happened on our end and try again.",
+        "info"
+      );
+    }
+  }, [swapHash, swapError]);
 
   return (
     <Box className='BetActions'>
@@ -223,7 +218,17 @@ const BetActions: NextPage<Props> = ({ outcomes, moneyInPool, category }) => {
         <Box className='InputWrapper'>
           <Box className='Input-Left'>
             <Box className='Starknet-logo'>
-              <CustomLogo src={USDC_LOGO} />
+              <Select
+                value={currentToken}
+                onChange={(e) => setCurrentToken(e.target.value)}
+                className='LogoSelect'
+              >
+                {logoOptions.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    <CustomLogo width='20px' height='20px' src={option.src} />
+                  </MenuItem>
+                ))}
+              </Select>
             </Box>
             <input
               className='InputField'
@@ -231,13 +236,23 @@ const BetActions: NextPage<Props> = ({ outcomes, moneyInPool, category }) => {
               id='numberInput'
               name='numberInput'
               value={betAmount}
-              onChange={(e) => getPotentialWinnings(e.target.value)}
+              onChange={(e) => handleBetAmount(e.target.value)}
               placeholder='0.00'
               required
             />
           </Box>
-          <span className='InputField'>Balance: {parseFloat(balance)} </span>
+          <span className='BalanceField'>
+            $
+            {betAmount
+              ? currentToken !== USDC_ADDRESS && quote
+                ? quote?.buyAmountInUsd
+                : betAmount
+              : "0"}{" "}
+          </span>
         </Box>
+        <span className='BalanceField'>
+          Balance: {parseFloat(balance).toFixed(6)}{" "}
+        </span>
       </Box>
       <Box className='ReturnStats'>
         <span className='ReturnLabel'>Potential Winning</span>
@@ -251,8 +266,23 @@ const BetActions: NextPage<Props> = ({ outcomes, moneyInPool, category }) => {
         </Box>
       </Box>
       {address ? (
-        <Box onClick={() => writeAsync()} className={`ActionBtn`}>
-          {betAmount == "" ? "Enter Amount" : "Place Order"}
+        <Box
+          onClick={() =>
+            currentToken == USDC_ADDRESS
+              ? writeAsync()
+              : executeTrade()
+                  .then((res) => setSwapHash(res?.transactionHash!))
+                  .catch((err) => setSwapError(true))
+          }
+          className={`ActionBtn`}
+        >
+          {betAmount == ""
+            ? "Enter Amount"
+            : parseFloat(balance) > parseFloat(betAmount)
+            ? currentToken == USDC_ADDRESS
+              ? "Place Order"
+              : "Swap to USDC"
+            : "Insufficient Balance"}
         </Box>
       ) : (
         <Box
