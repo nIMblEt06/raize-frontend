@@ -47,7 +47,7 @@ const WalletModal: NextPage<Props> = ({ open, handleClose }) => {
                     <WalletButton
                       key={connector.id}
                       logo={connector.icon.dark}
-                      name={connector.name}
+                      // name={connector.name}
                       connector={connector}
                     />
                   ))}
@@ -70,7 +70,7 @@ const WalletModal: NextPage<Props> = ({ open, handleClose }) => {
                     <WalletButton
                       key={connector.id}
                       logo={connector.icon.dark}
-                      name={connector.name}
+                      // name={connector.name}
                       connector={connector}
                     />
                   ))}

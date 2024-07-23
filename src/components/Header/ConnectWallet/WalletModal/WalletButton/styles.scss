@@ -1,40 +1,49 @@
 @import "../../../../../app/mixin.scss";
 
 .WalletButton {
-    width: 80%;
-    padding: 15px 30px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background-color: #1D1D1D;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
+  width: 80%;
+  padding: 15px 30px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #1d1d1d;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
 
-    @include md {
-        padding: 10px 20px;
-        width: 70%;
+  @include md {
+    padding: 10px 20px;
+    width: 70%;
+  }
+
+  @include lg {
+  }
+
+  @include xl {
+  }
+
+  @include xxl {
+  }
+
+  &:hover {
+    background-color: #151515;
+  }
+
+  .WalletLogo {
+    width: 20px;
+    height: 20px;
+  }
+  .DangerWalletLogo {
+    svg {
+      width: 20px;
+      height: 20px;
     }
+  }
 
-    @include lg {}
-
-    @include xl {}
-
-    @include xxl {}
-
-    &:hover {
-        background-color: #151515;
-    }
-
-    .WalletLogo {
-        width: 20px;
-        height: 20px;
-    }
-
-    .WalletName {
-        margin-top: 1px;
-        color: white;
-        font-size: 14px;
-        font-family: 'GilmerRegular';
-    }
+  .WalletName {
+    margin-top: 1px;
+    color: white;
+    font-size: 14px;
+    font-family: "GilmerRegular";
+  }
 }
