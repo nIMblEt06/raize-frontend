@@ -22,23 +22,23 @@
       justify-content: space-around;
       align-items: center;
       gap: 5px;
-      color: #FE993F;
+      color: #fe993f;
       position: relative;
       transition: all 0.2s ease-in-out;
 
       &::after {
-        content: '';
+        content: "";
         position: absolute;
         bottom: -18px;
         left: 50%;
         transform: translateX(-50%);
         width: 150px;
         height: 2px;
-        background: url('/assets/images/line.svg');
+        background: url("/assets/images/line.svg");
         background-size: contain;
         background-position: center center;
         background-repeat: no-repeat;
-        filter: drop-shadow(5px 5px 31px #F5841F);
+        filter: drop-shadow(5px 5px 31px #f5841f);
         transition: all 0.3s ease;
 
         @include md {
@@ -46,14 +46,16 @@
           left: 50%;
         }
 
-        @include lg {}
+        @include lg {
+        }
 
         @include xl {
           bottom: -25px;
           left: 50%;
         }
 
-        @include xxl {}
+        @include xxl {
+        }
       }
 
       &:hover {
@@ -76,14 +78,17 @@
           margin-top: 5px;
         }
 
-        @include lg {}
+        @include lg {
+        }
 
-        @include xl {}
+        @include xl {
+        }
 
-        @include xxl {}
+        @include xxl {
+        }
 
         .Bold {
-          font-family: 'GilmerMedium';
+          font-family: "GilmerMedium";
         }
       }
 
@@ -91,11 +96,14 @@
         font-size: 14px;
       }
 
-      @include lg {}
+      @include lg {
+      }
 
-      @include xl {}
+      @include xl {
+      }
 
-      @include xxl {}
+      @include xxl {
+      }
     }
 
     .AddressBtn {
@@ -114,6 +122,13 @@
       align-items: center;
       gap: 10px;
       transition: all 0.1s ease-in-out;
+
+      .DangerWalletLogo {
+        svg {
+          width: 18px;
+          height: 18px;
+        }
+      }
 
       @include md {
         padding: 5px 15px;
@@ -151,11 +166,14 @@
           display: block;
         }
 
-        @include lg {}
+        @include lg {
+        }
 
-        @include xl {}
+        @include xl {
+        }
 
-        @include xxl {}
+        @include xxl {
+        }
       }
 
       .AddressBtn-Logo {
@@ -167,11 +185,14 @@
           height: 15px;
         }
 
-        @include lg {}
+        @include lg {
+        }
 
-        @include xl {}
+        @include xl {
+        }
 
-        @include xxl {}
+        @include xxl {
+        }
       }
     }
   }

@@ -22,6 +22,7 @@ import { motion } from "framer-motion";
 import { IoIosArrowDropdown } from "react-icons/io";
 import WalletDropdown from "./WalletDropdown";
 import useDropdown from "@/components/hooks/useDropdown";
+import { Box } from "@mui/material";
 
 interface Props {}
 
@@ -64,34 +65,43 @@ const WalletButtons: NextPage<Props> = ({}) => {
   }, [address, contract]);
 
   return (
-    <div className="WalletButtons">
+    <div className='WalletButtons'>
       {address ? (
-        <div className="Buttons">
-          <div className="ClaimButton" onClick={goToClaim}>
+        <div className='Buttons'>
+          <div className='ClaimButton' onClick={goToClaim}>
             <span>
               Claim{" "}
-              <span className="Bold">
+              <span className='Bold'>
                 {winnings &&
                   Number(winnings) > 0 &&
                   parseFloat(winnings).toFixed(3)}
               </span>
             </span>
-            <div className="ClaimButtonLogo">
+            <div className='ClaimButtonLogo'>
               <CustomLogo src={USDC_LOGO} />
             </div>
           </div>
           <motion.div
             whileTap={{ scale: 1.2 }}
             onClick={handleClick}
-            className="AddressBtn"
+            className='AddressBtn'
           >
-            <div className="AddressBtn-Logo">
-              {connector?.icon.dark && (
-                <CustomLogo src={connector?.icon.dark} />
+            <div className='AddressBtn-Logo'>
+              {connector?.id == "argentWebWallet" ||
+              connector?.id == "argentMobile" ? (
+                <div
+                  className='DangerWalletLogo'
+                  style={{ width: "20px", height: "20px" }}
+                  dangerouslySetInnerHTML={{ __html: connector.icon.dark! }}
+                />
+              ) : (
+                <Box className='WalletLogo'>
+                  {<CustomLogo src={connector?.icon.dark!} />}
+                </Box>
               )}
             </div>
             <span>{shortenedAddress}</span>
-            <span className="DropdownIcon">
+            <span className='DropdownIcon'>
               <IoIosArrowDropdown />
             </span>
           </motion.div>
