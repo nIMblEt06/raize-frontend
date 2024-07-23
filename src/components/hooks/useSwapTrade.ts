@@ -46,7 +46,7 @@ function useSwapTrade(
   const executeTrade = async () => {
     if (account) {
       const response: InvokeSwapResponse = await executeSwap(account, quote!, {
-        slippage: 0.1,
+        slippage: 0.06,
       });
       return response;
     }
