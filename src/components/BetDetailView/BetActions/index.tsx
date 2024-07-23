@@ -251,7 +251,9 @@ const BetActions: NextPage<Props> = ({ outcomes, moneyInPool, category }) => {
           </span>
         </Box>
         <span className='BalanceField'>
-          Balance: {parseFloat(balance).toFixed(6)}{" "}
+          {address
+            ? "Balance: " + parseFloat(balance).toFixed(6)
+            : "Please connect your wallet."}{" "}
         </span>
       </Box>
       <Box className='ReturnStats'>
