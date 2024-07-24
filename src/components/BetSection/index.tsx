@@ -16,6 +16,9 @@ interface Props {}
 
 const tabList = [
   {
+    tabName: "Daily Markets",
+  },
+  {
     tabName: "Trending",
   },
   {
@@ -115,6 +118,31 @@ const BetSection: NextPage<Props> = ({}) => {
               <CustomLoader size={"55"} color='#9C9C9C' />
             </div>
           ) : activeTab === 0 && markets.length > 0 ? (
+            markets
+              .filter((market) => {
+                const deadline = new Date(
+                  parseFloat(market.deadline)
+                ).getTime();
+                const oneDayFromNow = new Date().getTime();
+                return deadline - oneDayFromNow < 86400000;
+              })
+              .map((item, index) => (
+                <div key={index} className='BetCard-Container'>
+                  <BetCard
+                    index={index}
+                    marketId={item.market_id}
+                    category={item.category}
+                    logo={item.image}
+                    duration={item.deadline}
+                    heading={item.name}
+                    subHeading={item.description}
+                    outcomes={item.outcomes}
+                    moneyInPool={item.money_in_pool}
+                    isActive={item.is_active}
+                  />
+                </div>
+              ))
+          ) : activeTab === 1 && markets.length > 0 ? (
             markets
               .sort(
                 (a, b) =>
