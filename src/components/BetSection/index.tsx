@@ -76,7 +76,7 @@ const BetSection: NextPage<Props> = ({}) => {
         <div className='BetSection-HeroCard'>
           <BetHeroCard
             setActiveTab={setActiveTab}
-            categoryIndex={3}
+            categoryIndex={4}
             category='Politics'
             categoryLogo={US_LOGO}
             categoryName='US Elections'
@@ -88,7 +88,7 @@ const BetSection: NextPage<Props> = ({}) => {
         <div className='BetSection-HeroCard'>
           <BetHeroCard
             setActiveTab={setActiveTab}
-            categoryIndex={2}
+            categoryIndex={3}
             category='Sports'
             categoryLogo={F1_LOGO}
             categoryName='F1 World Champion'
