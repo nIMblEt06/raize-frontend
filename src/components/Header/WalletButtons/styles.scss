@@ -122,14 +122,6 @@
       align-items: center;
       gap: 10px;
       transition: all 0.1s ease-in-out;
-
-      .DangerWalletLogo {
-        svg {
-          width: 18px;
-          height: 18px;
-        }
-      }
-
       @include md {
         padding: 5px 15px;
         font-size: 14px;

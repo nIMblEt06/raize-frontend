@@ -12,7 +12,7 @@ import {
 
 import ConnectWallet from "../ConnectWallet";
 import CustomLogo from "@/components/common/CustomIcons";
-import { ARGENT_LOGO, ETH_LOGO, USDC_LOGO } from "@/components/helpers/icons";
+import { ARGENT_LOGO, ARGENT_MOBILE_LOGO, BRAAVOS_LOGO, USDC_LOGO } from "@/components/helpers/icons";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { CONTRACT_ADDRESS } from "@/components/helpers/constants";
@@ -64,6 +64,21 @@ const WalletButtons: NextPage<Props> = ({}) => {
     getUserTotalWinnings();
   }, [address, contract]);
 
+  const getLogo = () => {
+    switch (connector?.id) {
+      case "argentX":
+        return ARGENT_LOGO;
+      case "argentWebWallet":
+        return ARGENT_MOBILE_LOGO;
+      case "argentMobile":
+        return ARGENT_MOBILE_LOGO;
+      case "braavos":
+        return BRAAVOS_LOGO;
+      default:
+        return "";
+    }
+  };
+
   return (
     <div className='WalletButtons'>
       {address ? (
@@ -87,18 +102,7 @@ const WalletButtons: NextPage<Props> = ({}) => {
             className='AddressBtn'
           >
             <div className='AddressBtn-Logo'>
-              {connector?.id == "argentWebWallet" ||
-              connector?.id == "argentMobile" ? (
-                <div
-                  className='DangerWalletLogo'
-                  style={{ width: "20px", height: "20px" }}
-                  dangerouslySetInnerHTML={{ __html: connector.icon.dark! }}
-                />
-              ) : (
-                <Box className='WalletLogo'>
-                  {<CustomLogo src={connector?.icon.dark!} />}
-                </Box>
-              )}
+              <Box className='WalletLogo'>{<CustomLogo src={getLogo()} />}</Box>
             </div>
             <span>{shortenedAddress}</span>
             <span className='DropdownIcon'>

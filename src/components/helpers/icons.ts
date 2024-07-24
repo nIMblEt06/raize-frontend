@@ -1,4 +1,7 @@
 export const ARGENT_LOGO = "/assets/logos/argentlogo.svg";
+export const ARGENT_WEB_LOGO = "/assets/logos/argentWeb.svg";
+export const ARGENT_MOBILE_LOGO = "/assets/logos/argentMobile.svg";
+export const BRAAVOS_LOGO = "/assets/logos/braavos.svg";
 export const RAIZE_LOGO = "/assets/logos/raizelogo.svg";
 export const CRICKET_LOGO = "/assets/logos/cricketlogo.svg";
 export const F1_LOGO = "/assets/logos/f1.svg";

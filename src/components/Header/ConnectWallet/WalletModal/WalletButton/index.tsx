@@ -4,33 +4,59 @@ import "./styles.scss";
 import { Box } from "@mui/material";
 import CustomLogo from "@/components/common/CustomIcons";
 import { Connector, useConnect } from "@starknet-react/core";
+import {
+  ARGENT_LOGO,
+  ARGENT_MOBILE_LOGO,
+  BRAAVOS_LOGO,
+} from "@/components/helpers/icons";
 
 interface Props {
   // name: string;
-  logo: string | undefined;
   connector: Connector;
 }
 
-const WalletButton: NextPage<Props> = ({ logo, connector }) => {
+const WalletButton: NextPage<Props> = ({ connector }) => {
   const { connect } = useConnect();
   const handleConnect = async () => {
     await connect({ connector });
   };
 
-  console.log(connector.id, logo);
+  console.log(connector.id);
+
+  const getLogo = () => {
+    switch (connector.id) {
+      case "argentX":
+        return ARGENT_LOGO;
+      case "argentWebWallet":
+        return ARGENT_MOBILE_LOGO;
+      case "argentMobile":
+        return ARGENT_MOBILE_LOGO;
+      case "braavos":
+        return BRAAVOS_LOGO;
+      default:
+        return "";
+    }
+  };
+
+  const getName = () => {
+    switch (connector.id) {
+      case "argentX":
+        return "Argent X";
+      case "argentWebWallet":
+        return "Argent Web";
+      case "argentMobile":
+        return "Argent Mobile";
+      case "braavos":
+        return "Braavos";
+      default:
+        return "";
+    }
+  };
 
   return (
     <Box className='WalletButton' onClick={handleConnect}>
-      {connector.id == "argentWebWallet" || connector.id == "argentMobile" ? (
-        <div
-          className='DangerWalletLogo'
-          style={{ width: "20px", height: "20px" }}
-          dangerouslySetInnerHTML={{ __html: logo! }}
-        />
-      ) : (
-        <Box className='WalletLogo'>{logo && <CustomLogo src={logo} />}</Box>
-      )}
-      <span className='WalletName'>{connector.id}</span>
+      <Box className='WalletLogo'>{<CustomLogo src={getLogo()} />}</Box>
+      <span className='WalletName'>{getName()}</span>
     </Box>
   );
 };
