@@ -46,7 +46,6 @@ const WalletModal: NextPage<Props> = ({ open, handleClose }) => {
                   connectors.map((connector) => (
                     <WalletButton
                       key={connector.id}
-                      logo={connector.icon.dark}
                       // name={connector.name}
                       connector={connector}
                     />
@@ -69,7 +68,6 @@ const WalletModal: NextPage<Props> = ({ open, handleClose }) => {
                   connectors.map((connector) => (
                     <WalletButton
                       key={connector.id}
-                      logo={connector.icon.dark}
                       // name={connector.name}
                       connector={connector}
                     />

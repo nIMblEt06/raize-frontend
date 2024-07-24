@@ -12,7 +12,12 @@ import {
 
 import ConnectWallet from "../ConnectWallet";
 import CustomLogo from "@/components/common/CustomIcons";
-import { ARGENT_LOGO, ARGENT_MOBILE_LOGO, BRAAVOS_LOGO, USDC_LOGO } from "@/components/helpers/icons";
+import {
+  ARGENT_LOGO,
+  ARGENT_MOBILE_LOGO,
+  BRAAVOS_LOGO,
+  USDC_LOGO,
+} from "@/components/helpers/icons";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { CONTRACT_ADDRESS } from "@/components/helpers/constants";
