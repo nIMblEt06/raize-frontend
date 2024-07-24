@@ -16,10 +16,10 @@ interface Props {}
 
 const tabList = [
   {
-    tabName: "Daily Markets",
+    tabName: "Trending",
   },
   {
-    tabName: "Trending",
+    tabName: "Closing Soon",
   },
   {
     tabName: "Crypto Market",
@@ -117,7 +117,7 @@ const BetSection: NextPage<Props> = ({}) => {
             <div className='LoaderDiv'>
               <CustomLoader size={"55"} color='#9C9C9C' />
             </div>
-          ) : activeTab === 0 && markets.length > 0 ? (
+          ) : activeTab === 1 && markets.length > 0 ? (
             markets
               .filter((market) => {
                 const deadline = new Date(
@@ -142,7 +142,7 @@ const BetSection: NextPage<Props> = ({}) => {
                   />
                 </div>
               ))
-          ) : activeTab === 1 && markets.length > 0 ? (
+          ) : activeTab === 0 && markets.length > 0 ? (
             markets
               .sort(
                 (a, b) =>
