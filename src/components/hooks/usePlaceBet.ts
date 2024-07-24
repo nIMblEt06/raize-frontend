@@ -10,12 +10,14 @@ import {
 import abi from "../../abi/ContractABI.json";
 import tokenABI from "../../abi/ERC20ABI.json";
 import { useEffect, useMemo, useState } from "react";
+import useSwapTrade from "./useSwapTrade";
 
 const usePlaceBet = (
   marketId: number,
   betAmount: string,
   choice: number,
-  currentToken: string
+  currentToken: string,
+  amountUSDC?: any
 ) => {
   const { address } = useAccount();
   const { contract } = useContract({
@@ -27,13 +29,27 @@ const usePlaceBet = (
     address: currentToken,
     abi: tokenABI,
   });
+
+  const { contract: usdcContract } = useContract({
+    address: USDC_ADDRESS,
+    abi: tokenABI,
+  });
   const [balance, setBalance] = useState("");
   const [decimals, setDecimals] = useState(0);
 
+  const { swapCall } = useSwapTrade(currentToken, betAmount);
+
   const calls = useMemo(() => {
-    if (!address || !contract || betAmount == "" || !tokenContract) return [];
+    if (
+      !address ||
+      !contract ||
+      betAmount == "" ||
+      !usdcContract ||
+      decimals == 0
+    )
+      return [];
     return [
-      tokenContract.populateTransaction["approve"]!(
+      usdcContract.populateTransaction["approve"]!(
         CONTRACT_ADDRESS,
         BigInt(parseFloat(betAmount) * 10 ** decimals)
       ),
@@ -45,8 +61,23 @@ const usePlaceBet = (
     ];
   }, [contract, address, choice, betAmount, tokenContract]);
 
+  const swapCalls = useMemo(() => {
+    if (!address || !contract || !amountUSDC || !usdcContract) return [];
+    console.log(amountUSDC);
+
+    const calls = swapCall?.concat([
+      usdcContract.populateTransaction["approve"]!(
+        CONTRACT_ADDRESS,
+        amountUSDC
+      ),
+      contract.populateTransaction["buy_shares"]!(marketId, choice, amountUSDC),
+    ]);
+
+    return calls;
+  }, [address, contract, choice, swapCall, amountUSDC, decimals, marketId]);
+
   const { writeAsync, data, isError } = useContractWrite({
-    calls,
+    calls: currentToken === USDC_ADDRESS ? calls : swapCalls,
   });
 
   const getBalance = async () => {

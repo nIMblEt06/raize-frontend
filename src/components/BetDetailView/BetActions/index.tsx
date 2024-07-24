@@ -64,17 +64,14 @@ const BetActions: NextPage<Props> = ({ outcomes, moneyInPool, category }) => {
     setMarketId(marketId);
   }, [pathname]);
 
+  const { quote, executeTrade } = useSwapTrade(currentToken, betAmount);
+
   const { balance, writeAsync, decimals } = usePlaceBet(
     marketId,
     betAmount,
     choice,
-    currentToken
-  );
-
-  const { quote, executeTrade } = useSwapTrade(
     currentToken,
-    betAmount,
-    decimals
+    quote?.buyAmount
   );
 
   function handleBetAmount(value: string) {
@@ -269,21 +266,20 @@ const BetActions: NextPage<Props> = ({ outcomes, moneyInPool, category }) => {
       </Box>
       {address ? (
         <Box
-          onClick={() =>
-            currentToken == USDC_ADDRESS
-              ? writeAsync()
-              : executeTrade()
-                  .then((res) => setSwapHash(res?.transactionHash!))
-                  .catch((err) => setSwapError(true))
-          }
+          onClick={() => writeAsync()}
+          // onClick={() =>
+          //   currentToken == USDC_ADDRESS
+          //     ? writeAsync()
+          //     : executeTrade()
+          //         .then((res) => setSwapHash(res?.transactionHash!))
+          //         .catch((err) => setSwapError(true))
+          // }
           className={`ActionBtn`}
         >
           {betAmount == ""
             ? "Enter Amount"
             : parseFloat(balance) > parseFloat(betAmount)
-            ? currentToken == USDC_ADDRESS
-              ? "Place Order"
-              : "Swap to USDC"
+            ? "Place Order"
             : "Insufficient Balance"}
         </Box>
       ) : (

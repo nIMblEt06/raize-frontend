@@ -1,22 +1,36 @@
 import {
   executeSwap,
+  fetchBuildExecuteTransaction,
   fetchQuotes,
   InvokeSwapResponse,
   Quote,
 } from "@avnu/avnu-sdk";
-import { useAccount } from "@starknet-react/core";
+import { useAccount, useContract } from "@starknet-react/core";
 import { useEffect, useState } from "react";
 import { USDC_ADDRESS } from "../helpers/constants";
+import tokenABI from "../../abi/ERC20ABI.json";
 
 function useSwapTrade(
   sellTokenAddress: string,
   sellAmount: string,
-  decimals: number
 ) {
   const { account, address } = useAccount();
   const [quote, setQuote] = useState<Quote>();
+  const [swapCall, setSwapCall] = useState<any[]>();
+  const { contract: tokenContract } = useContract({
+    address: sellTokenAddress,
+    abi: tokenABI,
+  });
+  const [decimals, setDecimals] = useState(18);
+
 
   useEffect(() => {
+    const getBalance = async () => {
+      if (!tokenContract || !address) return;
+        tokenContract.decimals().then((resp: any) => {
+          setDecimals(Number(resp));
+      });
+    };
     const getQuotes = async () => {
       if (
         !address ||
@@ -37,9 +51,12 @@ function useSwapTrade(
         integratorName: "Raize",
       };
       const quotes: Quote[] = await fetchQuotes(params);
-
+      let result = await fetchBuildExecuteTransaction(quotes[0].quoteId);
+      const { calls } = result;
+      setSwapCall(calls);
       setQuote(quotes[0]);
     };
+    getBalance();
     getQuotes();
   }, [sellAmount, sellTokenAddress, address, decimals]);
 
@@ -52,7 +69,7 @@ function useSwapTrade(
     }
   };
 
-  return { quote, executeTrade };
+  return { quote, swapCall, executeTrade };
 }
 
 export default useSwapTrade;
