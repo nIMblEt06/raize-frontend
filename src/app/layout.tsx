@@ -21,6 +21,20 @@ export default function RootLayout({
           name="RaizeClub"
           content="On-chain prediction market on the Starknet ecosystem."
         />
+        <meta name="twitter:card" content="player" />
+        <meta name="twitter:site" content="@RaizeClub" />
+        <meta name="twitter:title" content="RaizeClub" />
+        <meta
+          name="twitter:description"
+          content="On-chain prediction market on the Starknet ecosystem."
+        />
+        <meta
+          name="twitter:player"
+          content="https://peach-isadora-9.tiiny.site/"
+        />
+        <meta name="twitter:player:width" content="360" />
+        <meta name="twitter:player:height" content="560" />
+        <meta name="twitter:image" content="https://freeimage.host/i/dxiyn5l" />
       </head>
       <body>
         <NextTopLoader showSpinner={false} color="#F5841F" />
