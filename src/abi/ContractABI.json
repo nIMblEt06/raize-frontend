@@ -624,6 +624,29 @@
                 "inputs": [],
                 "outputs": [],
                 "state_mutability": "external"
+            },
+            {
+                "type": "function",
+                "name": "set_platform_fee",
+                "inputs": [
+                    {
+                        "name": "fee",
+                        "type": "core::integer::u256"
+                    }
+                ],
+                "outputs": [],
+                "state_mutability": "external"
+            },
+            {
+                "type": "function",
+                "name": "get_platform_fee",
+                "inputs": [],
+                "outputs": [
+                    {
+                        "type": "core::integer::u256"
+                    }
+                ],
+                "state_mutability": "view"
             }
         ]
     },
