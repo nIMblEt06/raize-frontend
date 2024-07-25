@@ -30,7 +30,7 @@ export default function RootLayout({
         />
         <meta
           name="twitter:player"
-          content="https://66a257f774646231b6a288ca--chipper-entremet-b37dc2.netlify.app/"
+          content="https://nimblet06.github.io/raize-slink/"
         />
         <meta name="twitter:player:width" content="360" />
         <meta name="twitter:player:height" content="560" />
