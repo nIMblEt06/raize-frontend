@@ -34,7 +34,7 @@ export default function RootLayout({
         />
         <meta name="twitter:player:width" content="360" />
         <meta name="twitter:player:height" content="560" />
-        <meta name="twitter:image" content="https://freeimage.host/i/dxiyn5l" />
+        <meta name="twitter:image" content="https://freeimage.host/i/dxsbF6J" />
       </head>
       <body>
         <NextTopLoader showSpinner={false} color="#F5841F" />
