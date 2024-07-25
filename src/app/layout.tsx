@@ -30,7 +30,7 @@ export default function RootLayout({
         />
         <meta
           name="twitter:player"
-          content="https://peach-isadora-9.tiiny.site/"
+          content="https://66a257f774646231b6a288ca--chipper-entremet-b37dc2.netlify.app/"
         />
         <meta name="twitter:player:width" content="360" />
         <meta name="twitter:player:height" content="560" />
