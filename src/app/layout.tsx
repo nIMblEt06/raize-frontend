@@ -14,30 +14,27 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang='en'>
       <head>
         <title>Raize Club | Turn Insights into Income</title>
         <meta
-          name="RaizeClub"
-          content="On-chain prediction market on the Starknet ecosystem."
+          name='RaizeClub'
+          content='On-chain prediction market on the Starknet ecosystem.'
         />
-        <meta name="twitter:card" content="player" />
-        <meta name="twitter:site" content="@RaizeClub" />
-        <meta name="twitter:title" content="RaizeClub" />
+        <meta name='twitter:card' content='player' />
+        <meta name='twitter:site' content='@RaizeClub' />
+        <meta name='twitter:title' content='RaizeClub' />
         <meta
-          name="twitter:description"
-          content="On-chain prediction market on the Starknet ecosystem."
+          name='twitter:description'
+          content='On-chain prediction market on the Starknet ecosystem.'
         />
-        <meta
-          name="twitter:player"
-          content="https://nimblet06.github.io/raize-slink/"
-        />
-        <meta name="twitter:player:width" content="360" />
-        <meta name="twitter:player:height" content="560" />
-        <meta name="twitter:image" content="https://freeimage.host/i/dxsbF6J" />
+        <meta name='twitter:player' content='https://slink.raize.club' />
+        <meta name='twitter:player:width' content='360' />
+        <meta name='twitter:player:height' content='560' />
+        <meta name='twitter:image' content='https://freeimage.host/i/dxsbF6J' />
       </head>
       <body>
-        <NextTopLoader showSpinner={false} color="#F5841F" />
+        <NextTopLoader showSpinner={false} color='#F5841F' />
         <StarknetProvider>
           <Header />
           <HeaderMobile />
