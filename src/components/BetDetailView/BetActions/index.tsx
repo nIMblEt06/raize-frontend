@@ -38,8 +38,6 @@ const BetActions: NextPage<Props> = ({ outcomes, moneyInPool, category }) => {
   const [percent1, setPercent1] = useState(0);
   const [percent2, setPercent2] = useState(0);
   const [currentToken, setCurrentToken] = useState<string>(USDC_ADDRESS);
-  const [swapHash, setSwapHash] = useState<string>("");
-  const [swapError, setSwapError] = useState<boolean>(false);
 
   const logoOptions = [
     { value: ETH_ADDRESS, label: "ETH", src: ETH_LOGO },
@@ -64,9 +62,9 @@ const BetActions: NextPage<Props> = ({ outcomes, moneyInPool, category }) => {
     setMarketId(marketId);
   }, [pathname]);
 
-  const { quote, executeTrade } = useSwapTrade(currentToken, betAmount);
+  const { quote } = useSwapTrade(currentToken, betAmount);
 
-  const { balance, writeAsync, decimals } = usePlaceBet(
+  const { balance, writeAsync } = usePlaceBet(
     marketId,
     betAmount,
     choice,
@@ -145,32 +143,6 @@ const BetActions: NextPage<Props> = ({ outcomes, moneyInPool, category }) => {
       },
     });
   };
-
-  useEffect(() => {
-    if (swapHash) {
-      handleToast(
-        "Transaction Pending",
-        "Your transaction is being processed, please wait for a few seconds.",
-        "info",
-        swapHash
-      );
-      setTimeout(() => {
-        handleToast(
-          "Successfully swapped to USDC!",
-          "Please place a bet using the USDC obtained!",
-          "success",
-          swapHash
-        );
-      }, 2000);
-    }
-    if (swapError) {
-      handleToast(
-        "Oh shoot!",
-        "Something unexpected happened, check everything from your side while we check what happened on our end and try again.",
-        "info"
-      );
-    }
-  }, [swapHash, swapError]);
 
   return (
     <Box className='BetActions'>
@@ -267,13 +239,6 @@ const BetActions: NextPage<Props> = ({ outcomes, moneyInPool, category }) => {
       {address ? (
         <Box
           onClick={() => writeAsync()}
-          // onClick={() =>
-          //   currentToken == USDC_ADDRESS
-          //     ? writeAsync()
-          //     : executeTrade()
-          //         .then((res) => setSwapHash(res?.transactionHash!))
-          //         .catch((err) => setSwapError(true))
-          // }
           className={`ActionBtn`}
         >
           {betAmount == ""

@@ -2,11 +2,13 @@ import {
   useAccount,
   useContract,
   useContractWrite,
+  useWaitForTransaction,
 } from "@starknet-react/core";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { cairo } from "starknet";
 import { CONTRACT_ADDRESS } from "../helpers/constants";
 import abi from "../../abi/ContractABI.json";
+import { enqueueSnackbar } from "notistack";
 
 interface Data {
   heading: string;
@@ -128,6 +130,55 @@ function useCreateMarket(marketData: Data) {
   const createMarket = async () => {
     await writeAsync();
   };
+
+  const handleToast = (
+    message: string,
+    subHeading: string,
+    type: string,
+    hash?: string
+  ) => {
+    enqueueSnackbar(message, {
+      //@ts-ignore
+      variant: "custom",
+      subHeading: subHeading,
+      hash: hash,
+      type: type,
+      anchorOrigin: {
+        vertical: "top",
+        horizontal: "right",
+      },
+    });
+  };
+
+  const { isPending: pending, isSuccess: success } = useWaitForTransaction({
+    hash: data?.transaction_hash,
+  });
+
+  useEffect(() => {
+    if (data && pending) {
+      handleToast(
+        "Transaction Pending",
+        "Your market is being made, please wait for a few seconds.",
+        "info",
+        data!.transaction_hash
+      );
+    }
+    if (isError) {
+      handleToast(
+        "Oh shoot!",
+        "Something unexpected happened, check everything from your side while we check what happened on our end and try again.",
+        "info"
+      );
+    }
+    if ((data && success) || (data && !pending)) {
+      handleToast(
+        "Market Created Succesfully!",
+        "Your market is now live, let's start trading.",
+        "success",
+        data!.transaction_hash
+      );
+    }
+  }, [data, isError, pending, success]);
 
   return { createMarket, data, isError, isSuccess, isPending, error };
 }

@@ -8,8 +8,6 @@ import { useContract } from "@starknet-react/core";
 import { CONTRACT_ADDRESS } from "../helpers/constants";
 import abi from "../../abi/ContractABI.json";
 import { Market } from "../helpers/types";
-import { Radio, RadioGroup } from "rsuite";
-import useSettleMarket from "../hooks/useSettleMarket";
 import useToggleMarket from "../hooks/useToggleMarket";
 import { getString } from "../helpers/functions";
 
