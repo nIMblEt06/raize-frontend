@@ -10,6 +10,7 @@ import abi from "../../abi/ContractABI.json";
 import { Market } from "../helpers/types";
 import { Radio, RadioGroup } from "rsuite";
 import useSettleMarket from "../hooks/useSettleMarket";
+import useToggleMarket from "../hooks/useToggleMarket";
 import { getString } from "../helpers/functions";
 
 interface Props {}
@@ -29,10 +30,9 @@ const settel_categories = [
   },
 ];
 
-const SettleMarkets: NextPage<Props> = ({}) => {
+const ToggleMarkets: NextPage<Props> = ({}) => {
   const [category, setCategory] = useState("");
   const [marketId, setMarketId] = useState<BigInt>(BigInt(0));
-  const [value, setValue] = useState<any>("Yes");
   const [allMarkets, setAllMarkets] = useState<Market[]>([]);
 
   const { contract } = useContract({
@@ -40,11 +40,7 @@ const SettleMarkets: NextPage<Props> = ({}) => {
     abi: abi,
   });
 
-  const { settleMarket } = useSettleMarket({
-    category: category,
-    marketId: marketId,
-    outcome: value === "Yes" ? 0 : 1,
-  });
+  const { toggleMarket } = useToggleMarket(marketId);
 
   const returnAllMarkets = () => {
     const select_markets: any = [];
@@ -184,25 +180,9 @@ const SettleMarkets: NextPage<Props> = ({}) => {
         </Box>
       )}
       {marketId && (
-        <Box className='InputContainer'>
-          <span className='Label'>Outcome</span>
-          <Box className='Input'>
-            <RadioGroup
-              value={value}
-              onChange={setValue}
-              name='radio-group'
-              defaultValue='Yes'
-            >
-              <Radio value='Yes'>Yes</Radio>
-              <Radio value='No'>No</Radio>
-            </RadioGroup>
-          </Box>
-        </Box>
-      )}
-      {marketId && (
         <Box className='Submit'>
-          <button onClick={settleMarket} className='SubmitButton'>
-            Settle Market
+          <button onClick={toggleMarket} className='SubmitButton'>
+            Toggle Market
           </button>
         </Box>
       )}
@@ -210,4 +190,4 @@ const SettleMarkets: NextPage<Props> = ({}) => {
   );
 };
 
-export default SettleMarkets;
+export default ToggleMarkets;

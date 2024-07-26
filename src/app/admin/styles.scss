@@ -2,6 +2,23 @@
   min-height: calc(100vh - 130px);
   color: #e8e8e8;
   font-family: "GilmerRegular";
+  .Action-Choice {
+    display: flex;
+    justify-content: center;
+    margin: 50px auto;
+    .Action-Button {
+      background-color: #f5a623;
+      color: #fff;
+      font-family: "GilmerMedium";
+      font-size: 14px;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      outline: none;
+      margin: 0 20px;
+    }
+  }
   .Heading-Section {
     display: flex;
     justify-content: center;
