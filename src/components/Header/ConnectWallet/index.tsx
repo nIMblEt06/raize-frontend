@@ -17,7 +17,7 @@ const ConnectWallet: NextPage<Props> = ({}) => {
   };
   return (
     <>
-      <div className="ConnectBtn" onClick={handleOpen}>
+      <div className='ConnectBtn' onClick={handleOpen}>
         Connect Wallet
       </div>
       <WalletModal open={openWalletModal} handleClose={handleClose} />

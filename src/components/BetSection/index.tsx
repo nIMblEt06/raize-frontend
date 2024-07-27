@@ -117,14 +117,19 @@ const BetSection: NextPage<Props> = ({}) => {
             <div className='LoaderDiv'>
               <CustomLoader size={"55"} color='#9C9C9C' />
             </div>
-          ) : activeTab === 1 && markets.length > 0 ? (
+          ) : activeTab === 1 &&
+            markets.filter((market) => {
+              const deadline = new Date(parseFloat(market.deadline)).getTime();
+              const oneDayFromNow = new Date().getTime();
+              return deadline - oneDayFromNow < 86400000 * 7;
+            }).length > 0 ? (
             markets
               .filter((market) => {
                 const deadline = new Date(
                   parseFloat(market.deadline)
                 ).getTime();
                 const oneDayFromNow = new Date().getTime();
-                return deadline - oneDayFromNow < 86400000;
+                return deadline - oneDayFromNow < 86400000 * 7;
               })
               .map((item, index) => (
                 <div key={index} className='BetCard-Container'>
