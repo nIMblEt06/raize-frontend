@@ -28,7 +28,7 @@ export default function RootLayout({
           name='twitter:description'
           content='On-chain prediction market on the Starknet ecosystem.'
         />
-        <meta name='twitter:player' content='https://slink.raize.club' />
+        <meta name='twitter:player' content='https://raize-slink.netlify.app/' />
         <meta name='twitter:player:width' content='360' />
         <meta name='twitter:player:height' content='560' />
         <meta name='twitter:image' content='https://freeimage.host/i/dxsbF6J' />
