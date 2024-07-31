@@ -1,5 +1,17 @@
 @import "../../../mixin.scss";
 
+.MarketClosed {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "GilmerRegular";
+  font-style: normal;
+  font-size: 18px;
+  color: #ffffff;
+  text-align: center;
+  min-height: 80vh;
+}
+
 .BetDetailView {
   box-sizing: border-box;
   display: flex;

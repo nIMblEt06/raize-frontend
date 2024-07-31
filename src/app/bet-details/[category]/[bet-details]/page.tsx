@@ -12,6 +12,8 @@ import { NextPage } from "next";
 import { enqueueSnackbar } from "notistack";
 import CustomLogo from "@/components/common/CustomIcons";
 import { BACK_LOGO } from "@/components/helpers/icons";
+import { Box } from "@mui/material";
+import { HiLockClosed } from "react-icons/hi";
 
 const BetDetailView: NextPage = () => {
   const router = useRouter();
@@ -42,7 +44,13 @@ const BetDetailView: NextPage = () => {
     getMarket();
   }, [contract, address, pathname]);
 
-  return (
+  const checkDeadline = (): boolean => {
+    const currentTime = new Date().getTime();
+    const deadline = new Date(parseInt(market?.deadline!)).getTime();
+    return currentTime > deadline;
+  };
+
+  return market?.is_active || !checkDeadline() ? (
     <div className='BetDetailView'>
       <div className='GoBack' onClick={handleBack}>
         <CustomLogo width={"30px"} height={"20px"} src={BACK_LOGO} />
@@ -63,6 +71,13 @@ const BetDetailView: NextPage = () => {
         category={market?.category!}
       />
     </div>
+  ) : (
+    <Box className='MarketClosed'>
+      <span>
+        This Market is now closed, please wait patiently for the results to get
+        declared, and be sure to claim your winnings!
+      </span>
+    </Box>
   );
 };
 
