@@ -6,12 +6,13 @@ import { MenuItem, Select } from "@mui/material";
 import { Box } from "@mui/material";
 import "./styles.scss";
 import CustomLogo from "@/components/common/CustomIcons";
-import { ETH_LOGO, STARKNET_LOGO, USDC_LOGO } from "@/components/helpers/icons";
+import { ETH_LOGO, LORDS_LOGO, STARKNET_LOGO, USDC_LOGO } from "@/components/helpers/icons";
 import { useContext, useEffect, useMemo, useState } from "react";
 import { MarketContext } from "@/app/context/MarketProvider";
 import { Outcome } from "@/components/helpers/types";
 import {
   ETH_ADDRESS,
+  LORDS_ADDRESS,
   STARK_ADDRESS,
   USDC_ADDRESS,
 } from "@/components/helpers/constants";
@@ -43,6 +44,7 @@ const BetActions: NextPage<Props> = ({ outcomes, moneyInPool, category }) => {
     { value: ETH_ADDRESS, label: "ETH", src: ETH_LOGO },
     { value: STARK_ADDRESS, label: "STRK", src: STARKNET_LOGO },
     { value: USDC_ADDRESS, label: "USDC", src: USDC_LOGO },
+    { value: LORDS_ADDRESS, label: "LORDS", src: LORDS_LOGO },
   ];
 
   useEffect(() => {
