@@ -14,6 +14,7 @@ import {
 import { InjectedConnector } from "starknetkit/injected";
 import { ArgentMobileConnector } from "starknetkit/argentMobile";
 import { WebWalletConnector } from "starknetkit/webwallet";
+import { usePathname } from "next/navigation";
 
 export function StarknetProvider({ children }: { children: ReactNode }) {
   const connectors = [
@@ -23,9 +24,18 @@ export function StarknetProvider({ children }: { children: ReactNode }) {
     new ArgentMobileConnector(),
   ];
 
+  const pathname = usePathname();
+
   function rpc() {
+    let nodeUrl = "";
+    pathname.search("cont") != -1
+      ? (nodeUrl = "https://starknet-sepolia.public.blastapi.io") // mainnet
+      : (nodeUrl = "https://starknet-mainnet.public.blastapi.io"); // testnet
+
+    console.log(nodeUrl);
+
     return {
-      nodeUrl: "https://starknet-sepolia.public.blastapi.io", // testnet
+      nodeUrl: nodeUrl, // testnet
       // nodeUrl: "https://starknet-mainnet.public.blastapi.io", // mainnet
     };
   }
