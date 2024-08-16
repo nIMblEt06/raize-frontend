@@ -51,17 +51,7 @@ const BetDetails: NextPage<Props> = ({
               <Skeleton variant='rectangular' width={100} height={20} />
             )}
           </span>
-        </Box>
-        <Box className='BetDuration'>
-          <Box className='BetDetails-Logo'>
-            <CustomLogo src={CLOCK_ICON} />
-          </Box>
-          <span>
-            {daysRemaining}d: {hoursRemaining}h : {minutes}m
-          </span>
-        </Box>
-      </Box>
-      <Box className='BetDetails'>
+          <Box className='BetDetails'>
         <span className='Heading'>
           {heading ? (
             heading
@@ -76,6 +66,16 @@ const BetDetails: NextPage<Props> = ({
             <Skeleton variant='rectangular' width={100} height={20} />
           )}
         </span>
+      </Box>
+        </Box>
+        <Box className='BetDuration'>
+          <Box className='BetDetails-Logo'>
+            <CustomLogo src={CLOCK_ICON} />
+          </Box>
+          <span>
+            {daysRemaining}d: {hoursRemaining}h : {minutes}m
+          </span>
+        </Box>
       </Box>
       <Box className='BetPool'>
         Prize-Pool{" "}

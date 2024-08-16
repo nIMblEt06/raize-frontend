@@ -1,5 +1,5 @@
 import { enqueueSnackbar } from "notistack";
-import { shortString } from "starknet";
+import { BigNumberish, shortString } from "starknet";
 
 export const getProbabilites = (shares1: any, shares2: any) => {
   if (shares1 == "0" && shares2 == "0") {
@@ -58,4 +58,20 @@ export const handleToast = (
       horizontal: "right",
     },
   });
+};
+
+export const calcPrice = (poolBalances: any[]): number[] => {
+  const hasZeroBalances = poolBalances.every((h) => h.toString() === "0");
+  if (hasZeroBalances) {
+    return poolBalances.map(() => 0);
+  }
+
+  const product = poolBalances.reduce((a, b) => a * b);
+  const denominator = poolBalances
+    .map((h) => product / h)
+    .reduce((a, b) => a + b);
+
+  const prices = poolBalances.map((holding) => product / holding / denominator);
+
+  return prices.map((price) => +price.valueOf());
 };

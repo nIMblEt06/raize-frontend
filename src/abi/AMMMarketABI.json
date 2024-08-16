@@ -1,0 +1,587 @@
+[
+    {
+        "type": "impl",
+        "name": "MarketFactory",
+        "interface_name": "raize_amm_contracts::FPMMMarketMaker::IMarketMaker"
+    },
+    {
+        "type": "struct",
+        "name": "core::integer::u256",
+        "members": [
+            {
+                "name": "low",
+                "type": "core::integer::u128"
+            },
+            {
+                "name": "high",
+                "type": "core::integer::u128"
+            }
+        ]
+    },
+    {
+        "type": "enum",
+        "name": "core::bool",
+        "variants": [
+            {
+                "name": "False",
+                "type": "()"
+            },
+            {
+                "name": "True",
+                "type": "()"
+            }
+        ]
+    },
+    {
+        "type": "struct",
+        "name": "raize_amm_contracts::FPMMMarketMaker::FPMMMarket",
+        "members": [
+            {
+                "name": "num_outcomes",
+                "type": "core::integer::u32"
+            },
+            {
+                "name": "deadline",
+                "type": "core::integer::u128"
+            },
+            {
+                "name": "is_active",
+                "type": "core::bool"
+            },
+            {
+                "name": "is_settled",
+                "type": "core::bool"
+            }
+        ]
+    },
+    {
+        "type": "struct",
+        "name": "raize_amm_contracts::FPMMMarketMaker::Outcome",
+        "members": [
+            {
+                "name": "name",
+                "type": "core::felt252"
+            },
+            {
+                "name": "num_shares_in_pool",
+                "type": "core::integer::u128"
+            },
+            {
+                "name": "winner",
+                "type": "core::bool"
+            }
+        ]
+    },
+    {
+        "type": "interface",
+        "name": "raize_amm_contracts::FPMMMarketMaker::IMarketMaker",
+        "items": [
+            {
+                "type": "function",
+                "name": "get_collateral_token",
+                "inputs": [],
+                "outputs": [
+                    {
+                        "type": "core::starknet::contract_address::ContractAddress"
+                    }
+                ],
+                "state_mutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "get_fee",
+                "inputs": [],
+                "outputs": [
+                    {
+                        "type": "core::integer::u32"
+                    }
+                ],
+                "state_mutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "set_fee",
+                "inputs": [
+                    {
+                        "name": "fee",
+                        "type": "core::integer::u32"
+                    }
+                ],
+                "outputs": [],
+                "state_mutability": "external"
+            },
+            {
+                "type": "function",
+                "name": "current_liquidity",
+                "inputs": [],
+                "outputs": [
+                    {
+                        "type": "core::integer::u128"
+                    }
+                ],
+                "state_mutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "fees_withdrawable_by",
+                "inputs": [
+                    {
+                        "name": "account",
+                        "type": "core::starknet::contract_address::ContractAddress"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "type": "core::integer::u256"
+                    }
+                ],
+                "state_mutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "get_user_balance",
+                "inputs": [
+                    {
+                        "name": "account",
+                        "type": "core::starknet::contract_address::ContractAddress"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "type": "core::integer::u256"
+                    }
+                ],
+                "state_mutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "get_user_market_share",
+                "inputs": [
+                    {
+                        "name": "account",
+                        "type": "core::starknet::contract_address::ContractAddress"
+                    },
+                    {
+                        "name": "market_id",
+                        "type": "core::integer::u256"
+                    },
+                    {
+                        "name": "outcome_index",
+                        "type": "core::integer::u32"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "type": "core::integer::u256"
+                    }
+                ],
+                "state_mutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "get_market",
+                "inputs": [
+                    {
+                        "name": "market_id",
+                        "type": "core::integer::u256"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "type": "raize_amm_contracts::FPMMMarketMaker::FPMMMarket"
+                    }
+                ],
+                "state_mutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "disable_market",
+                "inputs": [
+                    {
+                        "name": "market_id",
+                        "type": "core::integer::u256"
+                    }
+                ],
+                "outputs": [],
+                "state_mutability": "external"
+            },
+            {
+                "type": "function",
+                "name": "set_winner",
+                "inputs": [
+                    {
+                        "name": "market_id",
+                        "type": "core::integer::u256"
+                    },
+                    {
+                        "name": "outcome_index",
+                        "type": "core::integer::u32"
+                    }
+                ],
+                "outputs": [],
+                "state_mutability": "external"
+            },
+            {
+                "type": "function",
+                "name": "get_outcome",
+                "inputs": [
+                    {
+                        "name": "market_id",
+                        "type": "core::integer::u256"
+                    },
+                    {
+                        "name": "outcome_index",
+                        "type": "core::integer::u32"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "type": "raize_amm_contracts::FPMMMarketMaker::Outcome"
+                    }
+                ],
+                "state_mutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "init_market",
+                "inputs": [
+                    {
+                        "name": "outcomes",
+                        "type": "core::array::Array::<core::felt252>"
+                    },
+                    {
+                        "name": "deadline",
+                        "type": "core::integer::u128"
+                    }
+                ],
+                "outputs": [],
+                "state_mutability": "external"
+            },
+            {
+                "type": "function",
+                "name": "get_num_markets",
+                "inputs": [],
+                "outputs": [
+                    {
+                        "type": "core::integer::u256"
+                    }
+                ],
+                "state_mutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "add_funding",
+                "inputs": [
+                    {
+                        "name": "added_funds",
+                        "type": "core::integer::u128"
+                    }
+                ],
+                "outputs": [],
+                "state_mutability": "external"
+            },
+            {
+                "type": "function",
+                "name": "remove_funding",
+                "inputs": [
+                    {
+                        "name": "funds_to_remove",
+                        "type": "core::integer::u128"
+                    }
+                ],
+                "outputs": [],
+                "state_mutability": "external"
+            },
+            {
+                "type": "function",
+                "name": "calc_buy_amount",
+                "inputs": [
+                    {
+                        "name": "market_id",
+                        "type": "core::integer::u256"
+                    },
+                    {
+                        "name": "investment_amount",
+                        "type": "core::integer::u128"
+                    },
+                    {
+                        "name": "outcome_index",
+                        "type": "core::integer::u32"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "type": "core::integer::u128"
+                    }
+                ],
+                "state_mutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "calc_sell_amount",
+                "inputs": [
+                    {
+                        "name": "market_id",
+                        "type": "core::integer::u256"
+                    },
+                    {
+                        "name": "return_amount",
+                        "type": "core::integer::u128"
+                    },
+                    {
+                        "name": "outcome_index",
+                        "type": "core::integer::u32"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "type": "core::integer::u128"
+                    }
+                ],
+                "state_mutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "buy",
+                "inputs": [
+                    {
+                        "name": "market_id",
+                        "type": "core::integer::u256"
+                    },
+                    {
+                        "name": "investment_amount",
+                        "type": "core::integer::u128"
+                    },
+                    {
+                        "name": "outcome_index",
+                        "type": "core::integer::u32"
+                    },
+                    {
+                        "name": "min_outcome_tokens_to_buy",
+                        "type": "core::integer::u128"
+                    }
+                ],
+                "outputs": [],
+                "state_mutability": "external"
+            },
+            {
+                "type": "function",
+                "name": "sell",
+                "inputs": [
+                    {
+                        "name": "market_id",
+                        "type": "core::integer::u256"
+                    },
+                    {
+                        "name": "return_amount",
+                        "type": "core::integer::u128"
+                    },
+                    {
+                        "name": "outcome_index",
+                        "type": "core::integer::u32"
+                    },
+                    {
+                        "name": "max_outcome_tokens_to_sell",
+                        "type": "core::integer::u128"
+                    }
+                ],
+                "outputs": [],
+                "state_mutability": "external"
+            },
+            {
+                "type": "function",
+                "name": "upgrade",
+                "inputs": [
+                    {
+                        "name": "new_class_hash",
+                        "type": "core::starknet::class_hash::ClassHash"
+                    }
+                ],
+                "outputs": [],
+                "state_mutability": "external"
+            }
+        ]
+    },
+    {
+        "type": "constructor",
+        "name": "constructor",
+        "inputs": [
+            {
+                "name": "_collateral_token",
+                "type": "core::starknet::contract_address::ContractAddress"
+            },
+            {
+                "name": "_fee",
+                "type": "core::integer::u32"
+            },
+            {
+                "name": "_owner",
+                "type": "core::starknet::contract_address::ContractAddress"
+            }
+        ]
+    },
+    {
+        "type": "event",
+        "name": "raize_amm_contracts::FPMMMarketMaker::FixedProductMarketMaker::FPMMMarketInit",
+        "kind": "struct",
+        "members": [
+            {
+                "name": "market_id",
+                "type": "core::integer::u256",
+                "kind": "data"
+            },
+            {
+                "name": "outcomes",
+                "type": "core::array::Array::<core::felt252>",
+                "kind": "data"
+            },
+            {
+                "name": "deadline",
+                "type": "core::integer::u128",
+                "kind": "data"
+            }
+        ]
+    },
+    {
+        "type": "event",
+        "name": "raize_amm_contracts::FPMMMarketMaker::FixedProductMarketMaker::FPMMFundingAdded",
+        "kind": "struct",
+        "members": [
+            {
+                "name": "funder",
+                "type": "core::starknet::contract_address::ContractAddress",
+                "kind": "data"
+            },
+            {
+                "name": "amounts_added",
+                "type": "core::integer::u256",
+                "kind": "data"
+            }
+        ]
+    },
+    {
+        "type": "event",
+        "name": "raize_amm_contracts::FPMMMarketMaker::FixedProductMarketMaker::FPMMFundingRemoved",
+        "kind": "struct",
+        "members": [
+            {
+                "name": "funder",
+                "type": "core::starknet::contract_address::ContractAddress",
+                "kind": "data"
+            },
+            {
+                "name": "collateral_removed_from_fee_pool",
+                "type": "core::integer::u256",
+                "kind": "data"
+            },
+            {
+                "name": "amounts_removed",
+                "type": "core::integer::u256",
+                "kind": "data"
+            }
+        ]
+    },
+    {
+        "type": "event",
+        "name": "raize_amm_contracts::FPMMMarketMaker::FixedProductMarketMaker::FPMMBuy",
+        "kind": "struct",
+        "members": [
+            {
+                "name": "buyer",
+                "type": "core::starknet::contract_address::ContractAddress",
+                "kind": "data"
+            },
+            {
+                "name": "investment_amount",
+                "type": "core::integer::u128",
+                "kind": "data"
+            },
+            {
+                "name": "outcome_index",
+                "type": "core::integer::u32",
+                "kind": "data"
+            },
+            {
+                "name": "outcome_tokens_bought",
+                "type": "core::integer::u256",
+                "kind": "data"
+            }
+        ]
+    },
+    {
+        "type": "event",
+        "name": "raize_amm_contracts::FPMMMarketMaker::FixedProductMarketMaker::FPMMSell",
+        "kind": "struct",
+        "members": [
+            {
+                "name": "seller",
+                "type": "core::starknet::contract_address::ContractAddress",
+                "kind": "data"
+            },
+            {
+                "name": "return_amount",
+                "type": "core::integer::u128",
+                "kind": "data"
+            },
+            {
+                "name": "outcome_index",
+                "type": "core::integer::u32",
+                "kind": "data"
+            },
+            {
+                "name": "outcome_tokens_sold",
+                "type": "core::integer::u256",
+                "kind": "data"
+            }
+        ]
+    },
+    {
+        "type": "event",
+        "name": "raize_amm_contracts::FPMMMarketMaker::FixedProductMarketMaker::Upgraded",
+        "kind": "struct",
+        "members": [
+            {
+                "name": "class_hash",
+                "type": "core::starknet::class_hash::ClassHash",
+                "kind": "data"
+            }
+        ]
+    },
+    {
+        "type": "event",
+        "name": "raize_amm_contracts::FPMMMarketMaker::FixedProductMarketMaker::Event",
+        "kind": "enum",
+        "variants": [
+            {
+                "name": "FPMMMarketInit",
+                "type": "raize_amm_contracts::FPMMMarketMaker::FixedProductMarketMaker::FPMMMarketInit",
+                "kind": "nested"
+            },
+            {
+                "name": "FPMMFundingAdded",
+                "type": "raize_amm_contracts::FPMMMarketMaker::FixedProductMarketMaker::FPMMFundingAdded",
+                "kind": "nested"
+            },
+            {
+                "name": "FPMMFundingRemoved",
+                "type": "raize_amm_contracts::FPMMMarketMaker::FixedProductMarketMaker::FPMMFundingRemoved",
+                "kind": "nested"
+            },
+            {
+                "name": "FPMMBuy",
+                "type": "raize_amm_contracts::FPMMMarketMaker::FixedProductMarketMaker::FPMMBuy",
+                "kind": "nested"
+            },
+            {
+                "name": "FPMMSell",
+                "type": "raize_amm_contracts::FPMMMarketMaker::FixedProductMarketMaker::FPMMSell",
+                "kind": "nested"
+            },
+            {
+                "name": "Upgraded",
+                "type": "raize_amm_contracts::FPMMMarketMaker::FixedProductMarketMaker::Upgraded",
+                "kind": "nested"
+            }
+        ]
+    }
+]

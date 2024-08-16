@@ -1,5 +1,10 @@
 import { enqueueSnackbar } from "notistack";
-import { CONTRACT_ADDRESS, USDC_ADDRESS } from "../helpers/constants";
+import {
+  CONTRACT_ADDRESS,
+  FPMM_CONTRACT_ADDRESS,
+  STARK_ADDRESS,
+  USDC_ADDRESS,
+} from "../helpers/constants";
 import {
   useAccount,
   useConnect,
@@ -7,12 +12,13 @@ import {
   useContractWrite,
   useWaitForTransaction,
 } from "@starknet-react/core";
-import abi from "../../abi/ContractABI.json";
+import abi from "../../abi/AMMMarketABI.json";
 import tokenABI from "../../abi/ERC20ABI.json";
 import { useEffect, useMemo, useState } from "react";
 import useSwapTrade from "./useSwapTrade";
+import useGetMinShares from "./useGetMinShares";
 
-const usePlaceBet = (
+const useFPMMPlaceBet = (
   marketId: number,
   betAmount: string,
   choice: number,
@@ -21,7 +27,7 @@ const usePlaceBet = (
 ) => {
   const { address } = useAccount();
   const { contract } = useContract({
-    address: CONTRACT_ADDRESS,
+    address: FPMM_CONTRACT_ADDRESS,
     abi: abi,
   });
 
@@ -37,46 +43,60 @@ const usePlaceBet = (
   const [balance, setBalance] = useState("");
   const [decimals, setDecimals] = useState(0);
 
-  const { swapCall } = useSwapTrade(currentToken, betAmount);
+  const { minAmount } = useGetMinShares(marketId, betAmount, choice, decimals);
+
+  //   const { swapCall } = useSwapTrade(currentToken, betAmount);
 
   const calls = useMemo(() => {
     if (
       !address ||
       !contract ||
-      betAmount == "" ||
-      !usdcContract ||
-      decimals == 0
+      !(parseFloat(betAmount) > 0) ||
+      !tokenContract ||
+      !marketId ||
+      decimals == 0 ||
+      !(parseFloat(minAmount) > 0)
     )
       return [];
+
     return [
-      usdcContract.populateTransaction["approve"]!(
+      tokenContract.populateTransaction["approve"]!(
         CONTRACT_ADDRESS,
         BigInt(parseFloat(betAmount) * 10 ** decimals)
       ),
-      contract.populateTransaction["buy_shares"]!(
+      contract.populateTransaction["buy"]!(
         marketId,
+        BigInt(parseFloat(betAmount) * 10 ** decimals),
         choice,
-        BigInt(parseFloat(betAmount) * 10 ** decimals)
+        minAmount
       ),
     ];
-  }, [contract, address, choice, betAmount, tokenContract]);
+  }, [
+    contract,
+    address,
+    choice,
+    betAmount,
+    tokenContract,
+    marketId,
+    decimals,
+    minAmount,
+  ]);
 
-  const swapCalls = useMemo(() => {
-    if (!address || !contract || !amountUSDC || !usdcContract) return [];
+  //   const swapCalls = useMemo(() => {
+  //     if (!address || !contract || !amountUSDC || !usdcContract) return [];
+  //     const calls = swapCall?.concat([
+  //       usdcContract.populateTransaction["approve"]!(
+  //         CONTRACT_ADDRESS,
+  //         amountUSDC
+  //       ),
+  //       contract.populateTransaction["buy_shares"]!(marketId, choice, amountUSDC),
+  //     ]);
 
-    const calls = swapCall?.concat([
-      usdcContract.populateTransaction["approve"]!(
-        CONTRACT_ADDRESS,
-        amountUSDC
-      ),
-      contract.populateTransaction["buy_shares"]!(marketId, choice, amountUSDC),
-    ]);
-
-    return calls;
-  }, [address, contract, choice, swapCall, amountUSDC, decimals, marketId]);
+  //     return calls;
+  //   }, [address, contract, choice, swapCall, amountUSDC, decimals, marketId]);
 
   const { writeAsync, data, isError } = useContractWrite({
-    calls: currentToken === USDC_ADDRESS ? calls : swapCalls,
+    calls,
   });
 
   const getBalance = async () => {
@@ -144,7 +164,7 @@ const usePlaceBet = (
     });
   };
 
-  return { balance, writeAsync, decimals };
+  return { balance, minAmount, writeAsync, decimals };
 };
 
-export default usePlaceBet;
+export default useFPMMPlaceBet;
