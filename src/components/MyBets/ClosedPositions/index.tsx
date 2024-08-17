@@ -66,8 +66,6 @@ function ClosedPositions({ closedMarkets, closedBets, loading }: Props) {
     hash: data?.transaction_hash,
   });
 
-  console.log(data);
-
   const storeMarket = (marketId: number, betNumber: number) => {
     writeAsync({
       calls: contract!.populateTransaction["claim_winnings"]!(

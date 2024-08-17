@@ -21,8 +21,6 @@ const WalletButton: NextPage<Props> = ({ connector }) => {
     await connect({ connector });
   };
 
-  console.log(connector.id);
-
   const getLogo = () => {
     switch (connector.id) {
       case "argentX":

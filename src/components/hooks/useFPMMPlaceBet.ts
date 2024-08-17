@@ -61,7 +61,7 @@ const useFPMMPlaceBet = (
 
     return [
       tokenContract.populateTransaction["approve"]!(
-        CONTRACT_ADDRESS,
+        FPMM_CONTRACT_ADDRESS,
         BigInt(parseFloat(betAmount) * 10 ** decimals)
       ),
       contract.populateTransaction["buy"]!(

@@ -32,8 +32,6 @@ export function StarknetProvider({ children }: { children: ReactNode }) {
       ? (nodeUrl = "https://starknet-sepolia.public.blastapi.io") // mainnet
       : (nodeUrl = "https://starknet-mainnet.public.blastapi.io"); // testnet
 
-    console.log(nodeUrl);
-
     return {
       nodeUrl: nodeUrl, // testnet
       // nodeUrl: "https://starknet-mainnet.public.blastapi.io", // mainnet

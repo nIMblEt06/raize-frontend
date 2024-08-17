@@ -57,13 +57,6 @@ const useFPMMSellShare = (
     )
       return [];
 
-    console.log(
-      marketId,
-      BigInt(parseFloat(betAmount) * 10 ** 18),
-      choice,
-      minAmount
-    );
-
     return [
       contract.populateTransaction["sell"]!(
         marketId,
