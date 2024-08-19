@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 
 import "./styles.scss";
 import BetHeroCard from "./BetHeroCard";
-import { F1_LOGO, US_LOGO } from "../helpers/icons";
+import { AMMA_LOGO, F1_LOGO, US_LOGO } from "../helpers/icons";
 import BetCard from "./BetCard";
 import { useContract } from "@starknet-react/core";
 import abi from "../../abi/ContractABI.json";
@@ -17,6 +17,9 @@ interface Props {}
 const tabList = [
   {
     tabName: "Trending",
+  },
+  {
+    tabName: "Armored MMA",
   },
   {
     tabName: "Closing Soon",
@@ -76,13 +79,14 @@ const BetSection: NextPage<Props> = ({}) => {
         <div className='BetSection-HeroCard'>
           <BetHeroCard
             setActiveTab={setActiveTab}
-            categoryIndex={4}
+            categoryIndex={5}
             category='Politics'
             categoryLogo={US_LOGO}
             categoryName='US Elections'
             cardBgColor='linear-gradient(67.58deg, #E20000 -0.96%, #9B3838 78.06%)'
             image='/assets/images/pol.svg'
             scrollFn={scrollToElement}
+            enabled={true}
           />
         </div>
         <div className='BetSection-HeroCard'>
@@ -90,11 +94,14 @@ const BetSection: NextPage<Props> = ({}) => {
             setActiveTab={setActiveTab}
             categoryIndex={3}
             category='Sports'
-            categoryLogo={F1_LOGO}
-            categoryName='F1 World Champion'
+            categoryLogo={AMMA_LOGO}
+            categoryName='Armored MMA'
             cardBgColor='linear-gradient(90deg, #143CDA 0%, #0D268A 100%)'
-            image='/assets/images/f1.svg'
+            image='/assets/images/fighters.svg'
             scrollFn={scrollToElement}
+            height='230px'
+            width='370px'
+            enabled={false}
           />
         </div>
       </div>
@@ -117,7 +124,7 @@ const BetSection: NextPage<Props> = ({}) => {
             <div className='LoaderDiv'>
               <CustomLoader size={"55"} color='#9C9C9C' />
             </div>
-          ) : activeTab === 1 &&
+          ) : activeTab === 2 &&
             markets.filter((market) => {
               const deadline = new Date(parseFloat(market.deadline)).getTime();
               const oneDayFromNow = new Date().getTime();

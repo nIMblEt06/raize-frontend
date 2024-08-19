@@ -15,6 +15,9 @@ interface Props {
   image: string;
   setActiveTab: Function;
   scrollFn?: Function;
+  width?: string;
+  height?: string;
+  enabled?: boolean;
 }
 
 const BetHeroCard: NextPage<Props> = ({
@@ -26,6 +29,9 @@ const BetHeroCard: NextPage<Props> = ({
   cardBgColor,
   image,
   scrollFn,
+  width,
+  height,
+  enabled,
 }) => {
   const [startAnimation, setStartAnimation] = useState<boolean>(false);
 
@@ -57,21 +63,25 @@ const BetHeroCard: NextPage<Props> = ({
       <motion.div
         whileTap={{ scale: 1.2 }}
         className='Predict-Btn'
-        onClick={() => {
-          setActiveTab(categoryIndex);
-          if (scrollFn) {
-            scrollFn();
-          }
-        }}
+        onClick={
+          enabled
+            ? () => {
+                setActiveTab(categoryIndex);
+                if (scrollFn) {
+                  scrollFn();
+                }
+              }
+            : () => {}
+        }
       >
-        Predict Now
+        {enabled ? "Predict Now" : "Coming Soon"}
       </motion.div>
       <motion.div
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.8 }}
         className='Card-Image'
       >
-        <CustomLogo src={image} />
+        <CustomLogo src={image} width={width} height={height} />
       </motion.div>
     </div>
   );

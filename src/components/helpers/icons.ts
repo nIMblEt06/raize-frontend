@@ -5,6 +5,7 @@ export const BRAAVOS_LOGO = "/assets/logos/braavos.svg";
 export const RAIZE_LOGO = "/assets/logos/raizelogo.svg";
 export const CRICKET_LOGO = "/assets/logos/cricketlogo.svg";
 export const F1_LOGO = "/assets/logos/f1.svg";
+export const AMMA_LOGO = "/assets/logos/amma.png";
 export const US_LOGO = "/assets/logos/uslogo.svg";
 export const CLOCK_ICON = "/assets/icons/clock.svg";
 export const CROSS_ICON = "/assets/icons/cross.svg";
