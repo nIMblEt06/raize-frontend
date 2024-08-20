@@ -21,6 +21,19 @@ export interface FPMMMarket {
   num_outcomes: number;
 }
 
+export interface FPMMMarketInfo {
+  active: boolean;
+  created_at: string;
+  deadline: string;
+  description: string;
+  icon: string;
+  market_id: number;
+  category: string;
+  outcomes: FPMMOutcome[];
+  question: string;
+  settled: boolean;
+}
+
 export interface Outcome {
   name: string;
   bought_shares: string;
@@ -28,7 +41,6 @@ export interface Outcome {
 
 export interface FPMMOutcome {
   name: string;
-  winner: boolean;
   num_shares_in_pool: number;
 }
 

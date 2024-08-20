@@ -76,9 +76,9 @@ const BetActions: NextPage<Props> = ({ outcomes, duration }) => {
 
   useEffect(() => {
     const encoded = pathname.split("/")[3];
-    // const hexPart = encoded.slice(0, -4);
-    // const marketId = parseInt(hexPart, 16);
-    setMarketId(parseInt(encoded));
+    const hexPart = encoded.slice(0, -4);
+    const marketId = parseInt(hexPart, 16);
+    setMarketId(marketId);
   }, [pathname]);
 
   const { quote } = useSwapTrade(currentToken, betAmount);

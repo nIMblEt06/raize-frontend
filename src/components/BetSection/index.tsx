@@ -8,10 +8,12 @@ import BetCard from "./BetCard";
 import { useContract } from "@starknet-react/core";
 import abi from "../../abi/ContractABI.json";
 import { CONTRACT_ADDRESS } from "../helpers/constants";
-import { Market } from "../helpers/types";
+import { FPMMMarket, FPMMMarketInfo, Market } from "../helpers/types";
 import { getNumber, getString } from "../helpers/functions";
 import { motion } from "framer-motion";
 import CustomLoader from "../common/CustomLoader";
+import ContBetCard from "./ContBetCard";
+import axios from "axios";
 interface Props {}
 
 const tabList = [
@@ -42,6 +44,7 @@ const BetSection: NextPage<Props> = ({}) => {
   const [activeTab, setActiveTab] = useState<number>(0);
   const [markets, setMarkets] = useState<Market[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const [contMarkets, setContMarkets] = useState<FPMMMarketInfo[]>([]);
   const betCardWrapperDiv = useRef<HTMLDivElement | null>(null);
 
   const scrollToElement = () => {
@@ -65,6 +68,13 @@ const BetSection: NextPage<Props> = ({}) => {
       await contract.get_all_markets().then((res: any) => {
         setMarkets(res);
       });
+      axios;
+      await axios
+        .get(`${process.env.SERVER_URL!}/get-all-markets`)
+        .then((res) => {
+          console.log(res.data);
+          setContMarkets(res.data);
+        });
       setLoading(false);
     };
     getAllMarkets();
@@ -73,6 +83,7 @@ const BetSection: NextPage<Props> = ({}) => {
   useEffect(() => {
     setActiveTab(0);
   }, []);
+
   return (
     <div className='BetSection'>
       <div className='BetSection-Hero'>
@@ -124,6 +135,22 @@ const BetSection: NextPage<Props> = ({}) => {
             <div className='LoaderDiv'>
               <CustomLoader size={"55"} color='#9C9C9C' />
             </div>
+          ) : activeTab == 1 ? (
+            contMarkets.map((item, index) => (
+              <div key={index} className='BetCard-Container'>
+                <ContBetCard
+                  marketId={item.market_id}
+                  category={item.category}
+                  logo={AMMA_LOGO}
+                  deadline={item.deadline}
+                  heading={item.question}
+                  subHeading={item.description}
+                  outcomes={item.outcomes}
+                  isActive={item.active}
+                />
+              </div>
+            ))
+
           ) : activeTab === 2 &&
             markets.filter((market) => {
               const deadline = new Date(parseFloat(market.deadline)).getTime();

@@ -11,6 +11,7 @@ import { initializeApp } from "firebase/app";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import SettleMarkets from "@/components/SettleMarkets";
 import ToggleMarkets from "@/components/ToggleMarkets";
+import useCreateFPMMMarket from "@/components/hooks/useCreateFPMMMarket";
 
 const categories = [
   {
@@ -154,6 +155,16 @@ export default function AdminPortal() {
       isHome,
     });
 
+  const { createFPMMMarket } = useCreateFPMMMarket({
+    heading,
+    category,
+    description,
+    outcome1,
+    outcome2,
+    deadline,
+    image,
+  });
+
   useEffect(() => {
     const validateMarket = () => {
       if (category == "Crypto Market") {
@@ -221,6 +232,9 @@ export default function AdminPortal() {
         </button>
         <button className='Action-Button' onClick={() => setAction(2)}>
           Toggle Markets
+        </button>
+        <button className='Action-Button' onClick={() => setAction(3)}>
+          Create FPMM Market
         </button>
       </div>
       {action == 0 && (
@@ -362,6 +376,128 @@ export default function AdminPortal() {
           </div>
           <div className='Content-Section'>
             <ToggleMarkets />
+          </div>
+        </>
+      )}
+      {action == 3 && (
+        <>
+          <div className='Content-Section'>
+            <Box className='InputContainer'>
+              <span className='Label'>Heading</span>
+              <Box className='Input'>
+                <input
+                  className='InputField'
+                  type='string'
+                  value={heading}
+                  onChange={(e) => setHeading(e.target.value)}
+                  placeholder='Trump vs Biden'
+                  required
+                />
+              </Box>
+            </Box>
+            <Box className='InputContainer'>
+              <span className='Label'>Description</span>
+              <Box className='Input'>
+                <input
+                  className='InputField'
+                  type='string'
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  placeholder='Will Trump win the 2024 election?'
+                  required
+                />
+              </Box>
+            </Box>
+            <Box className='InputContainer Outcome'>
+              <Box className='InputContainer'>
+                <span className='Label'>Outcome 1</span>
+                <Box className='Input'>
+                  <input
+                    className='InputField'
+                    type='string'
+                    id='numberInput'
+                    name='numberInput'
+                    value={outcome1}
+                    onChange={(e) => setOutcome1(e.target.value)}
+                    placeholder='Yes!'
+                    required
+                  />
+                </Box>
+              </Box>
+              <Box className='InputContainer'>
+                <span className='Label'>Outcome 2</span>
+                <Box className='Input'>
+                  <input
+                    className='InputField'
+                    type='string'
+                    id='numberInput'
+                    name='numberInput'
+                    value={outcome2}
+                    onChange={(e) => setOutcome2(e.target.value)}
+                    placeholder='No'
+                    required
+                  />
+                </Box>
+              </Box>
+            </Box>
+            <Box className='InputContainer Outcome'>
+              <Box className='InputContainer'>
+                <span className='Label'>Category</span>
+                <Box className='Input'>
+                  <Select
+                    className='SelectBox'
+                    styles={colorStyles}
+                    options={categories}
+                    onChange={(category) => setCategory(category?.value!)}
+                  />
+                </Box>
+              </Box>
+              <Box className='InputContainer'>
+                <span className='Label'>Deadline</span>
+                <Box className='Input'>
+                  <DatePicker
+                    placeholder='Select Deadline'
+                    format='MM/dd/yyyy HH:mm'
+                    onChange={(value) => setDeadline(value!)}
+                    value={deadline}
+                  />
+                </Box>
+              </Box>
+            </Box>
+            <Box className='InputContainer'>
+              <span className='Label'>Image</span>
+              <Box className='Input'>
+                {image == "" ? (
+                  <input
+                    className='InputField'
+                    type='file'
+                    value={image}
+                    onChange={(e) => handleImageUpload(e)}
+                    required
+                  />
+                ) : (
+                  <input
+                    className='InputField'
+                    type='string'
+                    id='numberInput'
+                    name='numberInput'
+                    value={image}
+                    disabled
+                  />
+                )}
+              </Box>
+            </Box>
+            {category == "Crypto Market"}
+            {category == "Sports"}
+            <Box className='Submit'>
+              <button
+                disabled={!canCreate || isPending}
+                onClick={createFPMMMarket}
+                className={`SubmitButton ${canCreate ? "" : "Disabled"}`}
+              >
+                Create Market
+              </button>
+            </Box>
           </div>
         </>
       )}

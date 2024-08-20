@@ -10,11 +10,7 @@ interface Props {
   subHeading: string;
 }
 
-const BetDetails: NextPage<Props> = ({
-  logo,
-  heading,
-  subHeading,
-}) => {
+const BetDetails: NextPage<Props> = ({ logo, heading, subHeading }) => {
   return (
     <Box className='BetModal-DetailsContainer'>
       <Box className='HeadingContainer'>
@@ -25,14 +21,14 @@ const BetDetails: NextPage<Props> = ({
           <Box className='BetDetails'>
             <span className='Heading'>
               {heading ? (
-                "Jack Hodges vs Pete Moe"
+                heading
               ) : (
                 <Skeleton variant='rectangular' width={100} height={20} />
               )}
             </span>
             <span className='Sub-Heading'>
               {subHeading ? (
-                "Who will be victorious?"
+                subHeading
               ) : (
                 <Skeleton variant='rectangular' width={100} height={20} />
               )}
