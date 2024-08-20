@@ -8,10 +8,13 @@
   padding: 20px;
   border-radius: 10px;
 
-  .FightImage{
+  .FightImage {
     display: flex;
     justify-content: center;
     align-items: centers;
+    @media only screen and (max-width: 768px) {
+      display: none;
+    }
   }
   @include md {
     gap: 20px;
@@ -61,7 +64,6 @@
         }
       }
     }
-
   }
 
   .BetDetails {
