@@ -264,19 +264,10 @@ const BetActions: NextPage<Props> = ({ outcomes, duration }) => {
           <span className='ReturnLabel'>Avg. Price</span>
           <Box className='ReturnValue'>
             <span className={betAmount == "" ? "Gray" : "Green"}>
-              {isBuying
-                ? minAmount
-                  ? (
-                      parseFloat(minAmount) /
-                      1e18 /
-                      parseFloat(betAmount)
-                    ).toFixed(2)
-                  : 0
-                : minSellAmount
+              {minAmount
                 ? (
-                    parseFloat(minSellAmount) /
-                    1e18 /
-                    parseFloat(betAmount)
+                    (parseFloat(betAmount) / parseFloat(minAmount)) *
+                    1e18
                   ).toFixed(2)
                 : 0}
             </span>
