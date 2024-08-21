@@ -176,7 +176,7 @@ const BetActions: NextPage<Props> = ({ outcomes, duration }) => {
         </Box>
         <span className='BalanceField'>
           {address
-            ? "Shares: " + (parseFloat(userMarketShare) / 1e18).toFixed(2)
+            ? "Shares: " + (parseFloat(userMarketShare) / 1e6).toFixed(2)
             : "Please connect your wallet."}{" "}
         </span>
       </Box>
@@ -267,7 +267,7 @@ const BetActions: NextPage<Props> = ({ outcomes, duration }) => {
               {minAmount
                 ? (
                     (parseFloat(betAmount) / parseFloat(minAmount)) *
-                    1e18
+                    1e6
                   ).toFixed(2)
                 : 0}
             </span>
@@ -285,10 +285,10 @@ const BetActions: NextPage<Props> = ({ outcomes, duration }) => {
           <span className={betAmount == "" ? "Gray" : "Green"}>
             {isBuying
               ? minAmount
-                ? (parseFloat(minAmount) / 1e18).toFixed(2)
+                ? (parseFloat(minAmount) / 1e6).toFixed(2)
                 : 0
               : minSellAmount
-              ? (parseFloat(minSellAmount) / 1e18).toFixed(2)
+              ? (parseFloat(minSellAmount) / 1e6).toFixed(2)
               : 0}
           </span>
         </Box>
