@@ -40,19 +40,20 @@ const useFPMMPlaceBet = (
     address: USDC_ADDRESS,
     abi: tokenABI,
   });
+
   const [balance, setBalance] = useState("");
   const [decimals, setDecimals] = useState(0);
 
   const { minAmount } = useGetMinShares(marketId, betAmount, choice, decimals);
 
-  //   const { swapCall } = useSwapTrade(currentToken, betAmount);
+  const { swapCall } = useSwapTrade(currentToken, betAmount);
 
   const calls = useMemo(() => {
     if (
       !address ||
       !contract ||
       !(parseFloat(betAmount) > 0) ||
-      !tokenContract ||
+      !usdcContract ||
       !marketId ||
       decimals == 0 ||
       !(parseFloat(minAmount) > 0)
@@ -60,7 +61,7 @@ const useFPMMPlaceBet = (
       return [];
 
     return [
-      tokenContract.populateTransaction["approve"]!(
+      usdcContract.populateTransaction["approve"]!(
         FPMM_CONTRACT_ADDRESS,
         BigInt(parseFloat(betAmount) * 10 ** decimals)
       ),
@@ -76,27 +77,43 @@ const useFPMMPlaceBet = (
     address,
     choice,
     betAmount,
-    tokenContract,
+    usdcContract,
     marketId,
     decimals,
     minAmount,
   ]);
 
-  //   const swapCalls = useMemo(() => {
-  //     if (!address || !contract || !amountUSDC || !usdcContract) return [];
-  //     const calls = swapCall?.concat([
-  //       usdcContract.populateTransaction["approve"]!(
-  //         CONTRACT_ADDRESS,
-  //         amountUSDC
-  //       ),
-  //       contract.populateTransaction["buy_shares"]!(marketId, choice, amountUSDC),
-  //     ]);
+  const swapCalls = useMemo(() => {
+    if (!address || !contract || !amountUSDC || !usdcContract) return [];
+    const calls = swapCall?.concat([
+      usdcContract.populateTransaction["approve"]!(
+        CONTRACT_ADDRESS,
+        amountUSDC
+      ),
+      contract.populateTransaction["buy"]!(
+        marketId,
+        BigInt(parseFloat(betAmount) * 10 ** decimals),
+        choice,
+        minAmount
+      ),
+    ]);
 
-  //     return calls;
-  //   }, [address, contract, choice, swapCall, amountUSDC, decimals, marketId]);
+    return calls;
+  }, [
+    address,
+    contract,
+    choice,
+    betAmount,
+    amountUSDC,
+    minAmount,
+    usdcContract,
+    swapCall,
+    decimals,
+    marketId,
+  ]);
 
   const { writeAsync, data, isError } = useContractWrite({
-    calls,
+    calls: currentToken === USDC_ADDRESS ? calls : swapCalls,
   });
 
   const getBalance = async () => {

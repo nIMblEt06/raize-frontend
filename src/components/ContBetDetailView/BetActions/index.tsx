@@ -50,7 +50,7 @@ const BetActions: NextPage<Props> = ({ outcomes, duration }) => {
   const [potentialWinnings, setPotentialWinnings] = useState(0);
   const [price1, setPrice1] = useState(0);
   const [price2, setPrice2] = useState(0);
-  const [currentToken, setCurrentToken] = useState<string>(STARK_ADDRESS);
+  const [currentToken, setCurrentToken] = useState<string>(USDC_ADDRESS);
   const [isBuying, setIsBuying] = useState(true);
   const [hoursRemaining, setHoursRemaining] = useState(0);
   const [daysRemaining, setDaysRemaining] = useState(0);
@@ -82,7 +82,6 @@ const BetActions: NextPage<Props> = ({ outcomes, duration }) => {
   }, [pathname]);
 
   const { quote } = useSwapTrade(currentToken, betAmount);
-  // const { quote } = useSwapFPMMTrade(currentToken, betAmount);
 
   const { balance, writeAsync, minAmount } = useFPMMPlaceBet(
     marketId,
