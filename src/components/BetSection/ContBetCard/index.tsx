@@ -52,7 +52,6 @@ const ContBetCard: NextPage<Props> = ({
   useEffect(() => {
     const currentTime = new Date().getTime();
     const deadlineDate = new Date(deadline).getTime();
-    console.log(deadlineDate);
     
     const timeBetween = getTimeBetween(deadlineDate, currentTime);
     setDaysRemaining(timeBetween[0]);
