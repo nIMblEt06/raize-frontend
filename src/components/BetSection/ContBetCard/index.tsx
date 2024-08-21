@@ -52,7 +52,7 @@ const ContBetCard: NextPage<Props> = ({
   useEffect(() => {
     const currentTime = new Date().getTime();
     const deadlineDate = new Date(deadline).getTime();
-    
+
     const timeBetween = getTimeBetween(deadlineDate, currentTime);
     setDaysRemaining(timeBetween[0]);
     setHoursRemaining(timeBetween[1]);
@@ -100,21 +100,20 @@ const ContBetCard: NextPage<Props> = ({
       }}
       className='BetBorder'
     >
+      {(!isActive || checkDeadline()) && (
+        <Box className='MarketClosed'>
+          <HiLockClosed />
+          <span>Market Closed</span>
+        </Box>
+      )}
       <div className='BetCard'>
-        {(!isActive || checkDeadline()) && (
-          <Box className='MarketClosed'>
-            <HiLockClosed />
-            <span>Market Closed</span>
-          </Box>
-        )}
-
         <div className='BetCard-HeadingContainer'>
           <div className='BetCard-CategoryContainer'>
             <div className='CategoryLogo'>
               <Image src={logo} alt='Logo' width={30} height={30} />
             </div>
             <div className='CategoryName'>{category}</div>
-            <div className="Flair">Continuous</div>
+            <div className='Flair'>Continuous</div>
           </div>
           <div className='Bet-Duration'>
             <div className='DurationIcon'>

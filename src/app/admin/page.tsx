@@ -40,6 +40,7 @@ export default function AdminPortal() {
   const [outcome2, setOutcome2] = useState("");
   const [deadline, setDeadline] = useState(new Date());
   const [image, setImage] = useState("");
+  const [fightImage, setFightImage] = useState("");
   const [eventId, setEventId] = useState("");
   const [isHome, setIsHome] = useState(true);
   const [amount, setAmount] = useState("");
@@ -163,28 +164,19 @@ export default function AdminPortal() {
     outcome2,
     deadline,
     image,
+    fightImage,
   });
 
   useEffect(() => {
     const validateMarket = () => {
-      if (category == "Crypto Market") {
-        if (amount == "" || priceKey == "" || condition == "") {
-          setCanCreate(false);
-          return;
-        }
-      } else if (category == "Sports") {
-        if (eventId == "") {
-          setCanCreate(false);
-          return;
-        }
-      }
       if (
         heading == "" ||
         description == "" ||
         outcome1 == "" ||
         outcome2 == "" ||
         image == "" ||
-        category == ""
+        category == "" ||
+        fightImage == ""
       ) {
         setCanCreate(false);
         return;
@@ -205,15 +197,20 @@ export default function AdminPortal() {
     outcome1,
     outcome2,
     priceKey,
+    fightImage
   ]);
 
-  const handleImageUpload = (e: any) => {
+  const handleImageUpload = (e: any, icon: boolean) => {
     const storage = getStorage();
     const file = e.target.files[0];
     const storageRef = ref(storage, `market_icons/${file.name}`);
     uploadBytes(storageRef, file).then((snapshot) => {
       getDownloadURL(snapshot.ref).then((downloadURL) => {
-        setImage(downloadURL);
+        if (icon) {
+          setImage(downloadURL);
+          return
+        }
+        setFightImage(downloadURL);
       });
     });
   };
@@ -340,7 +337,7 @@ export default function AdminPortal() {
                     className='InputField'
                     type='file'
                     value={image}
-                    onChange={(e) => handleImageUpload(e)}
+                    onChange={(e) => handleImageUpload(e, true)}
                     required
                   />
                 ) : (
@@ -472,7 +469,30 @@ export default function AdminPortal() {
                     className='InputField'
                     type='file'
                     value={image}
-                    onChange={(e) => handleImageUpload(e)}
+                    onChange={(e) => handleImageUpload(e, true)}
+                    required
+                  />
+                ) : (
+                  <input
+                    className='InputField'
+                    type='string'
+                    id='numberInput'
+                    name='numberInput'
+                    value={image}
+                    disabled
+                  />
+                )}
+              </Box>
+            </Box>
+            <Box className='InputContainer'>
+              <span className='Label'>Fight Image</span>
+              <Box className='Input'>
+                {image == "" ? (
+                  <input
+                    className='InputField'
+                    type='file'
+                    value={fightImage}
+                    onChange={(e) => handleImageUpload(e, false)}
                     required
                   />
                 ) : (

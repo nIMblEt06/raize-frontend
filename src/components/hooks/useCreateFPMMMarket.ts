@@ -19,11 +19,7 @@ interface Data {
   outcome2: string;
   deadline: Date;
   image: string;
-  amount?: string;
-  priceKey?: string;
-  condition?: string;
-  eventId?: string;
-  isHome?: boolean;
+  fightImage?: string;
 }
 
 function useCreateFPMMMarket({
@@ -34,6 +30,7 @@ function useCreateFPMMMarket({
   image,
   outcome1,
   outcome2,
+  fightImage,
 }: Data) {
   const handleToast = (
     message: string,
@@ -57,16 +54,21 @@ function useCreateFPMMMarket({
   const createFPMMMarket = async () => {
     await axios
       .post(`${process.env.SERVER_URL}/create-market`, {
-        question: heading, 
+        question: heading,
         category,
         deadline,
         description,
         icon: image,
         outcome1,
         outcome2,
+        fightImage,
       })
       .then((res) => {
-        console.log("Market created successfully:", res.data);
+        handleToast(
+          "Market Created",
+          "Your market has been created",
+          "success"
+        );
       })
       .catch((error) => {
         console.error("Error creating market:", error);

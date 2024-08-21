@@ -135,21 +135,33 @@ const BetSection: NextPage<Props> = ({}) => {
               <CustomLoader size={"55"} color='#9C9C9C' />
             </div>
           ) : activeTab == 1 ? (
-            contMarkets.map((item, index) => (
-              <div key={index} className='BetCard-Container'>
-                <ContBetCard
-                  marketId={item.market_id}
-                  category={item.category}
-                  logo={AMMA_LOGO}
-                  deadline={item.deadline}
-                  heading={item.question}
-                  subHeading={item.description}
-                  outcomes={item.outcomes}
-                  isActive={item.active}
-                />
-              </div>
-            ))
-
+            contMarkets.filter((market) => market.active).length > 0 ? (
+              contMarkets
+                .filter((market) => market.active)
+                .map((item, index) => (
+                  <div key={index} className='BetCard-Container'>
+                    <ContBetCard
+                      marketId={item.market_id}
+                      category={item.category}
+                      logo={AMMA_LOGO}
+                      deadline={item.deadline}
+                      heading={item.question}
+                      subHeading={item.description}
+                      outcomes={item.outcomes}
+                      isActive={item.active}
+                    />
+                  </div>
+                ))
+            ) : (
+              <motion.span
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ ease: "easeInOut", duration: 0.25 }}
+                className='PlaceholderText'
+              >
+                No Active Events
+              </motion.span>
+            )
           ) : activeTab === 2 &&
             markets.filter((market) => {
               const deadline = new Date(parseFloat(market.deadline)).getTime();

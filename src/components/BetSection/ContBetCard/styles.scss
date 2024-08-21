@@ -10,29 +10,14 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-}
-
-.BetCard {
-  max-width: 500px;
-  width: 100%;
-  height: 100%;
-  background-color: #161617;
-  border-radius: 10px;
-  box-sizing: border-box;
-  padding: 25px;
-  display: flex;
-  justify-content: space-around;
-  flex-direction: column;
-  gap: 20px;
   position: relative;
-  overflow: hidden;
 
   .MarketClosed {
     position: absolute;
     top: 0;
     left: 0;
     background-color: red;
-    z-index: 2;
+    z-index: 1;
     width: 100%;
     height: 100%;
     backdrop-filter: blur(6px);
@@ -78,6 +63,24 @@
       }
     }
   }
+}
+
+.BetCard {
+  max-width: 500px;
+  width: 100%;
+  height: 100%;
+  background-color: #161617;
+  border-radius: 10px;
+  box-sizing: border-box;
+  padding: 25px;
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+  gap: 20px;
+  position: relative;
+  overflow: hidden;
+
+  
 
   @include md {
   }

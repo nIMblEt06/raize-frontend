@@ -8,15 +8,26 @@ interface Props {
   logo: string;
   heading: string;
   subHeading: string;
+  fightImage?: string;
 }
 
-const BetDetails: NextPage<Props> = ({ logo, heading, subHeading }) => {
+const BetDetails: NextPage<Props> = ({
+  logo,
+  heading,
+  subHeading,
+  fightImage,
+}) => {
   return (
     <Box className='BetModal-DetailsContainer'>
       <Box className='HeadingContainer'>
         <Box className='BetName'>
           <Box className='BetDetails-Logo'>
-            <Image src={AMMA_IMAGE} alt='CategoryLogo' width={30} height={30} />
+            <Image
+              src={logo ? logo : AMMA_IMAGE}
+              alt='CategoryLogo'
+              width={30}
+              height={30}
+            />
           </Box>
           <Box className='BetDetails'>
             <span className='Heading'>
@@ -37,7 +48,12 @@ const BetDetails: NextPage<Props> = ({ logo, heading, subHeading }) => {
         </Box>
       </Box>
       <div className='FightImage'>
-        <Image src={FIGHTER_IMAGE} width={300} height={450} alt='' />
+        <Image
+          src={fightImage ? fightImage : FIGHTER_IMAGE}
+          width={300}
+          height={450}
+          alt=''
+        />
       </div>
     </Box>
   );

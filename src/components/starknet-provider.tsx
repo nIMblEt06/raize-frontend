@@ -24,17 +24,9 @@ export function StarknetProvider({ children }: { children: ReactNode }) {
     new ArgentMobileConnector(),
   ];
 
-  const pathname = usePathname();
-
   function rpc() {
-    let nodeUrl = "";
-    pathname.search("cont") != -1
-      ? (nodeUrl = "https://starknet-sepolia.public.blastapi.io") // mainnet
-      : (nodeUrl = "https://starknet-mainnet.public.blastapi.io"); // testnet
-
     return {
-      nodeUrl: nodeUrl, // testnet
-      // nodeUrl: "https://starknet-mainnet.public.blastapi.io", // mainnet
+      nodeUrl: "https://starknet-mainnet.public.blastapi.io", // mainnet
     };
   }
 

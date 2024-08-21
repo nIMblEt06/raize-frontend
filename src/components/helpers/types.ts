@@ -32,6 +32,7 @@ export interface FPMMMarketInfo {
   outcomes: FPMMOutcome[];
   question: string;
   settled: boolean;
+  fightImage?: string;
 }
 
 export interface Outcome {
