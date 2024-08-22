@@ -102,7 +102,7 @@ const BetDetailView: NextPage = () => {
           <BetDetails
             heading={marketInfo.question}
             logo={marketInfo.icon}
-            fightImage={marketInfo.fightImage ? marketInfo.fightImage : ""}
+            fightImage={marketInfo.fight_image}
             subHeading={marketInfo.description}
           />
           {market ? (
