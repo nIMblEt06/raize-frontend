@@ -6,7 +6,7 @@
   width: 100%;
   height: 280px;
   padding: 1px;
-  background: linear-gradient(135deg, #17171b 0%, #F6851B 100%);
+  background: linear-gradient(135deg, #17171b 0%, #F6851B 150%);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -219,15 +219,15 @@
       }
 
       @include lg {
-        font-size: 20px;
+        font-size: 16px;
       }
 
       @include xl {
-        font-size: 22px;
+        font-size: 18px;
       }
 
       @include xxl {
-        font-size: 24px;
+        font-size: 20px;
       }
     }
 
@@ -236,6 +236,7 @@
       font-style: normal;
       text-align: center;
       font-weight: 600;
+      margin-top: 6px;
       font-size: 14px;
       background: linear-gradient(90deg, #fcfcfb 0%, #e6e5e5 100%);
       -webkit-background-clip: text;
@@ -251,12 +252,12 @@
       }
 
       @include xl {
-        line-height: 20px;
+        line-height: 10px;
         font-size: 13px;
       }
 
       @include xxl {
-        line-height: 24px;
+        line-height: 16px;
         font-size: 14px;
       }
     }
