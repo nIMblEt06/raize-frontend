@@ -31,6 +31,7 @@ const BetDetailView: NextPage = () => {
   const [market, setMarket] = useState<FPMMMarket | null>(null);
   const [marketInfo, setMarketInfo] = useState<FPMMMarketInfo>();
   const [outcomes, setOutcomes] = useState<FPMMOutcome[]>([]);
+  const [passedDeadline, setPassedDeadline] = useState(false);
   const handleBack = () => {
     router.push("/");
   };
@@ -79,11 +80,16 @@ const BetDetailView: NextPage = () => {
     getMarket();
   }, [contract, address, pathname]);
 
-  const checkDeadline = (): boolean => {
-    const currentTime = new Date().getTime();
-    const deadline = new Date(parseInt(market?.deadline!) * 1000).getTime(); // * 1000 to convert seconds to ms
-    return currentTime > deadline;
-  };
+  useEffect(() => {
+    if (market) {
+      const checkDeadline = () => {
+        const currentTime = new Date().getTime();
+        const deadline = new Date(parseInt(market?.deadline) * 1000).getTime(); // * 1000 to convert seconds to ms
+        setPassedDeadline(currentTime > deadline);
+      };
+      checkDeadline();
+    }
+  }, [market]);
 
   return (
     <div className='BetDetailView'>
@@ -100,7 +106,7 @@ const BetDetailView: NextPage = () => {
             subHeading={marketInfo.description}
           />
           {market ? (
-            !market?.is_active || checkDeadline() ? (
+            !market?.is_active || passedDeadline ? (
               <Box className='MarketClosed'>
                 <span>
                   This Market is now closed, please wait patiently for the
