@@ -102,7 +102,7 @@ const BetSection: NextPage<Props> = ({}) => {
         <div className='BetSection-HeroCard'>
           <BetHeroCard
             setActiveTab={setActiveTab}
-            categoryIndex={3}
+            categoryIndex={1}
             category='Sports'
             categoryLogo={AMMA_LOGO}
             categoryName='Armored MMA'
@@ -111,7 +111,7 @@ const BetSection: NextPage<Props> = ({}) => {
             scrollFn={scrollToElement}
             height='230px'
             width='370px'
-            enabled={false}
+            enabled={true}
           />
         </div>
       </div>
