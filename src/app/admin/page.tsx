@@ -491,7 +491,7 @@ export default function AdminPortal() {
             <Box className='InputContainer'>
               <span className='Label'>Fight Image</span>
               <Box className='Input'>
-                {image == "" ? (
+                {fightImage == "" ? (
                   <input
                     className='InputField'
                     type='file'
@@ -505,7 +505,7 @@ export default function AdminPortal() {
                     type='string'
                     id='numberInput'
                     name='numberInput'
-                    value={image}
+                    value={fightImage}
                     disabled
                   />
                 )}
