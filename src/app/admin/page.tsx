@@ -30,6 +30,10 @@ const categories = [
     value: "Sports",
     label: "Sports",
   },
+  {
+    value: "Armored MMA",
+    label: "AMMA",
+  },
 ];
 
 export default function AdminPortal() {
@@ -197,7 +201,7 @@ export default function AdminPortal() {
     outcome1,
     outcome2,
     priceKey,
-    fightImage
+    fightImage,
   ]);
 
   const handleImageUpload = (e: any, icon: boolean) => {
@@ -208,7 +212,7 @@ export default function AdminPortal() {
       getDownloadURL(snapshot.ref).then((downloadURL) => {
         if (icon) {
           setImage(downloadURL);
-          return
+          return;
         }
         setFightImage(downloadURL);
       });
