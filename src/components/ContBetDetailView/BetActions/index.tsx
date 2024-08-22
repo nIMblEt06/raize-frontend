@@ -34,6 +34,7 @@ import useSwapTrade from "@/components/hooks/useSwapTrade";
 import { enqueueSnackbar } from "notistack";
 import useFPMMPlaceBet from "@/components/hooks/useFPMMPlaceBet";
 import useFPMMSellShare from "@/components/hooks/useFPMMSellShare";
+import axios from "axios";
 
 interface Props {
   outcomes: FPMMOutcome[];
@@ -47,7 +48,6 @@ const BetActions: NextPage<Props> = ({ outcomes, duration }) => {
   const { choice, setChoice } = useContext(MarketContext);
   const [betAmount, setBetAmount] = useState("");
   const [marketId, setMarketId] = useState(0);
-  const [potentialWinnings, setPotentialWinnings] = useState(0);
   const [price1, setPrice1] = useState(0);
   const [price2, setPrice2] = useState(0);
   const [currentToken, setCurrentToken] = useState<string>(USDC_ADDRESS);
@@ -95,12 +95,11 @@ const BetActions: NextPage<Props> = ({ outcomes, duration }) => {
     minAmount: minSellAmount,
     userMarketShare,
     writeAsync: writeSellAsync,
-  } = useFPMMSellShare(marketId, betAmount, choice, currentToken);
+  } = useFPMMSellShare(marketId, betAmount, choice);
 
   function handleBetAmount(value: string) {
     if (value == "") {
       setBetAmount("");
-      setPotentialWinnings(0);
     } else {
       setBetAmount(value);
     }

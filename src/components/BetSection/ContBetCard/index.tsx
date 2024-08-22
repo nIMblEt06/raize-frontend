@@ -9,6 +9,7 @@ import { CLOCK_ICON, USDC_LOGO } from "@/components/helpers/icons";
 import { MarketContext } from "@/app/context/MarketProvider";
 import { FPMMOutcome, Outcome } from "@/components/helpers/types";
 import {
+  calcPrice,
   getProbabilites,
   getTimeBetween,
 } from "@/components/helpers/functions";
@@ -42,8 +43,8 @@ const ContBetCard: NextPage<Props> = ({
   const router = useRouter();
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
-  const [percent1, setPercent1] = useState(0);
-  const [percent2, setPercent2] = useState(0);
+  const [price1, setPrice1] = useState(0);
+  const [price2, setPrice2] = useState(0);
 
   const [hoursRemaining, setHoursRemaining] = useState(0);
   const [daysRemaining, setDaysRemaining] = useState(0);
@@ -60,12 +61,14 @@ const ContBetCard: NextPage<Props> = ({
   }, [deadline]);
 
   useEffect(() => {
-    const percentages = getProbabilites(
+    if (!outcomes || outcomes.length == 0) return;
+
+    const percentages = calcPrice([
       outcomes[0].num_shares_in_pool.toString(),
-      outcomes[1].num_shares_in_pool.toString()
-    );
-    setPercent1(percentages[0]);
-    setPercent2(percentages[1]);
+      outcomes[1].num_shares_in_pool.toString(),
+    ]);
+    setPrice1(percentages[0]);
+    setPrice2(percentages[1]);
   }, [outcomes]);
 
   const { setChoice } = useContext(MarketContext);
@@ -134,7 +137,7 @@ const ContBetCard: NextPage<Props> = ({
             className='BetCard-Option'
           >
             <span className='Green-Text'>{outcomes[0].name}</span>
-            <span className='Bet-Stat'>{percent1.toFixed(2)}%</span>
+            <span className='Bet-Stat'>${price1.toFixed(2)}</span>
           </div>
           <div
             onClick={() => {
@@ -143,7 +146,7 @@ const ContBetCard: NextPage<Props> = ({
             className='BetCard-Option'
           >
             <span className='Red-Text'>{outcomes[1].name}</span>
-            <span className='Bet-Stat'>{percent2.toFixed(2)}%</span>
+            <span className='Bet-Stat'>${price2.toFixed(2)}</span>
           </div>
         </div>
       </div>

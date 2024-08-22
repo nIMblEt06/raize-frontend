@@ -17,6 +17,7 @@ import tokenABI from "../../abi/ERC20ABI.json";
 import { useEffect, useMemo, useState } from "react";
 import useSwapTrade from "./useSwapTrade";
 import useGetMinShares from "./useGetMinShares";
+import axios from "axios";
 
 const useFPMMPlaceBet = (
   marketId: number,
@@ -135,6 +136,23 @@ const useFPMMPlaceBet = (
     hash: data?.transaction_hash,
   });
 
+  const updateShares = async () => {
+    await axios
+      .post(`${process.env.SERVER_URL}/update-market`, {
+        marketId,
+        outcomeIndex: choice,
+        amount: currentToken === USDC_ADDRESS ? betAmount : amountUSDC,
+        isBuy: true,
+        sharesUpdated: minAmount,
+      })
+      .then((res) => {
+        console.log("Market updated successfully", res);
+      })
+      .catch((error) => {
+        console.error("Error creating market:", error);
+      });
+  };
+
   useEffect(() => {
     if (data && pending) {
       handleToast(
@@ -159,6 +177,7 @@ const useFPMMPlaceBet = (
         data!.transaction_hash
       );
       getBalance();
+      updateShares();
     }
   }, [data, isError, pending, success]);
 

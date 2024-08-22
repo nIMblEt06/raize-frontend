@@ -15,13 +15,12 @@ import {
 import abi from "../../abi/AMMMarketABI.json";
 import { useEffect, useMemo, useState } from "react";
 import useGetMinSellShares from "./useGetMinSellShares";
+import axios from "axios";
 
 const useFPMMSellShare = (
   marketId: number,
   betAmount: string,
   choice: number,
-  currentToken: string,
-  amountUSDC?: any
 ) => {
   const { address } = useAccount();
   const [userMarketShare, setUserMarketShare] = useState("");
@@ -67,18 +66,22 @@ const useFPMMSellShare = (
     ];
   }, [contract, address, choice, betAmount, marketId, minAmount]);
 
-  //   const swapCalls = useMemo(() => {
-  //     if (!address || !contract || !amountUSDC || !usdcContract) return [];
-  //     const calls = swapCall?.concat([
-  //       usdcContract.populateTransaction["approve"]!(
-  //         CONTRACT_ADDRESS,
-  //         amountUSDC
-  //       ),
-  //       contract.populateTransaction["buy_shares"]!(marketId, choice, amountUSDC),
-  //     ]);
-
-  //     return calls;
-  //   }, [address, contract, choice, swapCall, amountUSDC, decimals, marketId]);
+  const updateShares = async () => {
+    await axios
+      .post(`${process.env.SERVER_URL}/update-market`, {
+        marketId,
+        outcomeIndex: choice,
+        amount: betAmount,
+        isBuy: false,
+        sharesUpdated: minAmount,
+      })
+      .then((res) => {
+        console.log("Market updated successfully", res);
+      })
+      .catch((error) => {
+        console.error("Error creating market:", error);
+      });
+  };
 
   const { writeAsync, data, isError } = useContractWrite({
     calls,
@@ -111,6 +114,7 @@ const useFPMMSellShare = (
         "success",
         data!.transaction_hash
       );
+      updateShares();
     }
   }, [data, isError, pending, success]);
 

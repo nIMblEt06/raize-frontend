@@ -245,19 +245,21 @@
       text-fill-color: transparent;
 
       @include md {
+        line-height: 14px;
       }
 
       @include lg {
         font-size: 12px;
+        line-height: 14px;
       }
 
       @include xl {
-        line-height: 10px;
+        line-height: 16px;
         font-size: 13px;
       }
 
       @include xxl {
-        line-height: 16px;
+        line-height: 18px;
         font-size: 14px;
       }
     }
