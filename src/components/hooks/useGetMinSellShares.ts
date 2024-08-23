@@ -20,7 +20,8 @@ const useGetMinSellShares = (
   marketId: number,
   betAmount: string,
   choice: number,
-  decimals: number
+  decimals: number,
+  isBuying: boolean
 ) => {
   const { address } = useAccount();
   const [minAmount, setMinAmount] = useState("");
@@ -36,7 +37,8 @@ const useGetMinSellShares = (
         !contract ||
         !(parseFloat(betAmount) > 0) ||
         !marketId ||
-        decimals == 0
+        decimals == 0 ||
+        isBuying
       ) {
         return;
       }

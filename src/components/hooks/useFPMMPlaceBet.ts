@@ -32,6 +32,8 @@ const useFPMMPlaceBet = (
     abi: abi,
   });
 
+  console.log(betAmount, amountUSDC, "bet and usdc");
+
   const { contract: tokenContract } = useContract({
     address: currentToken,
     abi: tokenABI,
@@ -45,9 +47,16 @@ const useFPMMPlaceBet = (
   const [balance, setBalance] = useState("");
   const [decimals, setDecimals] = useState(0);
 
-  const { minAmount } = useGetMinShares(marketId, betAmount, choice, decimals);
-
   const { swapCall } = useSwapTrade(currentToken, betAmount);
+
+  const { minAmount } = useGetMinShares(
+    marketId,
+    betAmount,
+    choice,
+    decimals,
+    currentToken,
+    amountUSDC
+  );
 
   const calls = useMemo(() => {
     if (
@@ -84,6 +93,8 @@ const useFPMMPlaceBet = (
     minAmount,
   ]);
 
+  console.log(minAmount);
+
   const swapCalls = useMemo(() => {
     if (!address || !contract || !amountUSDC || !usdcContract) return [];
     const calls = swapCall?.concat([
@@ -93,7 +104,7 @@ const useFPMMPlaceBet = (
       ),
       contract.populateTransaction["buy"]!(
         marketId,
-        BigInt(parseFloat(betAmount) * 10 ** decimals),
+        BigInt(parseFloat(amountUSDC)), //USDC has 6 decimals
         choice,
         minAmount
       ),
@@ -104,7 +115,6 @@ const useFPMMPlaceBet = (
     address,
     contract,
     choice,
-    betAmount,
     amountUSDC,
     minAmount,
     usdcContract,

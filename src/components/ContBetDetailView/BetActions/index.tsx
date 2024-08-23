@@ -95,7 +95,7 @@ const BetActions: NextPage<Props> = ({ outcomes, duration }) => {
     minAmount: minSellAmount,
     userMarketShare,
     writeAsync: writeSellAsync,
-  } = useFPMMSellShare(marketId, betAmount, choice);
+  } = useFPMMSellShare(marketId, betAmount, choice, isBuying);
 
   function handleBetAmount(value: string) {
     if (value == "") {

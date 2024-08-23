@@ -21,6 +21,7 @@ const useFPMMSellShare = (
   marketId: number,
   betAmount: string,
   choice: number,
+  isBuying: boolean
 ) => {
   const { address } = useAccount();
   const [userMarketShare, setUserMarketShare] = useState("");
@@ -29,7 +30,7 @@ const useFPMMSellShare = (
     abi: abi,
   });
 
-  const { minAmount } = useGetMinSellShares(marketId, betAmount, choice, 18);
+  const { minAmount } = useGetMinSellShares(marketId, betAmount, choice, 18, isBuying);
 
   useEffect(() => {
     const getUserMarketShare = async () => {

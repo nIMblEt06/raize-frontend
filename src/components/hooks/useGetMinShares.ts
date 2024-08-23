@@ -20,7 +20,9 @@ const useGetMinShares = (
   marketId: number,
   betAmount: string,
   choice: number,
-  decimals: number
+  decimals: number,
+  currentToken: string,
+  usdcAmount?: string
 ) => {
   const { address } = useAccount();
   const [minAmount, setMinAmount] = useState("");
@@ -43,15 +45,23 @@ const useGetMinShares = (
       await contract
         .calc_buy_amount(
           marketId,
-          BigInt(parseFloat(betAmount) * 10 ** decimals),
+          BigInt(
+            parseFloat(
+              currentToken == USDC_ADDRESS
+                ? (parseFloat(betAmount) * 10 ** 6).toString()
+                : usdcAmount!
+            )
+          ), //USDC has 6 decimals
           choice
         )
         .then((res: any) => {
+          console.log(res);
+
           setMinAmount(res);
         });
     };
     getMinShares();
-  }, [contract, address, marketId, betAmount, choice, decimals]);
+  }, [contract, address, marketId, betAmount, choice, decimals, currentToken, usdcAmount]);
 
   return { minAmount };
 };
