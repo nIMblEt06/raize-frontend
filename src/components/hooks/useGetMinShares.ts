@@ -49,7 +49,9 @@ const useGetMinShares = (
             parseFloat(
               currentToken == USDC_ADDRESS
                 ? (parseFloat(betAmount) * 10 ** 6).toString()
-                : usdcAmount!
+                : usdcAmount
+                ? usdcAmount
+                : ""
             )
           ), //USDC has 6 decimals
           choice
@@ -59,7 +61,16 @@ const useGetMinShares = (
         });
     };
     getMinShares();
-  }, [contract, address, marketId, betAmount, choice, decimals, currentToken, usdcAmount]);
+  }, [
+    contract,
+    address,
+    marketId,
+    betAmount,
+    choice,
+    decimals,
+    currentToken,
+    usdcAmount,
+  ]);
 
   return { minAmount };
 };

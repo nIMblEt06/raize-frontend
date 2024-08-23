@@ -72,12 +72,11 @@ const useFPMMSellShare = (
       .post(`${process.env.SERVER_URL}/update-market`, {
         marketId,
         outcomeIndex: choice,
-        amount: betAmount,
+        amount: (parseFloat(betAmount) * 10 ** 6),
         isBuy: false,
-        sharesUpdated: minAmount,
+        sharesUpdated: parseInt(minAmount),
       })
       .then((res) => {
-        console.log("Market updated successfully", res);
       })
       .catch((error) => {
         console.error("Error creating market:", error);

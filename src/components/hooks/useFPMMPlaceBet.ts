@@ -93,10 +93,18 @@ const useFPMMPlaceBet = (
   ]);
 
   const swapCalls = useMemo(() => {
-    if (!address || !contract || !amountUSDC || !usdcContract) return [];
+    if (
+      !address ||
+      !contract ||
+      !amountUSDC ||
+      !usdcContract ||
+      !marketId ||
+      !minAmount
+    )
+      return [];
     const calls = swapCall?.concat([
       usdcContract.populateTransaction["approve"]!(
-        CONTRACT_ADDRESS,
+        FPMM_CONTRACT_ADDRESS,
         amountUSDC
       ),
       contract.populateTransaction["buy"]!(

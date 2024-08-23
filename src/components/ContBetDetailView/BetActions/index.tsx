@@ -263,10 +263,14 @@ const BetActions: NextPage<Props> = ({ outcomes, duration }) => {
           <Box className='ReturnValue'>
             <span className={betAmount == "" ? "Gray" : "Green"}>
               {minAmount
-                ? (
-                    (parseFloat(betAmount) / parseFloat(minAmount)) *
-                    1e6
-                  ).toFixed(2)
+                ? currentToken != USDC_ADDRESS && quote?.buyAmount
+                  ? (
+                      parseFloat(quote?.buyAmount.toString()) / parseFloat(minAmount)
+                    ).toFixed(2)
+                  : (
+                      (parseFloat(betAmount) / parseFloat(minAmount)) *
+                      1e6
+                    ).toFixed(2)
                 : 0}
             </span>
             <Box className='Starknet-logo'>
