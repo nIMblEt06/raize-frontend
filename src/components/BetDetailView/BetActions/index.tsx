@@ -6,7 +6,12 @@ import { MenuItem, Select } from "@mui/material";
 import { Box } from "@mui/material";
 import "./styles.scss";
 import CustomLogo from "@/components/common/CustomIcons";
-import { ETH_LOGO, LORDS_LOGO, STARKNET_LOGO, USDC_LOGO } from "@/components/helpers/icons";
+import {
+  ETH_LOGO,
+  LORDS_LOGO,
+  STARKNET_LOGO,
+  USDC_LOGO,
+} from "@/components/helpers/icons";
 import { useContext, useEffect, useMemo, useState } from "react";
 import { MarketContext } from "@/app/context/MarketProvider";
 import { Outcome } from "@/components/helpers/types";
@@ -239,10 +244,7 @@ const BetActions: NextPage<Props> = ({ outcomes, moneyInPool, category }) => {
         </Box>
       </Box>
       {address ? (
-        <Box
-          onClick={() => writeAsync()}
-          className={`ActionBtn`}
-        >
+        <Box onClick={() => writeAsync()} className={`ActionBtn`}>
           {betAmount == ""
             ? "Enter Amount"
             : parseFloat(balance) > parseFloat(betAmount)

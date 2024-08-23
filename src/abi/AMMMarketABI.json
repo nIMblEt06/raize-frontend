@@ -140,12 +140,7 @@
             {
                 "type": "function",
                 "name": "get_user_balance",
-                "inputs": [
-                    {
-                        "name": "account",
-                        "type": "core::starknet::contract_address::ContractAddress"
-                    }
-                ],
+                "inputs": [],
                 "outputs": [
                     {
                         "type": "core::integer::u256"
@@ -157,10 +152,6 @@
                 "type": "function",
                 "name": "get_user_market_share",
                 "inputs": [
-                    {
-                        "name": "account",
-                        "type": "core::starknet::contract_address::ContractAddress"
-                    },
                     {
                         "name": "market_id",
                         "type": "core::integer::u256"
@@ -395,6 +386,89 @@
                     {
                         "name": "new_class_hash",
                         "type": "core::starknet::class_hash::ClassHash"
+                    }
+                ],
+                "outputs": [],
+                "state_mutability": "external"
+            },
+            {
+                "type": "function",
+                "name": "set_treasury",
+                "inputs": [
+                    {
+                        "name": "treasurer",
+                        "type": "core::starknet::contract_address::ContractAddress"
+                    }
+                ],
+                "outputs": [],
+                "state_mutability": "external"
+            },
+            {
+                "type": "function",
+                "name": "get_treasury",
+                "inputs": [],
+                "outputs": [
+                    {
+                        "type": "core::starknet::contract_address::ContractAddress"
+                    }
+                ],
+                "state_mutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "set_treasurer_fee",
+                "inputs": [
+                    {
+                        "name": "fee",
+                        "type": "core::integer::u32"
+                    }
+                ],
+                "outputs": [],
+                "state_mutability": "external"
+            },
+            {
+                "type": "function",
+                "name": "set_market_winner",
+                "inputs": [
+                    {
+                        "name": "market_id",
+                        "type": "core::integer::u256"
+                    },
+                    {
+                        "name": "outcome_index",
+                        "type": "core::integer::u32"
+                    }
+                ],
+                "outputs": [],
+                "state_mutability": "external"
+            },
+            {
+                "type": "function",
+                "name": "claim_winnings",
+                "inputs": [
+                    {
+                        "name": "market_id",
+                        "type": "core::integer::u256"
+                    },
+                    {
+                        "name": "outcome_index",
+                        "type": "core::integer::u32"
+                    }
+                ],
+                "outputs": [],
+                "state_mutability": "external"
+            },
+            {
+                "type": "function",
+                "name": "update_deadline",
+                "inputs": [
+                    {
+                        "name": "market_id",
+                        "type": "core::integer::u256"
+                    },
+                    {
+                        "name": "deadline",
+                        "type": "core::integer::u128"
                     }
                 ],
                 "outputs": [],

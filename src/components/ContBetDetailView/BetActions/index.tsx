@@ -265,7 +265,8 @@ const BetActions: NextPage<Props> = ({ outcomes, duration }) => {
               {minAmount
                 ? currentToken != USDC_ADDRESS && quote?.buyAmount
                   ? (
-                      parseFloat(quote?.buyAmount.toString()) / parseFloat(minAmount)
+                      parseFloat(quote?.buyAmount.toString()) /
+                      parseFloat(minAmount)
                     ).toFixed(2)
                   : (
                       (parseFloat(betAmount) / parseFloat(minAmount)) *
