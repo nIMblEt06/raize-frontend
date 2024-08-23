@@ -43,7 +43,6 @@ const useFPMMSellShare = (
     const getUserMarketShare = async () => {
       if (!address || !contract || !marketId) return;
       const userMarketShare = await contract.get_user_market_share(
-        address,
         marketId,
         choice
       );

@@ -42,6 +42,11 @@ const useGetMinShares = (
       ) {
         return;
       }
+      if (currentToken != USDC_ADDRESS) {
+        if (!usdcAmount) {
+          return;
+        }
+      }
       await contract
         .calc_buy_amount(
           marketId,
