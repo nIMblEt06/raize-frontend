@@ -151,15 +151,15 @@ const useFPMMPlaceBet = (
   });
 
   const updateShares = async () => {
-    if (updatedShares) return;
+    if (!marketId || !betAmount || !minAmount || updatedShares) return;
     await axios
       .post(`${process.env.SERVER_URL}/update-market`, {
-        marketId,
+        marketId: marketId,
         outcomeIndex: choice,
         amount:
           currentToken === USDC_ADDRESS
             ? (parseFloat(betAmount) * 10 ** 6).toString()
-            : amountUSDC,
+            : parseInt(amountUSDC),
         isBuy: true,
         sharesUpdated: parseInt(minAmount),
       })

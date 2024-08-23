@@ -25,12 +25,19 @@ const useFPMMSellShare = (
 ) => {
   const { address } = useAccount();
   const [userMarketShare, setUserMarketShare] = useState("");
+  const [updatedShares, setUpdatedShares] = useState(false);
   const { contract } = useContract({
     address: FPMM_CONTRACT_ADDRESS,
     abi: abi,
   });
 
-  const { minAmount } = useGetMinSellShares(marketId, betAmount, choice, 18, isBuying);
+  const { minAmount } = useGetMinSellShares(
+    marketId,
+    betAmount,
+    choice,
+    18,
+    isBuying
+  );
 
   useEffect(() => {
     const getUserMarketShare = async () => {
@@ -68,19 +75,20 @@ const useFPMMSellShare = (
   }, [contract, address, choice, betAmount, marketId, minAmount]);
 
   const updateShares = async () => {
+    if (updatedShares || !marketId || !betAmount) return;
     await axios
       .post(`${process.env.SERVER_URL}/update-market`, {
-        marketId,
+        marketId: marketId,
         outcomeIndex: choice,
-        amount: (parseFloat(betAmount) * 10 ** 6),
+        amount: parseFloat(betAmount) * 10 ** 6,
         isBuy: false,
         sharesUpdated: parseInt(minAmount),
       })
-      .then((res) => {
-      })
+      .then((res) => {})
       .catch((error) => {
         console.error("Error creating market:", error);
       });
+    setUpdatedShares(true);
   };
 
   const { writeAsync, data, isError } = useContractWrite({
