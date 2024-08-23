@@ -55,8 +55,6 @@ const useGetMinShares = (
           choice
         )
         .then((res: any) => {
-          console.log(res);
-
           setMinAmount(res);
         });
     };

@@ -270,7 +270,7 @@ const BetActions: NextPage<Props> = ({ outcomes, duration }) => {
                 : 0}
             </span>
             <Box className='Starknet-logo'>
-              <CustomLogo src={STARKNET_LOGO} />
+              <CustomLogo src={USDC_LOGO} />
             </Box>
           </Box>
         </Box>

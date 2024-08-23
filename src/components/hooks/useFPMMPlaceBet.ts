@@ -32,8 +32,6 @@ const useFPMMPlaceBet = (
     abi: abi,
   });
 
-  console.log(betAmount, amountUSDC, "bet and usdc");
-
   const { contract: tokenContract } = useContract({
     address: currentToken,
     abi: tokenABI,
@@ -46,6 +44,7 @@ const useFPMMPlaceBet = (
 
   const [balance, setBalance] = useState("");
   const [decimals, setDecimals] = useState(0);
+  const [updatedShares, setUpdatedShares] = useState(false);
 
   const { swapCall } = useSwapTrade(currentToken, betAmount);
 
@@ -93,8 +92,6 @@ const useFPMMPlaceBet = (
     minAmount,
   ]);
 
-  console.log(minAmount);
-
   const swapCalls = useMemo(() => {
     if (!address || !contract || !amountUSDC || !usdcContract) return [];
     const calls = swapCall?.concat([
@@ -119,7 +116,6 @@ const useFPMMPlaceBet = (
     minAmount,
     usdcContract,
     swapCall,
-    decimals,
     marketId,
   ]);
 
@@ -147,20 +143,23 @@ const useFPMMPlaceBet = (
   });
 
   const updateShares = async () => {
+    if (updatedShares) return;
     await axios
       .post(`${process.env.SERVER_URL}/update-market`, {
         marketId,
         outcomeIndex: choice,
-        amount: currentToken === USDC_ADDRESS ? betAmount : amountUSDC,
+        amount:
+          currentToken === USDC_ADDRESS
+            ? (parseFloat(betAmount) * 10 ** 6).toString()
+            : amountUSDC,
         isBuy: true,
-        sharesUpdated: minAmount,
+        sharesUpdated: parseInt(minAmount),
       })
-      .then((res) => {
-        console.log("Market updated successfully", res);
-      })
+      .then((res) => {})
       .catch((error) => {
         console.error("Error creating market:", error);
       });
+    setUpdatedShares(true);
   };
 
   useEffect(() => {
@@ -186,8 +185,8 @@ const useFPMMPlaceBet = (
         "success",
         data!.transaction_hash
       );
-      getBalance();
       updateShares();
+      getBalance();
     }
   }, [data, isError, pending, success]);
 
