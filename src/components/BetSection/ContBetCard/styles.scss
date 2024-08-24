@@ -4,13 +4,17 @@
   border-radius: 10px;
   max-width: 500px;
   width: 100%;
-  height: 280px;
+  height: 320px;
   padding: 1px;
-  background: linear-gradient(135deg, #17171b 0%, #F6851B 150%);
+  background: linear-gradient(135deg, #17171b 0%, #f6851b 150%);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   position: relative;
+
+  @include md {
+    height: 280px;
+  }
 
   .MarketClosed {
     position: absolute;
@@ -65,7 +69,7 @@
   }
 }
 
-.BetCard {
+.ContBetCard {
   max-width: 500px;
   width: 100%;
   height: 100%;
@@ -79,8 +83,6 @@
   gap: 20px;
   position: relative;
   overflow: hidden;
-
-  
 
   @include md {
   }
@@ -130,7 +132,7 @@
         font-style: normal;
         font-weight: 600;
         font-size: 14px;
-        line-height: 24px;
+        line-height: 16px;
         color: #909090;
 
         @include md {
@@ -156,7 +158,10 @@
         border-radius: 14px;
         padding: 5px 10px;
         font-size: 10px;
-        border: 1px solid #F5841F;
+        border: 1px solid #f5841f;
+        @media screen and (max-width: 600px) {
+          display: none;
+        }
       }
     }
 
@@ -207,27 +212,28 @@
       font-family: "GilmerBold";
       font-style: normal;
       font-weight: 700;
-      font-size: 24px;
       background: linear-gradient(90deg, #fcfcfb 0%, #e6e5e5 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
       text-align: center;
+      font-size: 20px;
       text-fill-color: transparent;
 
       @include md {
-      }
-
-      @include lg {
-        font-size: 16px;
-      }
-
-      @include xl {
         font-size: 18px;
       }
 
-      @include xxl {
+      @include lg {
         font-size: 20px;
+      }
+
+      @include xl {
+        font-size: 20px;
+      }
+
+      @include xxl {
+        font-size: 22px;
       }
     }
 

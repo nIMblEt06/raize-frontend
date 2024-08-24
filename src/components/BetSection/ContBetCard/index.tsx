@@ -109,7 +109,7 @@ const ContBetCard: NextPage<Props> = ({
           <span>Market Closed</span>
         </Box>
       )}
-      <div className='BetCard'>
+      <div className='ContBetCard'>
         <div className='BetCard-HeadingContainer'>
           <div className='BetCard-CategoryContainer'>
             <div className='CategoryLogo'>
