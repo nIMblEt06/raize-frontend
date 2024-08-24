@@ -10,10 +10,7 @@ import { useEffect, useState } from "react";
 import { USDC_ADDRESS } from "../helpers/constants";
 import tokenABI from "../../abi/ERC20ABI.json";
 
-function useSwapTrade(
-  sellTokenAddress: string,
-  sellAmount: string,
-) {
+function useSwapTrade(sellTokenAddress: string, sellAmount: string) {
   const { account, address } = useAccount();
   const [quote, setQuote] = useState<Quote>();
   const [swapCall, setSwapCall] = useState<any[]>();
@@ -21,14 +18,13 @@ function useSwapTrade(
     address: sellTokenAddress,
     abi: tokenABI,
   });
-  const [decimals, setDecimals] = useState(18);
-
+  const [decimals, setDecimals] = useState(6);
 
   useEffect(() => {
     const getBalance = async () => {
       if (!tokenContract || !address) return;
-        tokenContract.decimals().then((resp: any) => {
-          setDecimals(Number(resp));
+      tokenContract.decimals().then((resp: any) => {
+        setDecimals(Number(resp));
       });
     };
     const getQuotes = async () => {

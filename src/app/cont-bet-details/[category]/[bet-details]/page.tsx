@@ -106,19 +106,12 @@ const BetDetailView: NextPage = () => {
             subHeading={marketInfo.description}
           />
           {market ? (
-            !market?.is_active || passedDeadline ? (
-              <Box className='MarketClosed'>
-                <span>
-                  This Market is now closed, please wait patiently for the
-                  results to get declared, and be sure to claim your winnings!
-                </span>
-              </Box>
-            ) : (
-              <BetActions
-                duration={market?.deadline || ""}
-                outcomes={outcomes!}
-              />
-            )
+            <BetActions
+              duration={market?.deadline || ""}
+              outcomes={outcomes!}
+              // settled={true}
+              settled={market?.is_settled}
+            />
           ) : (
             <Skeleton />
           )}

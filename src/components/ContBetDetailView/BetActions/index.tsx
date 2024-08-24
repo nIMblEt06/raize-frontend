@@ -34,14 +34,16 @@ import useSwapTrade from "@/components/hooks/useSwapTrade";
 import { enqueueSnackbar } from "notistack";
 import useFPMMPlaceBet from "@/components/hooks/useFPMMPlaceBet";
 import useFPMMSellShare from "@/components/hooks/useFPMMSellShare";
+import useFPMMClaimWinnings from "@/components/hooks/useFPMMClaimWinnings";
 import axios from "axios";
 
 interface Props {
   outcomes: FPMMOutcome[];
   duration: string;
+  settled: boolean;
 }
 
-const BetActions: NextPage<Props> = ({ outcomes, duration }) => {
+const BetActions: NextPage<Props> = ({ outcomes, duration, settled }) => {
   const { address } = useAccount();
   const pathname = usePathname();
   const { connectors, connect } = useConnect();
@@ -75,11 +77,24 @@ const BetActions: NextPage<Props> = ({ outcomes, duration }) => {
   }, [outcomes]);
 
   useEffect(() => {
+    if (settled) {
+      for (let i = 0; i < outcomes.length; i++) {
+        if (outcomes[i].winner) {
+          setChoice(i);
+        }
+      }
+    }
+  }, [settled, outcomes]);
+
+  useEffect(() => {
     const encoded = pathname.split("/")[3];
     const hexPart = encoded.slice(0, -4);
     const marketId = parseInt(hexPart, 16);
     setMarketId(marketId);
-  }, [pathname]);
+    if (settled) {
+      setIsBuying(false);
+    }
+  }, [pathname, settled]);
 
   const { quote } = useSwapTrade(currentToken, betAmount);
 
@@ -89,6 +104,11 @@ const BetActions: NextPage<Props> = ({ outcomes, duration }) => {
     choice,
     currentToken,
     quote?.buyAmount
+  );
+
+  const { writeAsync: writeClaimAsync } = useFPMMClaimWinnings(
+    marketId,
+    choice
   );
 
   const {
@@ -104,6 +124,12 @@ const BetActions: NextPage<Props> = ({ outcomes, duration }) => {
       setBetAmount(value);
     }
   }
+
+  useEffect(() => {
+    if (settled && parseFloat(userMarketShare) > 0) {
+      setBetAmount((parseFloat(userMarketShare) / 1e6).toFixed(2));
+    }
+  }, [userMarketShare, settled]);
 
   const renderBuy = () => {
     return (
@@ -155,7 +181,7 @@ const BetActions: NextPage<Props> = ({ outcomes, duration }) => {
         <Box className='InputWrapper'>
           <Box className='Input-Left'>
             <Box className='Starknet-logo'>
-              <CustomLogo width='20px' height='20px' src={STARKNET_LOGO} />
+              <CustomLogo width='20px' height='20px' src={USDC_LOGO} />
             </Box>
             <input
               className='InputField'
@@ -165,6 +191,39 @@ const BetActions: NextPage<Props> = ({ outcomes, duration }) => {
               value={betAmount}
               onChange={(e) => handleBetAmount(e.target.value)}
               placeholder='0.00'
+              required
+            />
+          </Box>
+          {/* <span className='BalanceField'>
+              ${betAmount ? betAmount : "0"}{" "}
+            </span> */}
+        </Box>
+        <span className='BalanceField'>
+          {address
+            ? "Shares: " + (parseFloat(userMarketShare) / 1e6).toFixed(3)
+            : "Please connect your wallet."}{" "}
+        </span>
+      </Box>
+    );
+  };
+
+  console.log(userMarketShare);
+
+  const renderClaim = () => {
+    return (
+      <Box className='InputContainer'>
+        <span className='Label'>Claim your winnings!</span>
+        <Box className='InputWrapper'>
+          <Box className='Input-Left'>
+            <input
+              className='InputField'
+              type='number'
+              id='numberInput'
+              name='numberInput'
+              value={betAmount}
+              onChange={(e) => handleBetAmount(e.target.value)}
+              placeholder='0.00'
+              disabled={settled}
               required
             />
           </Box>
@@ -194,7 +253,7 @@ const BetActions: NextPage<Props> = ({ outcomes, duration }) => {
     <Box>
       <Box className='BuySellSwitches'>
         <Box
-          onClick={() => setIsBuying(true)}
+          onClick={() => (settled ? {} : setIsBuying(true))}
           className={`BuySellSwitch ${isBuying ? "active" : ""}`}
         >
           <span className={`BuySellLabel ${isBuying ? "active" : ""}`}>
@@ -224,7 +283,7 @@ const BetActions: NextPage<Props> = ({ outcomes, duration }) => {
           <span className='BetOptionsLabel'>Choose your option</span>
           <Box
             onClick={() => {
-              setChoice(0);
+              settled ? "" : setChoice(0);
             }}
             className={choice === 0 ? "BetOptionActive" : "BetOption"}
           >
@@ -240,7 +299,7 @@ const BetActions: NextPage<Props> = ({ outcomes, duration }) => {
           </Box>
           <Box
             onClick={() => {
-              setChoice(1);
+              settled ? "" : setChoice(1);
             }}
             className={choice === 1 ? "BetOptionActive" : "BetOption"}
           >
@@ -255,7 +314,7 @@ const BetActions: NextPage<Props> = ({ outcomes, duration }) => {
             </Box>
           </Box>
         </Box>
-        {isBuying ? renderBuy() : renderSell()}
+        {isBuying ? renderBuy() : settled ? renderClaim() : renderSell()}
       </Box>
       {isBuying ? (
         <Box className='ReturnStats'>
@@ -282,28 +341,42 @@ const BetActions: NextPage<Props> = ({ outcomes, duration }) => {
       ) : (
         ""
       )}
-      <Box className='ReturnStats'>
-        <span className='ReturnLabel'>Shares {isBuying ? "" : "To Sell"} </span>
-        <Box className='ReturnValue'>
-          <span className={betAmount == "" ? "Gray" : "Green"}>
-            {isBuying
-              ? minAmount
-                ? (parseFloat(minAmount) / 1e6).toFixed(2)
-                : 0
-              : minSellAmount
-              ? (parseFloat(minSellAmount) / 1e6).toFixed(2)
-              : 0}
+      {!settled && (
+        <Box className='ReturnStats'>
+          <span className='ReturnLabel'>
+            Shares {isBuying ? "" : "To Sell"}{" "}
           </span>
+          <Box className='ReturnValue'>
+            <span className={betAmount == "" ? "Gray" : "Green"}>
+              {isBuying
+                ? minAmount
+                  ? (parseFloat(minAmount) / 1e6).toFixed(2)
+                  : 0
+                : minSellAmount
+                ? (parseFloat(minSellAmount) / 1e6).toFixed(2)
+                : 0}
+            </span>
+          </Box>
         </Box>
-      </Box>
+      )}
       {address ? (
         <Box
-          onClick={isBuying ? () => writeAsync() : () => writeSellAsync()}
+          onClick={
+            settled
+              ? () => writeClaimAsync()
+              : isBuying
+              ? () => writeAsync()
+              : () => writeSellAsync()
+          }
           className={`ActionBtn`}
         >
-          {betAmount == ""
+          {settled
+            ? "Claim Winnings!"
+            : betAmount == ""
             ? "Enter Amount"
-            : parseFloat(balance) > parseFloat(betAmount)
+            : isBuying
+            ? parseFloat(balance) > parseFloat(betAmount)
+            : parseFloat(userMarketShare) > parseFloat(betAmount)
             ? "Place Order"
             : "Insufficient Balance"}
         </Box>

@@ -14,83 +14,38 @@ import {
 } from "@starknet-react/core";
 import abi from "../../abi/AMMMarketABI.json";
 import { useEffect, useMemo, useState } from "react";
-import useGetMinSellShares from "./useGetMinSellShares";
-import axios from "axios";
 
-const useFPMMSellShare = (
-  marketId: number,
-  betAmount: string,
-  choice: number,
-  isBuying: boolean
-) => {
+const useFPMMClaimWinnings = (marketId: number, choice: number) => {
   const { address } = useAccount();
-  const [userMarketShare, setUserMarketShare] = useState("");
-  const [updatedShares, setUpdatedShares] = useState(false);
   const { contract } = useContract({
     address: FPMM_CONTRACT_ADDRESS,
     abi: abi,
   });
 
-  const { minAmount } = useGetMinSellShares(
-    marketId,
-    betAmount,
-    choice,
-    6,
-    isBuying
-  );
-
-  useEffect(() => {
-    const getUserMarketShare = async () => {
-      if (!address || !contract || !marketId) return;
-      const userMarketShare = await contract.get_user_market_share(
-        address,
-        marketId,
-        choice
-      );
-      
-      setUserMarketShare(userMarketShare);
-    };
-    getUserMarketShare();
-  }, [contract, address, choice, marketId]);
-
   //   const { swapCall } = useSwapTrade(currentToken, betAmount);
 
   const calls = useMemo(() => {
-    if (
-      !address ||
-      !contract ||
-      !(parseFloat(betAmount) > 0) ||
-      !marketId ||
-      !(parseFloat(minAmount) > 0)
-    )
-      return [];
+    if (!address || !contract || !marketId) return [];
 
-    return [
-      contract.populateTransaction["sell"]!(
-        marketId,
-        BigInt(parseFloat(betAmount) * 10 ** 6),
-        choice,
-        minAmount
-      ),
-    ];
-  }, [contract, address, choice, betAmount, marketId, minAmount]);
+    return [contract.populateTransaction["claim_winnings"]!(marketId, choice)];
+  }, [contract, address, choice, marketId]);
 
-  const updateShares = async () => {
-    if (updatedShares || !marketId || !betAmount) return;
-    await axios
-      .post(`${process.env.SERVER_URL}/update-market`, {
-        marketId: marketId,
-        outcomeIndex: choice,
-        amount: parseFloat(betAmount) * 10 ** 6,
-        isBuy: false,
-        sharesUpdated: parseInt(minAmount),
-      })
-      .then((res) => {})
-      .catch((error) => {
-        console.error("Error creating market:", error);
-      });
-    setUpdatedShares(true);
-  };
+  //   const updateShares = async () => {
+  //     if (updatedShares || !marketId || !betAmount) return;
+  //     await axios
+  //       .post(`${process.env.SERVER_URL}/update-market`, {
+  //         marketId: marketId,
+  //         outcomeIndex: choice,
+  //         amount: parseFloat(betAmount) * 10 ** 6,
+  //         isBuy: false,
+  //         sharesUpdated: parseInt(minAmount),
+  //       })
+  //       .then((res) => {})
+  //       .catch((error) => {
+  //         console.error("Error creating market:", error);
+  //       });
+  //     setUpdatedShares(true);
+  //   };
 
   const { writeAsync, data, isError } = useContractWrite({
     calls,
@@ -123,7 +78,7 @@ const useFPMMSellShare = (
         "success",
         data!.transaction_hash
       );
-      updateShares();
+      //   updateShares();
     }
   }, [data, isError, pending, success]);
 
@@ -146,7 +101,7 @@ const useFPMMSellShare = (
     });
   };
 
-  return { minAmount, writeAsync, userMarketShare };
+  return { writeAsync };
 };
 
-export default useFPMMSellShare;
+export default useFPMMClaimWinnings;

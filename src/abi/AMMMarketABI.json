@@ -153,6 +153,10 @@
                 "name": "get_user_market_share",
                 "inputs": [
                     {
+                        "name": "address",
+                        "type": "core::starknet::contract_address::ContractAddress"
+                    },
+                    {
                         "name": "market_id",
                         "type": "core::integer::u256"
                     },

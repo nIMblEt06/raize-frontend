@@ -43,6 +43,7 @@ export interface Outcome {
 export interface FPMMOutcome {
   name: string;
   num_shares_in_pool: number;
+  winner: boolean;
 }
 
 export interface UserPosition {
