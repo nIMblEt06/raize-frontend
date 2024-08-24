@@ -168,53 +168,89 @@ const BetSection: NextPage<Props> = ({}) => {
               const oneDayFromNow = new Date().getTime();
               return deadline - oneDayFromNow < 86400000 * 7;
             }).length > 0 ? (
-            markets
-              .filter((market) => {
-                const deadline = new Date(
-                  parseFloat(market.deadline)
-                ).getTime();
-                const oneDayFromNow = new Date().getTime();
-                return deadline - oneDayFromNow < 86400000 * 7;
-              })
-              .map((item, index) => (
-                <div key={index} className='BetCard-Container'>
-                  <BetCard
-                    index={index}
-                    marketId={item.market_id}
-                    category={item.category}
-                    logo={item.image}
-                    duration={item.deadline}
-                    heading={item.name}
-                    subHeading={item.description}
-                    outcomes={item.outcomes}
-                    moneyInPool={item.money_in_pool}
-                    isActive={item.is_active}
-                  />
-                </div>
-              ))
+            <>
+              {contMarkets
+                .filter((market) => market.active)
+                .map((item, index) => (
+                  <div key={index} className='BetCard-Container'>
+                    <ContBetCard
+                      marketId={item.market_id}
+                      category={item.category}
+                      logo={AMMA_LOGO}
+                      deadline={item.deadline}
+                      heading={item.question}
+                      subHeading={item.description}
+                      outcomes={item.outcomes}
+                      isActive={item.active}
+                    />
+                  </div>
+                ))}
+              {markets
+                .filter((market) => {
+                  const deadline = new Date(
+                    parseFloat(market.deadline)
+                  ).getTime();
+                  const oneDayFromNow = new Date().getTime();
+                  return deadline - oneDayFromNow < 86400000 * 7;
+                })
+                .map((item, index) => (
+                  <div key={index} className='BetCard-Container'>
+                    <BetCard
+                      index={index}
+                      marketId={item.market_id}
+                      category={item.category}
+                      logo={item.image}
+                      duration={item.deadline}
+                      heading={item.name}
+                      subHeading={item.description}
+                      outcomes={item.outcomes}
+                      moneyInPool={item.money_in_pool}
+                      isActive={item.is_active}
+                    />
+                  </div>
+                ))}
+            </>
           ) : activeTab === 0 && markets.length > 0 ? (
-            markets
-              .sort(
-                (a, b) =>
-                  parseFloat(getNumber(b.money_in_pool)) -
-                  parseFloat(getNumber(a.money_in_pool))
-              )
-              .map((item, index) => (
-                <div key={index} className='BetCard-Container'>
-                  <BetCard
-                    index={index}
-                    marketId={item.market_id}
-                    category={item.category}
-                    logo={item.image}
-                    duration={item.deadline}
-                    heading={item.name}
-                    subHeading={item.description}
-                    outcomes={item.outcomes}
-                    moneyInPool={item.money_in_pool}
-                    isActive={item.is_active}
-                  />
-                </div>
-              ))
+            <>
+              {contMarkets
+                .filter((market) => market.active)
+                .map((item, index) => (
+                  <div key={index} className='BetCard-Container'>
+                    <ContBetCard
+                      marketId={item.market_id}
+                      category={item.category}
+                      logo={AMMA_LOGO}
+                      deadline={item.deadline}
+                      heading={item.question}
+                      subHeading={item.description}
+                      outcomes={item.outcomes}
+                      isActive={item.active}
+                    />
+                  </div>
+                ))}
+              {markets
+                .sort(
+                  (a, b) =>
+                    parseFloat(getNumber(b.money_in_pool)) -
+                    parseFloat(getNumber(a.money_in_pool))
+                )
+                .map((item, index) => (
+                  <div key={index} className='BetCard-Container'>
+                    <BetCard
+                      index={index}
+                      marketId={item.market_id}
+                      category={item.category}
+                      logo={item.image}
+                      duration={item.deadline}
+                      heading={item.name}
+                      subHeading={item.description}
+                      outcomes={item.outcomes}
+                      moneyInPool={item.money_in_pool}
+                      isActive={item.is_active}
+                    />
+                  </div>
+                ))}
+            </>
           ) : markets.length > 0 &&
             markets.filter((market) =>
               tabList[activeTab].tabName.includes(getString(market.category))
