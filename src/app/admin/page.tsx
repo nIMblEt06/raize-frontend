@@ -12,6 +12,7 @@ import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import SettleMarkets from "@/components/SettleMarkets";
 import ToggleMarkets from "@/components/ToggleMarkets";
 import useCreateFPMMMarket from "@/components/hooks/useCreateFPMMMarket";
+import SettleFPMMMarkets from "@/components/SettleFPMMMarkets";
 
 const categories = [
   {
@@ -52,7 +53,7 @@ export default function AdminPortal() {
   const [condition, setCondition] = useState("");
   const [canCreate, setCanCreate] = useState(false);
   const [action, setAction] = useState(0);
-
+  
   const firebaseConfig = {
     apiKey: "AIzaSyAIowr5sia66ujQ8MHEAGdaytEhV3z5SAs",
     authDomain: "raizeicons.firebaseapp.com",
@@ -236,6 +237,9 @@ export default function AdminPortal() {
         </button>
         <button className='Action-Button' onClick={() => setAction(3)}>
           Create FPMM Market
+        </button>
+        <button className='Action-Button' onClick={() => setAction(4)}>
+          Settle FPMM Market
         </button>
       </div>
       {action == 0 && (
@@ -522,6 +526,16 @@ export default function AdminPortal() {
                 Create Market
               </button>
             </Box>
+          </div>
+        </>
+      )}
+      {action == 4 && (
+        <>
+          <div className='Heading-Section'>
+            <div>Settle FPMM Markets</div>
+          </div>
+          <div className='Content-Section'>
+            <SettleFPMMMarkets />
           </div>
         </>
       )}

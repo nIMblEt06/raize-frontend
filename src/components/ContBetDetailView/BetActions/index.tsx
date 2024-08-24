@@ -206,9 +206,7 @@ const BetActions: NextPage<Props> = ({ outcomes, duration, settled }) => {
       </Box>
     );
   };
-
-  console.log(userMarketShare);
-
+  
   const renderClaim = () => {
     return (
       <Box className='InputContainer'>
