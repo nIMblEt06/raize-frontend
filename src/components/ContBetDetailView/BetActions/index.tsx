@@ -126,7 +126,7 @@ const BetActions: NextPage<Props> = ({ outcomes, duration, settled }) => {
   }
 
   useEffect(() => {
-    if (settled && parseFloat(userMarketShare) > 0) {
+    if (settled) {
       setBetAmount((parseFloat(userMarketShare) / 1e6).toFixed(2));
     }
   }, [userMarketShare, settled]);
@@ -206,7 +206,7 @@ const BetActions: NextPage<Props> = ({ outcomes, duration, settled }) => {
       </Box>
     );
   };
-  
+
   const renderClaim = () => {
     return (
       <Box className='InputContainer'>
@@ -285,7 +285,11 @@ const BetActions: NextPage<Props> = ({ outcomes, duration, settled }) => {
             }}
             className={choice === 0 ? "BetOptionActive" : "BetOption"}
           >
-            <span className='Green'>
+            <span
+              className={
+                settled ? (outcomes.length > 0 && outcomes[0]?.winner ? "Green" : "Red") : "Green"
+              }
+            >
               {outcomes.length > 0 ? getString(outcomes[0]?.name) : "Yes"}
             </span>
             <Box className='RadioButtonContainer'>
@@ -301,7 +305,9 @@ const BetActions: NextPage<Props> = ({ outcomes, duration, settled }) => {
             }}
             className={choice === 1 ? "BetOptionActive" : "BetOption"}
           >
-            <span className='Red'>
+            <span className={
+                settled ? (outcomes.length > 0 && outcomes[1]?.winner ? "Green" : "Red") : "Red"
+              }>
               {outcomes.length > 0 ? getString(outcomes[1].name) : "No"}
             </span>
             <Box className='RadioButtonContainer'>
@@ -369,7 +375,9 @@ const BetActions: NextPage<Props> = ({ outcomes, duration, settled }) => {
           className={`ActionBtn`}
         >
           {settled
-            ? "Claim Winnings!"
+            ? Number(betAmount) > 0
+              ? "Claim Winnings!"
+              : "No Winnings"
             : betAmount == ""
             ? "Enter Amount"
             : isBuying
