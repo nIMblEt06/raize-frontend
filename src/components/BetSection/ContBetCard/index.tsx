@@ -103,12 +103,6 @@ const ContBetCard: NextPage<Props> = ({
       }}
       className='BetBorder'
     >
-      {(!isActive || checkDeadline()) && (
-        <Box className='MarketClosed'>
-          <HiLockClosed />
-          <span>Market Closed</span>
-        </Box>
-      )}
       <div className='ContBetCard'>
         <div className='BetCard-HeadingContainer'>
           <div className='BetCard-CategoryContainer'>
@@ -122,7 +116,7 @@ const ContBetCard: NextPage<Props> = ({
             <div className='DurationIcon'>
               <CustomLogo src={CLOCK_ICON} />
             </div>
-            {daysRemaining}d : {hoursRemaining}h : {minutes}m
+            {daysRemaining > 0 ? `${daysRemaining}d : ${hoursRemaining}h : ${minutes}m` : "Claimable"}
           </div>
         </div>
         <div className='BetCard-DetailsWrapper'>
