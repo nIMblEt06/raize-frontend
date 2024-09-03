@@ -21,7 +21,7 @@ const tabList = [
     tabName: "Trending",
   },
   {
-    tabName: "Armored MMA",
+    tabName: "Continuous Markets",
   },
   {
     tabName: "Closing Soon",
