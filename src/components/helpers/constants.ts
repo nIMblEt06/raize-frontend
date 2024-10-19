@@ -1,12 +1,12 @@
-// export const CONTRACT_ADDRESS =
-//   "0x01d787b1e421bac2b912673883bb057f5a7ae36454298fce7375848340e99ff2"; // mainnet
-// export const FPMM_CONTRACT_ADDRESS =
-//   "0x022db4b7eb3cfffcdb766e0c60275a5160bc01d3b1796d585ca0088fab7c143e"; // mainnet
+export const CONTRACT_ADDRESS =
+  "0x01d787b1e421bac2b912673883bb057f5a7ae36454298fce7375848340e99ff2"; // mainnet
 export const FPMM_CONTRACT_ADDRESS =
-   "0x033b12187f1feb01a05429c43d0249ea165f74d589c22fef3bbe9efab75ce14c"; // testnet
-// export const CONTRACT_ADDRESS =
-//   "0x0619b19a4408751b5950814bc37937ff133cb5fb3e0d60b14ab3b203928d0de1"; // testnet
- export const CONTRACT_ADDRESS="0x04677722d341dc9b87ce0caa897ee4ce33d8db29e828c6f33296b00ec4e046de"; //SEpolia testnet devansh
+  "0x022db4b7eb3cfffcdb766e0c60275a5160bc01d3b1796d585ca0088fab7c143e"; // mainnet
+// export const FPMM_CONTRACT_ADDRESS =
+//    "0x033b12187f1feb01a05429c43d0249ea165f74d589c22fef3bbe9efab75ce14c"; // testnet
+// // export const CONTRACT_ADDRESS =
+// //   "0x0619b19a4408751b5950814bc37937ff133cb5fb3e0d60b14ab3b203928d0de1"; // testnet
+//  export const CONTRACT_ADDRESS="0x04677722d341dc9b87ce0caa897ee4ce33d8db29e828c6f33296b00ec4e046de"; //SEpolia testnet devansh
 export const ETH_ADDRESS =
   "0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7";
 export const USDC_ADDRESS =
