@@ -15,7 +15,6 @@ import CustomLoader from "../common/CustomLoader";
 import ContBetCard from "./ContBetCard";
 import axios from "axios";
 interface Props {}
-
 const tabList = [
   {
     tabName: "Trending",
@@ -57,27 +56,35 @@ const BetSection: NextPage<Props> = ({}) => {
     address: CONTRACT_ADDRESS,
     abi: abi,
   });
-
+  
   useEffect(() => {
     const getAllMarkets = async () => {
       setLoading(true);
+      console.log(contract)
       if (!contract) {
+        console.log("hello");
         setLoading(false);
         return;
       }
+      
       await contract.get_all_markets().then((res: any) => {
         setMarkets(res);
+        console.log(res)
       });
+     
+      console.log(process.env.SERVER_URL)
       axios;
       await axios
         .get(`${process.env.SERVER_URL!}/get-all-markets`)
         .then((res) => {
+          console.log(res.data)
           setContMarkets(res.data);
         });
       setLoading(false);
     };
+   
     getAllMarkets();
-  }, []);
+  }, [contract]);
 
   useEffect(() => {
     setActiveTab(0);
@@ -85,6 +92,7 @@ const BetSection: NextPage<Props> = ({}) => {
 
   return (
     <div className='BetSection'>
+      {/* HERO CARDS SECTION? */}
       <div className='BetSection-Hero'>
         <div className='BetSection-HeroCard'>
           <BetHeroCard
@@ -115,7 +123,10 @@ const BetSection: NextPage<Props> = ({}) => {
           />
         </div>
       </div>
+        {/* HERO CARDS SECTION? */} 
+        
       <div ref={betCardWrapperDiv} className='BetSection-CardWrapper'>
+         {/* Selection Tab */}
         <div className='Tabs-Section'>
           {tabList.map((item, index) => (
             <div
@@ -129,13 +140,14 @@ const BetSection: NextPage<Props> = ({}) => {
             </div>
           ))}
         </div>
+        {/* Selection Tab */}
         <div className='BetCard-Wrapper'>
           {loading ? (
             <div className='LoaderDiv'>
               <CustomLoader size={"55"} color='#9C9C9C' />
             </div>
           ) : activeTab == 1 ? (
-            contMarkets.filter((market) => market.active).length > 0 ? (
+            contMarkets.filter((market) => market.active).length > 0 ?  (
               contMarkets
                 .filter((market) => market.active)
                 .map((item, index) => (
@@ -151,6 +163,7 @@ const BetSection: NextPage<Props> = ({}) => {
                       isActive={item.active}
                     />
                   </div>
+                  // Bet single Card
                 ))
             ) : (
               <motion.span

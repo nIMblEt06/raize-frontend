@@ -38,7 +38,12 @@ function useSettleMarket(marketData: Data) {
     });
 
   const settleMarket = async () => {
-    await writeAsync();
+    try{
+      await writeAsync();
+    }catch(err){
+      console.log(err);
+    }
+    
   };
 
   return { settleMarket, data, isError, isSuccess, isPending, error };

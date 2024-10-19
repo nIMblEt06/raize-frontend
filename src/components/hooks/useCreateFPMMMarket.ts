@@ -71,7 +71,7 @@ function useCreateFPMMMarket({
         );
       })
       .catch((error) => {
-        console.error("Error creating market:", error);
+        console.error("Error creating  market:", error);
       });
   };
 

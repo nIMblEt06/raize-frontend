@@ -52,7 +52,7 @@ const BetDetailView: NextPage = () => {
       const marketId = parseInt(hexPart, 16);
 
       await axios
-        .get(`${process.env.SERVER_URL}/get-current-market/${marketId}`)
+        .get(`${process.env.SERVER_URL!}/get-current-market/${marketId}`)
         .then((res) => {
           setMarketInfo(res.data[0]);
         })
@@ -63,7 +63,7 @@ const BetDetailView: NextPage = () => {
             "error"
           );
         });
-
+     
       await contract.get_market(marketId).then(async (res: any) => {
         setMarket(res);
         let tempOutcomes: FPMMOutcome[] = [];

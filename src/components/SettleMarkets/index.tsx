@@ -11,7 +11,8 @@ import { Market } from "../helpers/types";
 import { Radio, RadioGroup } from "rsuite";
 import useSettleMarket from "../hooks/useSettleMarket";
 import { getString } from "../helpers/functions";
-
+import axios from "axios";
+import VerifyProof from "./verify-proof";
 interface Props {}
 
 const settel_categories = [
@@ -34,17 +35,33 @@ const SettleMarkets: NextPage<Props> = ({}) => {
   const [marketId, setMarketId] = useState<BigInt>(BigInt(0));
   const [value, setValue] = useState<any>("Yes");
   const [allMarkets, setAllMarkets] = useState<Market[]>([]);
-
+  const [transformedProof,setProof]=useState(null);
+  const [canSettle, setCanSettle] = useState(false);
   const { contract } = useContract({
     address: CONTRACT_ADDRESS,
     abi: abi,
   });
+  
+  
+  const generateProof=async ()=>{
+    console.log("fetching");
+    const response=await axios.get("http://localhost:4000/generate-proofs");
+    if(response.data){
+      setProof(response.data);
+      console.log(response.data)
+      
+    }
+  }  
 
-  const { settleMarket } = useSettleMarket({
+  const { settleMarket, } = useSettleMarket({
     category: category,
     marketId: marketId,
     outcome: value === "Yes" ? 0 : 1,
   });
+
+  const handleProofVerified = (success: boolean) => {
+    setCanSettle(success);  // Update the state when proof is verified
+  };
 
   const returnAllMarkets = () => {
     const select_markets: any = [];
@@ -201,11 +218,20 @@ const SettleMarkets: NextPage<Props> = ({}) => {
       )}
       {marketId && (
         <Box className='Submit'>
-          <button onClick={settleMarket} className='SubmitButton'>
+          <button onClick={settleMarket} className='SubmitButton' disabled={!canSettle} >
             Settle Market
           </button>
+          {
+            (transformedProof===null) ? <button onClick={generateProof} className="SubmitButton ">
+            Generate Proof
+           </button>:""
+          }
+          
         </Box>
+      
       )}
+      {transformedProof && <VerifyProof data={transformedProof} onVerified={handleProofVerified}/>}
+     
     </div>
   );
 };

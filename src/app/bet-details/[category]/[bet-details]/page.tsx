@@ -37,6 +37,7 @@ const BetDetailView: NextPage = () => {
       const encoded = pathname.split("/")[3];
       const hexPart = encoded.slice(0, -4);
       const marketId = parseInt(hexPart, 16);
+      console.log(marketId);
       await contract.get_market(marketId).then((res: any) => {
         setMarket(res);
       });

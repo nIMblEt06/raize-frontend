@@ -26,7 +26,7 @@ export function StarknetProvider({ children }: { children: ReactNode }) {
 
   function rpc() {
     return {
-      nodeUrl: "https://starknet-mainnet.public.blastapi.io", // mainnet
+      nodeUrl: "https://starknet-sepolia.g.alchemy.com/starknet/version/rpc/v0_7/KCxjAKyTbyWlZMWAw0NKE0JjXxIMRJNr", // mainnet
     };
   }
 

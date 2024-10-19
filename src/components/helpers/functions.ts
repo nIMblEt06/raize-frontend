@@ -72,6 +72,5 @@ export const calcPrice = (poolBalances: any[]): number[] => {
     .reduce((a, b) => a + b);
 
   const prices = poolBalances.map((holding) => product / holding / denominator);
-
   return prices.map((price) => +price.valueOf());
 };

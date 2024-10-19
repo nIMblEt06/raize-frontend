@@ -364,9 +364,9 @@ export default function AdminPortal() {
             {category == "Sports" && sportsSelection()}
             <Box className='Submit'>
               <button
-                disabled={!canCreate || isPending}
+                // disabled={!canCreate || isPending}
                 onClick={createMarket}
-                className={`SubmitButton ${canCreate ? "" : "Disabled"}`}
+                className={`SubmitButton`}
               >
                 Create Market
               </button>
@@ -520,7 +520,11 @@ export default function AdminPortal() {
             <Box className='Submit'>
               <button
                 disabled={!canCreate || isPending}
-                onClick={createFPMMMarket}
+                onClick={()=>{
+                  console.log("i got clicked");
+                  createFPMMMarket();
+                  
+                }}
                 className={`SubmitButton ${canCreate ? "" : "Disabled"}`}
               >
                 Create Market
