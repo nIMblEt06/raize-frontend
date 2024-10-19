@@ -60,24 +60,19 @@ const BetSection: NextPage<Props> = ({}) => {
   useEffect(() => {
     const getAllMarkets = async () => {
       setLoading(true);
-      console.log(contract)
       if (!contract) {
-        console.log("hello");
         setLoading(false);
         return;
       }
       
       await contract.get_all_markets().then((res: any) => {
         setMarkets(res);
-        console.log(res)
       });
      
-      console.log(process.env.SERVER_URL)
       axios;
       await axios
         .get(`${process.env.SERVER_URL!}/get-all-markets`)
         .then((res) => {
-          console.log(res.data)
           setContMarkets(res.data);
         });
       setLoading(false);

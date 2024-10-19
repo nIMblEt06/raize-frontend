@@ -521,7 +521,7 @@ export default function AdminPortal() {
               <button
                 disabled={!canCreate || isPending}
                 onClick={()=>{
-                  console.log("i got clicked");
+                
                   createFPMMMarket();
                   
                 }}

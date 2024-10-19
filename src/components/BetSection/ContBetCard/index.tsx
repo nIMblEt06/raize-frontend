@@ -45,7 +45,6 @@ const ContBetCard: NextPage<Props> = ({
   const isInView = useInView(ref, { once: true });
   const [price1, setPrice1] = useState(0);
   const [price2, setPrice2] = useState(0);
-  console.log(category);
   const [hoursRemaining, setHoursRemaining] = useState(0);
   const [daysRemaining, setDaysRemaining] = useState(0);
   const [minutes, setMinutesRemaining] = useState(0);
