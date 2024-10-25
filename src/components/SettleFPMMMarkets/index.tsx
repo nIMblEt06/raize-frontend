@@ -44,6 +44,7 @@ const SettleFPMMMarkets: NextPage<Props> = ({}) => {
       await contract.get_market(marketId).then(async (res: any) => {
         setMarket(res);
         let tempOutcomes: FPMMOutcome[] = [];
+       
         for (let i = 0; i < res.num_outcomes; i++) {
           await contract
             .get_outcome(marketId, i)

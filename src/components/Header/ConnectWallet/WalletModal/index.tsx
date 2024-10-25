@@ -41,7 +41,9 @@ const WalletModal: NextPage<Props> = ({ open, handleClose }) => {
                   </span>
                 </Box>
               </Box>
+              
               <Box className="WalletModal-ButtonContainer">
+                
                 {connectors &&
                   connectors.map((connector) => (
                     <WalletButton
