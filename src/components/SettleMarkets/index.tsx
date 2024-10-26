@@ -45,7 +45,7 @@ const SettleMarkets: NextPage<Props> = ({}) => {
   
   const generateProof=async ()=>{
     console.log("fetching");
-    const response=await axios.get("http://localhost:4000/generate-proofs");
+    const response=await axios.get(`${process.env.SERVER_URL}/generate-proofs`);
     if(response.data){
       setProof(response.data);
       console.log(response.data)
