@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 // import { Reclaim } from "@reclaimprotocol/js-sdk";
 import { useAccount } from "@starknet-react/core";
-import { RpcProvider, Contract, Account, ec, json } from "starknet";
+import { RpcProvider, Contract} from "starknet";
 
 
 export default function VerifyProof(props: any) {
@@ -13,7 +13,10 @@ export default function VerifyProof(props: any) {
 
   const handleVerifyProof = async () => {
     try {
-      console.log(props.data)
+     if(!account){
+      setError("No account available. Please connect your wallet.");
+      return;
+     }
       setLoading(true);
       const provider = new RpcProvider({
         nodeUrl: "https://starknet-sepolia.public.blastapi.io",
@@ -56,7 +59,7 @@ export default function VerifyProof(props: any) {
   return (
     <div>
       {!loading && !verified && (
-        <button onClick={handleVerifyProof}>Verify Proof</button>
+        <button onClick={handleVerifyProof} className="SubmitButton">Verify Proof</button>
       )}
       {verified && transactionHash && (
         <div className="flex flex-col text-center">
