@@ -209,6 +209,20 @@ const BetSection: NextPage<Props> = ({}) => {
               )
               .map((item, index) => (
                 <div key={index} className='BetCard-Container'>
+                 { item.market_id==23 ? 
+                 <BetCard
+                    index={index}
+                    marketId={item.market_id}
+                    category={item.category}
+                    logo={item.image}
+                    duration={item.deadline}
+                    heading={item.name}
+                    subHeading={item.description}
+                    outcomes={item.outcomes}
+                    moneyInPool={item.money_in_pool}
+                    isActive={false}
+                  />
+                  :
                   <BetCard
                     index={index}
                     marketId={item.market_id}
@@ -221,6 +235,8 @@ const BetSection: NextPage<Props> = ({}) => {
                     moneyInPool={item.money_in_pool}
                     isActive={item.is_active}
                   />
+                  }
+                  
                 </div>
               ))
           ) : markets.length > 0 &&
@@ -238,6 +254,20 @@ const BetSection: NextPage<Props> = ({}) => {
               )
               .map((item, index) => (
                 <div key={index} className='BetCard-Container'>
+                  { item.market_id==23 ? 
+                 <BetCard
+                    index={index}
+                    marketId={item.market_id}
+                    category={item.category}
+                    logo={item.image}
+                    duration={item.deadline}
+                    heading={item.name}
+                    subHeading={item.description}
+                    outcomes={item.outcomes}
+                    moneyInPool={item.money_in_pool}
+                    isActive={false}
+                  />
+                  :
                   <BetCard
                     index={index}
                     marketId={item.market_id}
@@ -250,6 +280,7 @@ const BetSection: NextPage<Props> = ({}) => {
                     moneyInPool={item.money_in_pool}
                     isActive={item.is_active}
                   />
+                  }
                 </div>
               ))
           ) : (

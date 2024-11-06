@@ -2,8 +2,8 @@ import { useState, useEffect, useMemo } from "react";
 // import { Reclaim } from "@reclaimprotocol/js-sdk";
 import { useAccount } from "@starknet-react/core";
 import { RpcProvider, Contract} from "starknet";
-
-
+import { Box } from "@mui/material";
+import "./styles.scss";
 export default function VerifyProof(props: any) {
   const { account } = useAccount();
   const [verified, setVerified] = useState(false);
@@ -33,8 +33,11 @@ export default function VerifyProof(props: any) {
         reclaimAddress,
         provider
       );
+      console.log(ReclaimContract);
       ReclaimContract.connect(account);
+      console.log(props.data.proof);
       const myCall = ReclaimContract.populate("verify_proof", props.data);
+      
       const res = await ReclaimContract.verify_proof(myCall.calldata);
       let hash = await provider.waitForTransaction(res.transaction_hash);
       setLoading(false);
@@ -58,8 +61,9 @@ export default function VerifyProof(props: any) {
 
   return (
     <div>
-      {!loading && !verified && (
+      {!loading && !verified && ( <Box className='Submit'>
         <button onClick={handleVerifyProof} className="SubmitButton">Verify Proof</button>
+        </Box>
       )}
       {verified && transactionHash && (
         <div className="flex flex-col text-center">

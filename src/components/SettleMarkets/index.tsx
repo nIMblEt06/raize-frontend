@@ -35,7 +35,7 @@ const SettleMarkets: NextPage<Props> = ({}) => {
   const [marketId, setMarketId] = useState<BigInt>(BigInt(0));
   const [value, setValue] = useState<any>("Yes");
   const [allMarkets, setAllMarkets] = useState<Market[]>([]);
-  const [transformedProof,setProof]=useState(null);
+  const [transformedProof,setTransformedProof]=useState(null);
   const [canSettle, setCanSettle] = useState(false);
   const { contract } = useContract({
     address: CONTRACT_ADDRESS,
@@ -47,9 +47,8 @@ const SettleMarkets: NextPage<Props> = ({}) => {
     console.log("fetching");
     const response=await axios.get(`${process.env.SERVER_URL}/generate-proofs`);
     if(response.data){
-      setProof(response.data);
+      setTransformedProof(response?.data);
       console.log(response.data)
-      
     }
   }  
 
@@ -218,13 +217,10 @@ const SettleMarkets: NextPage<Props> = ({}) => {
       )}
       {marketId && (
         <Box className='Submit'>
-          <button onClick={settleMarket} className='SubmitButton' disabled={!canSettle} >
+          {
+           <button type="button" onClick={settleMarket} className='SubmitButton' disabled={transformedProof!==null} >
             Settle Market
           </button>
-          {
-            (transformedProof===null) ? <button onClick={generateProof} className="SubmitButton ">
-            Generate Proof
-           </button>:""
           }
           
         </Box>
