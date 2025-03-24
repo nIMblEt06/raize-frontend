@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 
 import "./styles.scss";
 import BetHeroCard from "./BetHeroCard";
-import { AMMA_LOGO, F1_LOGO, US_LOGO } from "../helpers/icons";
+import { AMMA_LOGO, F1_LOGO, IPL_LOGO, US_LOGO } from "../helpers/icons";
 import BetCard from "./BetCard";
 import { useContract } from "@starknet-react/core";
 import abi from "../../abi/ContractABI.json";
@@ -56,7 +56,7 @@ const BetSection: NextPage<Props> = ({}) => {
     address: CONTRACT_ADDRESS,
     abi: abi,
   });
-  
+
   useEffect(() => {
     const getAllMarkets = async () => {
       setLoading(true);
@@ -64,11 +64,11 @@ const BetSection: NextPage<Props> = ({}) => {
         setLoading(false);
         return;
       }
-      
+
       await contract.get_all_markets().then((res: any) => {
         setMarkets(res);
       });
-     
+
       axios;
       await axios
         .get(`${process.env.SERVER_URL!}/get-all-markets`)
@@ -77,7 +77,7 @@ const BetSection: NextPage<Props> = ({}) => {
         });
       setLoading(false);
     };
-   
+
     getAllMarkets();
   }, [contract]);
 
@@ -86,43 +86,41 @@ const BetSection: NextPage<Props> = ({}) => {
   }, []);
 
   return (
-    <div className='BetSection'>
+    <div className="BetSection">
       {/* HERO CARDS SECTION? */}
-      <div className='BetSection-Hero'>
-        <div className='BetSection-HeroCard'>
+      <div className="BetSection-Hero">
+        <div className="BetSection-HeroCard">
           <BetHeroCard
             setActiveTab={setActiveTab}
             categoryIndex={5}
-            category='Politics'
+            category="Politics"
             categoryLogo={US_LOGO}
-            categoryName='US Elections'
-            cardBgColor='linear-gradient(67.58deg, #E20000 -0.96%, #9B3838 78.06%)'
-            image='/assets/images/pol.svg'
+            categoryName="US Elections"
+            cardBgColor="linear-gradient(67.58deg, #E20000 -0.96%, #9B3838 78.06%)"
+            image="/assets/images/pol.svg"
             scrollFn={scrollToElement}
             enabled={true}
           />
         </div>
-        <div className='BetSection-HeroCard'>
+        <div className="BetSection-HeroCard">
           <BetHeroCard
             setActiveTab={setActiveTab}
-            categoryIndex={1}
-            category='Sports'
-            categoryLogo={AMMA_LOGO}
-            categoryName='Armored MMA'
-            cardBgColor='linear-gradient(90deg, #143CDA 0%, #0D268A 100%)'
-            image='/assets/images/fighters.svg'
+            categoryIndex={4}
+            category="Sports"
+            categoryLogo={IPL_LOGO}
+            categoryName="IPL 2025"
+            cardBgColor="linear-gradient(90deg, #143CDA 0%, #0D268A 100%)"
+            image="/assets/images/ipl.svg"
             scrollFn={scrollToElement}
-            height='230px'
-            width='370px'
             enabled={true}
           />
         </div>
       </div>
-        {/* HERO CARDS SECTION? */} 
-        
-      <div ref={betCardWrapperDiv} className='BetSection-CardWrapper'>
-         {/* Selection Tab */}
-        <div className='Tabs-Section'>
+      {/* HERO CARDS SECTION? */}
+
+      <div ref={betCardWrapperDiv} className="BetSection-CardWrapper">
+        {/* Selection Tab */}
+        <div className="Tabs-Section">
           {tabList.map((item, index) => (
             <div
               key={index}
@@ -136,17 +134,17 @@ const BetSection: NextPage<Props> = ({}) => {
           ))}
         </div>
         {/* Selection Tab */}
-        <div className='BetCard-Wrapper'>
+        <div className="BetCard-Wrapper">
           {loading ? (
-            <div className='LoaderDiv'>
-              <CustomLoader size={"55"} color='#9C9C9C' />
+            <div className="LoaderDiv">
+              <CustomLoader size={"55"} color="#9C9C9C" />
             </div>
           ) : activeTab == 1 ? (
-            contMarkets.filter((market) => market.active).length > 0 ?  (
+            contMarkets.filter((market) => market.active).length > 0 ? (
               contMarkets
                 .filter((market) => market.active)
                 .map((item, index) => (
-                  <div key={index} className='BetCard-Container'>
+                  <div key={index} className="BetCard-Container">
                     <ContBetCard
                       marketId={item.market_id}
                       category={item.category}
@@ -165,7 +163,7 @@ const BetSection: NextPage<Props> = ({}) => {
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ ease: "easeInOut", duration: 0.25 }}
-                className='PlaceholderText'
+                className="PlaceholderText"
               >
                 No Active Events
               </motion.span>
@@ -185,7 +183,7 @@ const BetSection: NextPage<Props> = ({}) => {
                 return deadline - oneDayFromNow < 86400000 * 7;
               })
               .map((item, index) => (
-                <div key={index} className='BetCard-Container'>
+                <div key={index} className="BetCard-Container">
                   <BetCard
                     index={index}
                     marketId={item.market_id}
@@ -208,35 +206,34 @@ const BetSection: NextPage<Props> = ({}) => {
                   parseFloat(getNumber(a.money_in_pool))
               )
               .map((item, index) => (
-                <div key={index} className='BetCard-Container'>
-                 { item.market_id==23 ? 
-                 <BetCard
-                    index={index}
-                    marketId={item.market_id}
-                    category={item.category}
-                    logo={item.image}
-                    duration={item.deadline}
-                    heading={item.name}
-                    subHeading={item.description}
-                    outcomes={item.outcomes}
-                    moneyInPool={item.money_in_pool}
-                    isActive={false}
-                  />
-                  :
-                  <BetCard
-                    index={index}
-                    marketId={item.market_id}
-                    category={item.category}
-                    logo={item.image}
-                    duration={item.deadline}
-                    heading={item.name}
-                    subHeading={item.description}
-                    outcomes={item.outcomes}
-                    moneyInPool={item.money_in_pool}
-                    isActive={item.is_active}
-                  />
-                  }
-                  
+                <div key={index} className="BetCard-Container">
+                  {item.market_id == 23 ? (
+                    <BetCard
+                      index={index}
+                      marketId={item.market_id}
+                      category={item.category}
+                      logo={item.image}
+                      duration={item.deadline}
+                      heading={item.name}
+                      subHeading={item.description}
+                      outcomes={item.outcomes}
+                      moneyInPool={item.money_in_pool}
+                      isActive={false}
+                    />
+                  ) : (
+                    <BetCard
+                      index={index}
+                      marketId={item.market_id}
+                      category={item.category}
+                      logo={item.image}
+                      duration={item.deadline}
+                      heading={item.name}
+                      subHeading={item.description}
+                      outcomes={item.outcomes}
+                      moneyInPool={item.money_in_pool}
+                      isActive={item.is_active}
+                    />
+                  )}
                 </div>
               ))
           ) : markets.length > 0 &&
@@ -253,34 +250,34 @@ const BetSection: NextPage<Props> = ({}) => {
                   parseFloat(getNumber(a.money_in_pool))
               )
               .map((item, index) => (
-                <div key={index} className='BetCard-Container'>
-                  { item.market_id==23 ? 
-                 <BetCard
-                    index={index}
-                    marketId={item.market_id}
-                    category={item.category}
-                    logo={item.image}
-                    duration={item.deadline}
-                    heading={item.name}
-                    subHeading={item.description}
-                    outcomes={item.outcomes}
-                    moneyInPool={item.money_in_pool}
-                    isActive={false}
-                  />
-                  :
-                  <BetCard
-                    index={index}
-                    marketId={item.market_id}
-                    category={item.category}
-                    logo={item.image}
-                    duration={item.deadline}
-                    heading={item.name}
-                    subHeading={item.description}
-                    outcomes={item.outcomes}
-                    moneyInPool={item.money_in_pool}
-                    isActive={item.is_active}
-                  />
-                  }
+                <div key={index} className="BetCard-Container">
+                  {item.market_id == 23 ? (
+                    <BetCard
+                      index={index}
+                      marketId={item.market_id}
+                      category={item.category}
+                      logo={item.image}
+                      duration={item.deadline}
+                      heading={item.name}
+                      subHeading={item.description}
+                      outcomes={item.outcomes}
+                      moneyInPool={item.money_in_pool}
+                      isActive={false}
+                    />
+                  ) : (
+                    <BetCard
+                      index={index}
+                      marketId={item.market_id}
+                      category={item.category}
+                      logo={item.image}
+                      duration={item.deadline}
+                      heading={item.name}
+                      subHeading={item.description}
+                      outcomes={item.outcomes}
+                      moneyInPool={item.money_in_pool}
+                      isActive={item.is_active}
+                    />
+                  )}
                 </div>
               ))
           ) : (
@@ -288,7 +285,7 @@ const BetSection: NextPage<Props> = ({}) => {
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ ease: "easeInOut", duration: 0.25 }}
-              className='PlaceholderText'
+              className="PlaceholderText"
             >
               No Active Events
             </motion.span>
