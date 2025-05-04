@@ -51,8 +51,8 @@ const BetDetailView: NextPage = () => {
   };
 
   return (
-    <div className='BetDetailView'>
-      <div className='GoBack' onClick={handleBack}>
+    <div className="BetDetailView">
+      <div className="GoBack" onClick={handleBack}>
         <CustomLogo width={"30px"} height={"20px"} src={BACK_LOGO} />
         <div>Back</div>
       </div>
@@ -66,7 +66,7 @@ const BetDetailView: NextPage = () => {
       />
       {market ? (
         !market?.is_active || checkDeadline() ? (
-          <Box className='MarketClosed'>
+          <Box className="MarketClosed">
             <span>
               This Market is now closed, please wait patiently for the results
               to get declared, and be sure to claim your winnings!
