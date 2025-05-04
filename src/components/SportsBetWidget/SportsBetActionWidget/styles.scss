@@ -1,0 +1,70 @@
+.SportsBetCardsContainer {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+
+    .SportsBetCard {
+        width: 100%;
+        padding: 20px 20px;
+        background-color: #161616;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        .TimeLabel {
+            color: #909090;
+            font-size: 14px;
+            font-family: "GilmerRegular";
+        }
+
+        .LeagueName {
+            color: #747474;
+            font-size: 16px;
+            font-family: "GilmerRegular";
+
+        }
+
+        .TeamDetails {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            width: fit-content;
+
+            .Label {
+                color: #747474;
+                font-size: 16px;
+                font-family: "GilmerRegular";
+            }
+
+            .Team {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 5px;
+
+                .TeamLogo {
+                    width: 20px;
+                    height: 20px;
+                    background-color: rosybrown;
+                }
+
+                .TeamName {
+                    color: #ffffff;
+                    font-size: 16px;
+                    font-family: "GilmerRegular";
+                }
+            }
+        }
+
+        .SportsBetActionContainer {
+            width: 100%;
+            display: flex;
+            gap: 20px;
+
+
+
+        }
+    }
+}

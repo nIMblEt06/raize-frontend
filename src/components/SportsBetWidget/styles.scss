@@ -1,0 +1,62 @@
+.SportsBetContainer {
+    width: 70%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding-top: 80px;
+
+    .Heading {
+        color: #909090;
+        font-size: 40px;
+        font-family: "GilmerBold";
+    }
+
+    .SportsTypeContainer {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        gap: 10px;
+
+        .SportsType {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            background-color: #0c0c0c;
+            border: 1px solid #545454;
+            font-size: 25px;
+            cursor: pointer;
+        }
+    }
+
+    .SportsBetSection {
+        display: flex;
+        gap: 20px;
+
+        .SportsBetLeaguesContainer {
+            display: flex;
+            flex-direction: column;
+            width: 20%;
+            gap: 10px;
+
+            .Label {
+                color: #909090;
+                font-size: 18px;
+                font-family: "GilmerRegular";
+            }
+
+            .LeagueContainer {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+        }
+
+
+    }
+}

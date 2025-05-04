@@ -1,0 +1,81 @@
+.BetActionModalWrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    outline: none;
+    width: 400px;
+    padding: 20px;
+    background-color: #0c0c0c;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    .TeamName {
+        color: #909090;
+        font-size: 14px;
+        font-family: "GilmerRegular";
+        width: 50%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .OddPrice {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        width: fit-content;
+
+        .Label {
+            color: #909090;
+            font-size: 14px;
+            font-family: "GilmerRegular";
+        }
+
+        .Price {
+            color: #ffffff;
+            font-size: 16px;
+            font-family: "GilmerRegular";
+        }
+    }
+
+    .InputField {
+        font-family: "GilmerMedium";
+        background-color: #000000;
+        border: 1px solid #2f2e2e;
+        outline: none;
+        color: #fff;
+        font-size: 12px;
+        padding: 10px 20px;
+        border-radius: 5px;
+    }
+
+    .ActionBtn {
+        width: 100%;
+        padding: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-sizing: border-box;
+        background: linear-gradient(90deg,
+                #f5841f 0%,
+                #ed801e 25%,
+                #e57b1d 50%,
+                #d5731b 75%,
+                #c66b19 100%);
+        border-radius: 8px;
+        font-family: "GilmerMedium";
+        font-style: normal;
+        font-weight: 800;
+        font-size: 14px;
+        // margin-bottom: 20px;
+        line-height: 24px;
+        color: #ffffff;
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+    }
+
+}

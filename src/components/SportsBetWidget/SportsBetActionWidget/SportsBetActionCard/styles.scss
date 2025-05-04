@@ -1,0 +1,52 @@
+.SportsBetAction {
+    width: 33%;
+    padding: 10px;
+    background-color: #020202;
+    border: 1px solid #3c3c3c;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+        opacity: 0.8;
+    }
+
+    .TeamName {
+        color: #909090;
+        font-size: 14px;
+        font-family: "GilmerRegular";
+        width: 50%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .OddsContainer {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+
+        .Label {
+            color: #37ff8d;
+            font-size: 18px;
+        }
+
+        .CurrentOdd {
+            color: #ffffff;
+            font-size: 18px;
+            font-family: "GilmerRegular";
+        }
+
+        .PastOdd {
+            color: #909090;
+            font-size: 16px;
+            font-family: "GilmerRegular";
+            text-decoration: line-through;
+        }
+    }
+}
