@@ -1,11 +1,19 @@
 import React from "react";
 import "./styles.scss";
+import CustomLogo from "@/components/common/CustomIcons";
 
-export const LeagueCard = () => {
+interface Props {
+  logo: string;
+  name: string;
+}
+
+export const LeagueCard = ({ logo, name }: Props) => {
   return (
     <div className="League">
-      <div className="LeagueImage"></div>
-      <span>La Liga</span>
+      <div className="LeagueImage">
+        <CustomLogo src={logo} />
+      </div>
+      <span>{name}</span>
     </div>
   );
 };
