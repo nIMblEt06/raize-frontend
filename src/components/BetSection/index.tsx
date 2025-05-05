@@ -70,8 +70,20 @@ const BetSection: NextPage = () => {
             tabList[activeTab].includes(getString(m.category))
           );
 
-    return filtered.length > 0 ? (
-      filtered.map((item, i) => (
+    const sortedFiltered = [...filtered].sort((a, b) => {
+      const currentTime = new Date().getTime();
+      const aDeadline = new Date(parseInt(a.deadline)).getTime();
+      const bDeadline = new Date(parseInt(b.deadline)).getTime();
+
+      const aIsPast = currentTime > aDeadline;
+      const bIsPast = currentTime > bDeadline;
+
+      if (aIsPast === bIsPast) return 0;
+      return aIsPast ? 1 : -1;
+    });
+
+    return sortedFiltered.length > 0 ? (
+      sortedFiltered.map((item, i) => (
         <div key={i} className="BetCard-Container">
           <BetCard
             index={i}
