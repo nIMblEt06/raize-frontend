@@ -27,6 +27,10 @@ interface Props {}
 const WalletButtons: NextPage<Props> = () => {
   const { address, connector } = useAccount();
   const router = useRouter();
+  const contractInstance = useContract({
+    address: CONTRACT_ADDRESS,
+    abi,
+  }).contract;
   const [winnings, setWinnings] = useState("0");
   const {
     anchorEl: walletDropdownAnchor,
@@ -43,10 +47,6 @@ const WalletButtons: NextPage<Props> = () => {
   const getUserTotalWinnings = useMemo(() => {
     return async () => {
       if (!address) return;
-      const contractInstance = await useContract({
-        address: CONTRACT_ADDRESS,
-        abi,
-      }).contract;
       if (!contractInstance) return;
       const result = await contractInstance.get_user_total_claimable(address);
       setWinnings(getNumber(result.toString()));

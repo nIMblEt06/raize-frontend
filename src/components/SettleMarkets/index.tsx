@@ -12,7 +12,7 @@ import { Radio, RadioGroup } from "rsuite";
 import useSettleMarket from "../hooks/useSettleMarket";
 import { getString } from "../helpers/functions";
 import axios from "axios";
-import VerifyProof from "./verify-proof";
+
 interface Props {}
 
 const settel_categories = [
@@ -35,22 +35,12 @@ const SettleMarkets: NextPage<Props> = ({}) => {
   const [marketId, setMarketId] = useState<BigInt>(BigInt(0));
   const [value, setValue] = useState<any>("Yes");
   const [allMarkets, setAllMarkets] = useState<Market[]>([]);
-  const [transformedProof,setTransformedProof]=useState(null);
   const [canSettle, setCanSettle] = useState(false);
   const { contract } = useContract({
     address: CONTRACT_ADDRESS,
     abi: abi,
   });
   
-  
-  const generateProof=async ()=>{
-    console.log("fetching");
-    const response=await axios.get(`${process.env.SERVER_URL}/generate-proofs`);
-    if(response.data){
-      setTransformedProof(response?.data);
-      console.log(response.data)
-    }
-  }  
 
   const { settleMarket, } = useSettleMarket({
     category: category,
@@ -58,9 +48,7 @@ const SettleMarkets: NextPage<Props> = ({}) => {
     outcome: value === "Yes" ? 0 : 1,
   });
 
-  const handleProofVerified = (success: boolean) => {
-    setCanSettle(success);  // Update the state when proof is verified
-  };
+
 
   const returnAllMarkets = () => {
     const select_markets: any = [];
@@ -218,7 +206,7 @@ const SettleMarkets: NextPage<Props> = ({}) => {
       {marketId && (
         <Box className='Submit'>
           {
-           <button type="button" onClick={settleMarket} className='SubmitButton' disabled={transformedProof!==null} >
+           <button type="button" onClick={settleMarket} className='SubmitButton'>
             Settle Market
           </button>
           }
@@ -226,7 +214,6 @@ const SettleMarkets: NextPage<Props> = ({}) => {
         </Box>
       
       )}
-      {transformedProof && <VerifyProof data={transformedProof} onVerified={handleProofVerified}/>}
      
     </div>
   );

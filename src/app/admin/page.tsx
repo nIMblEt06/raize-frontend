@@ -14,6 +14,7 @@ import ToggleMarkets from "@/components/ToggleMarkets";
 import useCreateFPMMMarket from "@/components/hooks/useCreateFPMMMarket";
 import SettleFPMMMarkets from "@/components/SettleFPMMMarkets";
 
+
 const categories = [
   {
     value: "Crypto Market",

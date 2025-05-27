@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@avnu/avnu-sdk": "^2.1.1",
+    "@avnu/avnu-sdk": "^3.0.2",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@mui/material": "^5.15.21",
@@ -20,6 +20,7 @@
     "@starknet-react/core": "^2.8.3",
     "axios": "^1.7.7",
     "dotenv": "^16.4.5",
+    "ethers": "^6.14.3",
     "firebase": "^10.12.3",
     "framer-motion": "^11.2.13",
     "get-starknet-core": "^3.2.0",
@@ -32,8 +33,8 @@
     "react-datepicker": "^7.2.0",
     "react-dom": "^18",
     "react-icons": "^5.2.1",
-    "react-select": "^5.8.0",
-    "rsuite": "^5.65.0",
+    "react-select": "^5.10.1",
+    "rsuite": "^5.81.0",
     "starknet": "^6.11.0",
     "starknetkit": "^1.1.9"
   },
@@ -48,5 +49,8 @@
     "sass": "^1.77.6",
     "tailwindcss": "^3.3.0",
     "typescript": "^5"
+  },
+  "resolutions": {
+    "undici": "5.28.4"
   }
 }
