@@ -8,7 +8,7 @@ import BetHeroCard from "./BetHeroCard";
 import BetCard from "./BetCard";
 import ContBetCard from "./ContBetCard";
 import CustomLoader from "../common/CustomLoader";
-import { AMMA_LOGO, IPL_LOGO, US_LOGO } from "../helpers/icons";
+import { AMMA_LOGO, IPL_LOGO, STARKNET_IMAGE, US_LOGO } from "../helpers/icons";
 import { getNumber, getString } from "../helpers/functions";
 
 const tabList = [
@@ -118,22 +118,22 @@ const BetSection: NextPage = () => {
         <BetHeroCard
           setActiveTab={setActiveTab}
           categoryIndex={5}
-          category="Politics"
-          categoryLogo={US_LOGO}
-          categoryName="US Elections"
-          cardBgColor="linear-gradient(67.58deg, #E20000 -0.96%, #9B3838 78.06%)"
-          image="/assets/images/pol.svg"
+          category="Crypto"
+          categoryLogo={IPL_LOGO}
+          categoryName="STRK Token Price"
+          cardBgColor="linear-gradient(67.58deg, #2D2626 -0.96%, #F5841F 78.06%)"
+          image="/assets/images/starknet.svg"
           scrollFn={scrollToElement}
           enabled
         />
         <BetHeroCard
           setActiveTab={setActiveTab}
           categoryIndex={4}
-          category="Sports"
+          category="Politics"
           categoryLogo={IPL_LOGO}
-          categoryName="IPL 2025"
-          cardBgColor="linear-gradient(90deg, #143CDA 0%, #0D268A 100%)"
-          image="/assets/images/ipl.svg"
+          categoryName="South Korea Elections"
+          cardBgColor="linear-gradient(90deg, #2D2626 0%, #FF0000 100%)"
+          image="/assets/images/korea.svg"
           scrollFn={scrollToElement}
           enabled
         />

@@ -18,4 +18,5 @@ export const USDC_LOGO = "/assets/logos/usdc.svg";
 export const UEFA_LOGO = "/assets/logos/uefalogo.svg";
 export const BACK_LOGO = "/assets/icons/arrow.svg";
 export const FIGHTER_IMAGE = "/assets/images/fight.png";
+export const STARKNET_IMAGE = "/assets/images/starknet.svg";
 export const AMMA_IMAGE = "/assets/icons/amma.png";
