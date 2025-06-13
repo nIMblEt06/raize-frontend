@@ -2,6 +2,9 @@ export const CONTRACT_ADDRESS =
   "0x01d787b1e421bac2b912673883bb057f5a7ae36454298fce7375848340e99ff2"; // mainnet
 export const FPMM_CONTRACT_ADDRESS =
   "0x022db4b7eb3cfffcdb766e0c60275a5160bc01d3b1796d585ca0088fab7c143e"; // mainnet
+
+export const MULTI_OUTCOME_MARKET_ADDRESS =
+ "0x079cfe9c35c08651ff59f01392bad8832a026b087d3d2e1b39cb74091a0f8214"  
 // export const FPMM_CONTRACT_ADDRESS =
 //    "0x033b12187f1feb01a05429c43d0249ea165f74d589c22fef3bbe9efab75ce14c"; // testnet
 // export const CONTRACT_ADDRESS =

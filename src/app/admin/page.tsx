@@ -13,6 +13,7 @@ import SettleMarkets from "@/components/SettleMarkets";
 import ToggleMarkets from "@/components/ToggleMarkets";
 import useCreateFPMMMarket from "@/components/hooks/useCreateFPMMMarket";
 import SettleFPMMMarkets from "@/components/SettleFPMMMarkets";
+import { useCreateMulitOutcomeMarket } from "@/components/hooks/useCreateMultiOutcomeMarket";
 
 
 const categories = [
@@ -38,12 +39,18 @@ const categories = [
   },
 ];
 
+const NumberOfOutcomes=[{ value: 3, label: '3' }, { value: 4, label: '4' } ]
+
+
 export default function AdminPortal() {
   const [heading, setHeading] = useState("");
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
   const [outcome1, setOutcome1] = useState("");
   const [outcome2, setOutcome2] = useState("");
+  const [outcome3, setOutcome3]=useState("");
+  const [outcome4, setOutcome4]= useState("");
+  const [no_of_outcomes, setNoOfOutcomes]=useState(4);
   const [deadline, setDeadline] = useState(new Date());
   const [image, setImage] = useState("");
   const [fightImage, setFightImage] = useState("");
@@ -173,6 +180,18 @@ export default function AdminPortal() {
     fightImage,
   });
 
+  const { createMultiOutcomeMarket } = useCreateMulitOutcomeMarket({
+    heading,
+    category,
+    description,
+    outcome1,
+    outcome2,
+    deadline,
+    image,
+    outcome3,
+    outcome4,
+    no_of_outcomes
+  })
   useEffect(() => {
     const validateMarket = () => {
       if (
@@ -181,8 +200,8 @@ export default function AdminPortal() {
         outcome1 == "" ||
         outcome2 == "" ||
         image == "" ||
-        category == "" ||
-        fightImage == ""
+        (category == "" && action!==3 )||
+        (fightImage == "" && action!==3)
       ) {
         setCanCreate(false);
         return;
@@ -237,10 +256,10 @@ export default function AdminPortal() {
           Toggle Markets
         </button>
         <button className='Action-Button' onClick={() => setAction(3)}>
-          Create FPMM Market
+          Create MultiOutcome Market
         </button>
         <button className='Action-Button' onClick={() => setAction(4)}>
-          Settle FPMM Market
+          Settle MultiOutcome Market
         </button>
       </div>
       {action == 0 && (
@@ -414,6 +433,17 @@ export default function AdminPortal() {
                 />
               </Box>
             </Box>
+            <Box className='InputContainer'>
+              <span className='Label'>Number Of Outcomes</span>
+              <Box className='Input'>
+                  <Select
+                    className='SelectBox'
+                    styles={colorStyles}
+                    options={NumberOfOutcomes}
+                    onChange={(OutcomeNumber) => setNoOfOutcomes(OutcomeNumber?.value as number)}
+                  />
+              </Box>
+            </Box>
             <Box className='InputContainer Outcome'>
               <Box className='InputContainer'>
                 <span className='Label'>Outcome 1</span>
@@ -446,18 +476,39 @@ export default function AdminPortal() {
                 </Box>
               </Box>
             </Box>
-            <Box className='InputContainer Outcome'>
-              <Box className='InputContainer'>
-                <span className='Label'>Category</span>
+            <Box  className='InputContainer Outcome'>
+            <Box className='InputContainer'>
+                <span className='Label'>Outcome 3</span>
                 <Box className='Input'>
-                  <Select
-                    className='SelectBox'
-                    styles={colorStyles}
-                    options={categories}
-                    onChange={(category) => setCategory(category?.value!)}
+                  <input
+                    className='InputField'
+                    type='string'
+                    id='numberInput'
+                    name='numberInput'
+                    value={outcome3}
+                    onChange={(e) => setOutcome3(e.target.value)}
+                    placeholder='No'
+                    required
                   />
                 </Box>
               </Box>
+              {no_of_outcomes > 3 && <Box className='InputContainer'>
+                <span className='Label'>Outcome 4</span>
+                <Box className='Input'>
+                  <input
+                    className='InputField'
+                    type='string'
+                    id='numberInput'
+                    name='numberInput'
+                    value={outcome4}
+                    onChange={(e) => setOutcome4(e.target.value)}
+                    placeholder='No'
+                    required
+                  />
+                </Box>
+              </Box>}
+            </Box>
+            <Box className='InputContainer Outcome'>
               <Box className='InputContainer'>
                 <span className='Label'>Deadline</span>
                 <Box className='Input'>
@@ -493,38 +544,11 @@ export default function AdminPortal() {
                 )}
               </Box>
             </Box>
-            <Box className='InputContainer'>
-              <span className='Label'>Fight Image</span>
-              <Box className='Input'>
-                {fightImage == "" ? (
-                  <input
-                    className='InputField'
-                    type='file'
-                    value={fightImage}
-                    onChange={(e) => handleImageUpload(e, false)}
-                    required
-                  />
-                ) : (
-                  <input
-                    className='InputField'
-                    type='string'
-                    id='numberInput'
-                    name='numberInput'
-                    value={fightImage}
-                    disabled
-                  />
-                )}
-              </Box>
-            </Box>
-            {category == "Crypto Market"}
-            {category == "Sports"}
             <Box className='Submit'>
               <button
-                disabled={!canCreate || isPending}
+                // disabled={isPending}
                 onClick={()=>{
-                
-                  createFPMMMarket();
-                  
+                  createMultiOutcomeMarket()  
                 }}
                 className={`SubmitButton ${canCreate ? "" : "Disabled"}`}
               >

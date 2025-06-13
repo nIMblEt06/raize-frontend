@@ -23,6 +23,18 @@ export const getProbabilites = (shares1: any, shares2: any) => {
   return [percent1, percent2];
 };
 
+export const getProbabilitesMultiOutcome = (shares: any[]) => {
+  console.log("The shares are",shares)
+  const normalizedShares = shares.map((s) => parseFloat(s) / 1e6);
+  const total = normalizedShares.reduce((acc, val) => acc + val, 0);
+  if (total === 0) {
+    const equalProb = 100 / shares.length;
+    return shares.map(() => equalProb);
+  }
+  return normalizedShares.map((s) => (s / total) * 100);
+};
+
+
 export const getString = (string: any) => {
   return shortString.decodeShortString(string);
 };

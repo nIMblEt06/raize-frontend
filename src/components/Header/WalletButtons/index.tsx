@@ -31,6 +31,8 @@ const WalletButtons: NextPage<Props> = () => {
     address: CONTRACT_ADDRESS,
     abi,
   }).contract;
+
+  
   const [winnings, setWinnings] = useState("0");
   const {
     anchorEl: walletDropdownAnchor,

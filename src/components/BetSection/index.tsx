@@ -7,13 +7,15 @@ import "./styles.scss";
 import BetHeroCard from "./BetHeroCard";
 import BetCard from "./BetCard";
 import ContBetCard from "./ContBetCard";
+import { MultiOutcomeMarketBetCard } from "./MultiOutcomeBetCard";
 import CustomLoader from "../common/CustomLoader";
 import { AMMA_LOGO, IPL_LOGO, STARKNET_IMAGE, US_LOGO } from "../helpers/icons";
 import { getNumber, getString } from "../helpers/functions";
+import { useFetchMultiOutcomeMarkets } from "../hooks/useFetchMulitOutcomeMarkets";
 
 const tabList = [
   "Trending",
-  "Continuous Markets",
+  "MultiOutcome Markets",
   "Closing Soon",
   "Crypto Market",
   "Sports",
@@ -24,6 +26,8 @@ const tabList = [
 const BetSection: NextPage = () => {
   const [activeTab, setActiveTab] = useState(0);
   const { loading, markets, contMarkets } = useFetchMarkets();
+  const { fetching, multiOutcomeMarkets}=useFetchMultiOutcomeMarkets();
+  console.log("The Multicount markets", multiOutcomeMarkets);
   const betCardWrapperRef = useRef<HTMLDivElement | null>(null);
   console.log(markets, "markets");
   useEffect(() => setActiveTab(0), []);
@@ -36,19 +40,20 @@ const BetSection: NextPage = () => {
     const now = Date.now();
 
     if (activeTab === 1) {
-      return contMarkets
-        .filter((m) => m.active)
+      return multiOutcomeMarkets
+        .filter((m) => m.is_active)
         .map((m, i) => (
           <div key={i} className="BetCard-Container">
-            <ContBetCard
+            <MultiOutcomeMarketBetCard
               marketId={m.market_id}
-              category={m.category}
-              logo={AMMA_LOGO}
-              deadline={m.deadline}
-              heading={m.question}
+              logo={m.image}
+              duration={m.deadline}
+              heading={m.name}
               subHeading={m.description}
               outcomes={m.outcomes}
-              isActive={m.active}
+              isActive={m.is_active}
+              moneyInPool={m.money_in_pool}
+              no_of_outcomes={m.no_of_outcomes}
             />
           </div>
         ));

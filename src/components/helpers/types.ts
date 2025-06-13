@@ -1,4 +1,4 @@
-import { CairoOption } from "starknet";
+import { CairoOption, num } from "starknet";
 
 export interface Market {
   name: string;
@@ -12,6 +12,20 @@ export interface Market {
   money_in_pool: number;
   image: string;
   market_id: number;
+}
+
+export interface MultiOutcomeMarket {
+  name: string;
+  deadline: string;
+  description: string;
+  is_active: boolean;
+  is_settled: boolean;
+  outcomes: Outcome[];
+  winning_outcome: CairoOption<Outcome>;
+  money_in_pool: number;
+  image: string;
+  market_id: number;
+  no_of_outcomes:number;
 }
 
 export interface FPMMMarket {
