@@ -14,7 +14,7 @@ import ToggleMarkets from "@/components/ToggleMarkets";
 import useCreateFPMMMarket from "@/components/hooks/useCreateFPMMMarket";
 import SettleFPMMMarkets from "@/components/SettleFPMMMarkets";
 import { useCreateMulitOutcomeMarket } from "@/components/hooks/useCreateMultiOutcomeMarket";
-
+import { SettleMultiOutcomeMarket } from "@/components/SettleMultiOutcomeMarket";
 
 const categories = [
   {
@@ -561,10 +561,10 @@ export default function AdminPortal() {
       {action == 4 && (
         <>
           <div className='Heading-Section'>
-            <div>Settle FPMM Markets</div>
+            <div>Settle Multi Outcome Markets</div>
           </div>
           <div className='Content-Section'>
-            <SettleFPMMMarkets />
+            <SettleMultiOutcomeMarket/>
           </div>
         </>
       )}

@@ -55,6 +55,7 @@ const SettleMarkets: NextPage<Props> = ({}) => {
     allMarkets.length == 0
       ? contract?.get_all_markets().then((res: Market[]) => {
           setAllMarkets(res);
+          console.log("The marekts are",res)
           res.forEach((item) => {
             select_markets.push({
               value: Number(item.market_id),

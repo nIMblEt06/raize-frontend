@@ -59,8 +59,8 @@ export const useMultiOutcomePlaceBet = (
   console.log("The amount in decimals", amountInDecimals)
     return [
       usdcContract.populateTransaction["approve"]!(
-        MULTI_OUTCOME_MARKET_ADDRESS,
-        amountInDecimals
+        MULTI_OUTCOME_MARKET_ADDRESS.toLowerCase(),
+        BigInt(Number(parsedAmount) * 10 ** decimals)
       ),
       contract.populateTransaction["buy_shares"]!(
         marketId,
@@ -75,7 +75,7 @@ export const useMultiOutcomePlaceBet = (
 
     const calls = swapCall?.concat([
       usdcContract.populateTransaction["approve"]!(
-       MULTI_OUTCOME_MARKET_ADDRESS,
+       MULTI_OUTCOME_MARKET_ADDRESS.toLowerCase(),
        amountUSDC
       ),
       contract.populateTransaction["buy_shares"]!(marketId, choice, amountUSDC),

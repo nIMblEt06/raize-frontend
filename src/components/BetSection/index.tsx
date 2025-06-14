@@ -41,8 +41,9 @@ const BetSection: NextPage = () => {
 
     if (activeTab === 1) {
       return multiOutcomeMarkets
-        .filter((m) => m.is_active)
-        .map((m, i) => (
+        .filter((m) => m.is_active).length > 0 ? 
+        multiOutcomeMarkets
+        .filter((m) => m.is_active).map((m, i) => (
           <div key={i} className="BetCard-Container">
             <MultiOutcomeMarketBetCard
               marketId={m.market_id}
@@ -56,7 +57,17 @@ const BetSection: NextPage = () => {
               no_of_outcomes={m.no_of_outcomes}
             />
           </div>
-        ));
+        )) 
+        : (
+          <motion.span
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ ease: "easeInOut", duration: 0.25 }}
+            className="PlaceholderText"
+          >
+            No Active Events
+          </motion.span>
+        );  
     }
 
     const filtered =
