@@ -51,18 +51,18 @@ const BetDetailView: NextPage = () => {
       const hexPart = encoded.slice(0, -4);
       const marketId = parseInt(hexPart, 16);
 
-      await axios
-        .get(`${process.env.SERVER_URL!}/get-current-market/${marketId}`)
-        .then((res) => {
-          setMarketInfo(res.data[0]);
-        })
-        .catch((err) => {
-          handleToast(
-            "Error Fetching Market Data",
-            "Please try refreshing the page",
-            "error"
-          );
-        });
+      // await axios
+      //   .get(`${process.env.SERVER_URL!}/get-current-market/${marketId}`)
+      //   .then((res) => {
+      //     setMarketInfo(res.data[0]);
+      //   })
+      //   .catch((err) => {
+      //     handleToast(
+      //       "Error Fetching Market Data",
+      //       "Please try refreshing the page",
+      //       "error"
+      //     );
+      //   });
      
       await contract.get_market(marketId).then(async (res: any) => {
         setMarket(res);

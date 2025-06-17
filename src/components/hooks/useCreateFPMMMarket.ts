@@ -52,27 +52,27 @@ function useCreateFPMMMarket({
   };
 
   const createFPMMMarket = async () => {
-    await axios
-      .post(`${process.env.SERVER_URL}/create-market`, {
-        question: heading,
-        category,
-        deadline,
-        description,
-        icon: image,
-        outcome1,
-        outcome2,
-        fightImage,
-      })
-      .then((res) => {
-        handleToast(
-          "Market Created",
-          "Your market has been created",
-          "success"
-        );
-      })
-      .catch((error) => {
-        console.error("Error creating  market:", error);
-      });
+    // await axios
+    //   .post(`${process.env.SERVER_URL}/create-market`, {
+    //     question: heading,
+    //     category,
+    //     deadline,
+    //     description,
+    //     icon: image,
+    //     outcome1,
+    //     outcome2,
+    //     fightImage,
+    //   })
+    //   .then((res) => {
+    //     handleToast(
+    //       "Market Created",
+    //       "Your market has been created",
+    //       "success"
+    //     );
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error creating  market:", error);
+    //   });
   };
 
   return { createFPMMMarket };
