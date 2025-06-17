@@ -77,18 +77,18 @@ const useFPMMSellShare = (
 
   const updateShares = async () => {
     if (updatedShares || !marketId || !betAmount) return;
-    await axios
-      .post(`${process.env.SERVER_URL}/update-market`, {
-        marketId: marketId,
-        outcomeIndex: choice,
-        amount: parseFloat(betAmount) * 10 ** 6,
-        isBuy: false,
-        sharesUpdated: parseInt(minAmount),
-      })
-      .then((res) => {})
-      .catch((error) => {
-        console.error("Error creating market:", error);
-      });
+    // await axios
+    //   .post(`${process.env.SERVER_URL}/update-market`, {
+    //     marketId: marketId,
+    //     outcomeIndex: choice,
+    //     amount: parseFloat(betAmount) * 10 ** 6,
+    //     isBuy: false,
+    //     sharesUpdated: parseInt(minAmount),
+    //   })
+    //   .then((res) => {})
+    //   .catch((error) => {
+    //     console.error("Error creating market:", error);
+    //   });
     setUpdatedShares(true);
   };
 

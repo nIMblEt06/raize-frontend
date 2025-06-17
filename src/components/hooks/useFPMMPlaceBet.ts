@@ -152,21 +152,21 @@ const useFPMMPlaceBet = (
 
   const updateShares = async () => {
     if (!marketId || !betAmount || !minAmount || updatedShares) return;
-    await axios
-      .post(`${process.env.SERVER_URL}/update-market`, {
-        marketId: marketId,
-        outcomeIndex: choice,
-        amount:
-          currentToken === USDC_ADDRESS
-            ? (parseFloat(betAmount) * 10 ** 6).toString()
-            : parseInt(amountUSDC),
-        isBuy: true,
-        sharesUpdated: parseInt(minAmount),
-      })
-      .then((res) => {})
-      .catch((error) => {
-        console.error("Error creating market:", error);
-      });
+    // await axios
+    //   .post(`${process.env.SERVER_URL}/update-market`, {
+    //     marketId: marketId,
+    //     outcomeIndex: choice,
+    //     amount:
+    //       currentToken === USDC_ADDRESS
+    //         ? (parseFloat(betAmount) * 10 ** 6).toString()
+    //         : parseInt(amountUSDC),
+    //     isBuy: true,
+    //     sharesUpdated: parseInt(minAmount),
+    //   })
+    //   .then((res) => {})
+    //   .catch((error) => {
+    //     console.error("Error creating market:", error);
+    //   });
     setUpdatedShares(true);
   };
 
