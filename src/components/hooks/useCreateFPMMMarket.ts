@@ -1,15 +1,4 @@
-import {
-  useAccount,
-  useContract,
-  useContractWrite,
-  useWaitForTransaction,
-} from "@starknet-react/core";
-import { useEffect, useMemo } from "react";
-import { cairo } from "starknet";
-import { CONTRACT_ADDRESS } from "../helpers/constants";
-import abi from "../../abi/ContractABI.json";
 import { enqueueSnackbar } from "notistack";
-import axios from "axios";
 
 interface Data {
   heading: string;

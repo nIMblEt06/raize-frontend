@@ -2,13 +2,14 @@ import { useContract } from "@starknet-react/core";
 import { useEffect, useState } from "react";
 import {MULTI_OUTCOME_MARKET_ADDRESS } from "../helpers/constants";
 import abi from "../../abi/MultiOutcomeABI.json";
+import { Abi } from "starknet";
 import { MultiOutcomeMarket } from "../helpers/types";
 
 export const useFetchMultiOutcomeMarkets = () => {
   const [loading, setLoading] = useState(false);
   const [multiOutcomeMarkets, setMarkets] = useState<MultiOutcomeMarket[]>([]);
   
-  const { contract } = useContract({ address: MULTI_OUTCOME_MARKET_ADDRESS, abi });
+  const { contract } = useContract({ address: MULTI_OUTCOME_MARKET_ADDRESS, abi:abi as Abi});
   
   useEffect(() => {
     const fetchMultiOutcomeMarkets = async () => {
