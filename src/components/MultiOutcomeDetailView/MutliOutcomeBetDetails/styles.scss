@@ -42,7 +42,10 @@
       display: flex;
       align-items: center;
       gap: 10px;
-
+      width: 70%;
+      display: flex;
+      justify-content: flex-start;
+      gap: 20px;
 
 
       span {
@@ -50,8 +53,14 @@
       }
 
       .BetDetails-Logo {
-        width: 20px;
-        height: 20px;
+        width: 28px;
+        height: 28px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        border-radius: 50%;
+        overflow: hidden;
+        align-items: center;
       }
     }
 

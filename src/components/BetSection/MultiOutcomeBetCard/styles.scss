@@ -239,7 +239,7 @@
       width: 100%;
 
       .MultiBetCard-Option {
-        width: 45%;
+        width: 48%;
         box-sizing: border-box;
         padding: 10px;
         display: flex;
@@ -249,11 +249,13 @@
         border-radius: 10px;
         cursor: pointer;
   
-        @include md {}
+        @include md {
+        }
   
         @include lg {
           border-radius: 8px;
           padding: 8px 16px;
+          gap: 0px;
         }
   
         @include xl {

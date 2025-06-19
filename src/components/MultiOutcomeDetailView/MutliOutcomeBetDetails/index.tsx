@@ -44,13 +44,13 @@ const BetDetails: NextPage<Props> = ({
           <Box className='BetDetails-Logo'>
             <Image src={logo} alt='CategoryLogo' width={30} height={30} />
           </Box>
-          <span>
+          {/* <span>
             {category ? (
               category
             ) : (
               <Skeleton variant='rectangular' width={100} height={20} />
             )}
-          </span>
+          </span> */}
           <Box className='BetDetails'>
         <span className='Heading'>
           {heading ? (

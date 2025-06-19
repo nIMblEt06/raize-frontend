@@ -44,7 +44,7 @@ const BetSection: NextPage = () => {
         .filter((m) => m.is_active).length > 0 ? 
         multiOutcomeMarkets
         .filter((m) => m.is_active).map((m, i) => (
-          <div key={i} className="BetCard-Container">
+          <div key={i} className="BetCard-Container-MultiOutcome">
             <MultiOutcomeMarketBetCard
               marketId={m.market_id}
               logo={m.image}

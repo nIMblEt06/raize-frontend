@@ -36,6 +36,7 @@ export const getProbabilitesMultiOutcome = (shares: any[]) => {
 
 
 export const getString = (string: any) => {
+  console.log("The string is",string)
   return shortString.decodeShortString(string);
 };
 

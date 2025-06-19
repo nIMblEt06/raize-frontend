@@ -215,7 +215,7 @@
 
       }
 
-      .BetCard-Container {
+      .BetCard-Container, .BetCard-Container-MultiOutcome{
         width: 100%;
         height: auto;
 
@@ -239,6 +239,19 @@
           max-width: 400px;
           height: 310px;
         }
+      }
+
+      .BetCard-Container-MultiOutcome{
+        @include md {
+          width: 60%;
+          height: auto;
+        }
+
+        @include lg {
+          width: 400px;
+          height: 300px;
+        }
+
       }
     }
   }

@@ -58,8 +58,13 @@
 
     .TopContainer, .BottomContainer{
       display: flex;
-      flex-direction: row;
-      justify-content: space-between;
+      flex-direction: column;
+      justify-content:flex-end;
+      gap: 5px;
+      @include md{
+        flex-direction: row;
+        justify-content: space-between;
+      }
     }
 
     .MultiBetOptionsLabel {
@@ -87,7 +92,6 @@
 
     .MultiBetOption {
       box-sizing: border-box;
-      width: 45%;
       padding: 10px 15px;
       border-radius: 10px;
       display: flex;
@@ -98,6 +102,7 @@
 
       @include md {
         padding: 12px 18px;
+        width: 48%;
       }
 
       @include lg {
@@ -221,7 +226,6 @@
 
     .MultiBetOptionActive {
       box-sizing: border-box;
-      width: 45%;
       padding: 10px 15px;
       border-radius: 10px;
       display: flex;
@@ -233,6 +237,7 @@
 
       @include md {
         padding: 12px 18px;
+        width: 48%;
       }
 
       @include lg {

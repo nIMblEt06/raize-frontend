@@ -175,7 +175,7 @@ const { settleMultiOutcomeMarket, isPending} = useSettleMultiOutcomeMarket({
             >
              {outcomes.map((outcome, index: number) => (
           <Radio value={index} key={index}>
-            {getString(Number(outcome.name))} 
+            {getString(outcome.name)} 
           </Radio>
         ))}
             </RadioGroup>
