@@ -227,7 +227,7 @@ const BetActions: NextPage<Props> = ({ outcomes, moneyInPool, category, no_of_ou
             {outcomes ? getString(outcomes[3].name) : "No"}
           </span>
           <Box className='RadioButtonContainer'>
-            <span className='RadioLabel'>{percent3.toFixed(2)}%</span>
+            <span className='RadioLabel'>{percent4.toFixed(2)}%</span>
             <Box className='RadioButton'>
               <Box className='RadioButtonInner'></Box>
             </Box>
